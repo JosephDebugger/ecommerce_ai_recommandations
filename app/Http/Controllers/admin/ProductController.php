@@ -88,10 +88,11 @@ class ProductController extends Controller
 
     }
      public function getProduct($id){
-        $product = Product::find($id);
-        $brands = Brand::select('name','id')->where('status','Active')->get();
-        $categories = Category::select('name','id')->where('status','Active')->get();
-        return view('admin.inventory.product.view-edit-product',['product'=>$product]);
+        $data  = [];
+        $data['product'] = Product::find($id);
+        $data['brands'] = Brand::select('name','id')->where('status','Active')->get();
+        $data['categories'] = Category::select('name','id')->where('status','Active')->get();
+        return view('admin.inventory.product.view-edit-product',$data);
     }
     public function updateProduct(Request $request){
         $validated = $request->validate([

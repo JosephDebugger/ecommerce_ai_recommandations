@@ -65,7 +65,11 @@
 
                                             <option>~~ Choose Brand ~~</option>
                                             @foreach ($brands as $brand)
-                                                <option id="{{ $brand->id }}">{{ $brand->name }}</option>
+                                                @if ($product->id == $brand->id)
+                                                    <option id="{{ $brand->id }}" selected>{{ $brand->name }}</option>
+                                                @else
+                                                    <option id="{{ $brand->id }}">{{ $brand->name }}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </div>
@@ -74,7 +78,11 @@
                                         <select id="category" name="category" class="form-control">
                                             <option>~~ Choose Category ~~</option>
                                             @foreach ($categories as $category)
-                                                <option id="{{ $category->id }}">{{ $category->name }}</option>
+                                                @if ($product->id == $category->id)
+                                                    <option id="{{ $category->id }}">{{ $category->name }}</option>
+                                                @else
+                                                    <option id="{{ $category->id }}">{{ $category->name }}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </div>
