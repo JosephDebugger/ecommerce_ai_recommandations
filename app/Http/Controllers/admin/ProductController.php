@@ -83,7 +83,7 @@ class ProductController extends Controller
         $image->name = $imagePath;
         $image->product_id = $Product->id;
         $image->save();
-        return redirect()->route('products')
+        return redirect()->route('inventory.products')
                          ->with('success', 'Product created successfully.');
 
     }
@@ -117,7 +117,7 @@ class ProductController extends Controller
     // $image->name = 'images/'.$imageName;
     // $image->product_id = $Product->id;
     // $image->save();
-    return redirect()->route('products')
+    return redirect()->route('inventory.products')
                      ->with('success', 'Product Updated successfully.');
 
     }
@@ -125,7 +125,7 @@ class ProductController extends Controller
 
         $product = Product::find($id);
         $product->delete();
-        return redirect('/products')->with('success', 'Product Deleted');
+        return redirect('inventory/products')->with('success', 'Product Deleted');
     }
    
 }

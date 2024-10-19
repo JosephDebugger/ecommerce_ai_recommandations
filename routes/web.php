@@ -33,12 +33,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/dashboard', [DashController::class, 'index'])->name('dashboard');
 
-    Route::get('products', [ProductController::class, 'products'])->name('products');
-    Route::get('/view-addProduct', [ProductController::class, 'viewAddProduct']);
     Route::post('/storeProduct', [ProductController::class, 'storeProduct'])->name('storeProduct');
     Route::get('/view-editProduct/{id}', [ProductController::class, 'getProduct'])->name('getProduct');
     Route::post('/updateProduct', [ProductController::class, 'updateProduct'])->name('updateProduct');
     Route::delete('/productDestroy/{id}', [ProductController::class, 'productDestroy'])->name('productDestroy');
+
+    // Product route group with name and prefix applied
+    Route::name('inventory.')->prefix('inventory')->group(function () {
+        Route::get('/products', [ProductController::class, 'products'])->name('products'); 
+        Route::get('/view-addProduct', [ProductController::class, 'viewAddProduct'])->name('viewAddProduct');
+    });
 
     Route::resource('brands', BrandController::class);
     Route::resource('categories', CategoryController::class);
@@ -48,7 +52,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/company-setting', [CompanyController::class, 'getSettings'])->name('getSettings');
     Route::post('/company-setting/{id}', [CompanyController::class, 'updateSettings'])->name('updateSettings');
-
 });
 
 require __DIR__ . '/auth.php';

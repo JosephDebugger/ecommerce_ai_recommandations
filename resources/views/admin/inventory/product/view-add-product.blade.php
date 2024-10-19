@@ -25,7 +25,7 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <a href="{{ url('products') }}"><button class="btn btn-default mb-2"><i class="fa fa-chevron-left"
+            <a href="{{ url('inventory/products') }}"><button class="btn btn-default mb-2"><i class="fa fa-chevron-left"
                         aria-hidden="true"></i>
                     Back
                 </button></a>

@@ -25,7 +25,7 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <a href="{{ url('products') }}"><button class="btn btn-primary">
+            <a href="{{ url('inventory/products') }}"><button class="btn btn-primary">
                     Back
                 </button></a>
             <div class="row">
@@ -65,23 +65,27 @@
 
                                             <option>~~ Choose Brand ~~</option>
                                             @foreach ($brands as $brand)
-                                                @if ($product->id == $brand->id)
-                                                    <option id="{{ $brand->id }}" selected>{{ $brand->name }}</option>
+                                                @if ($product->brand_id == $brand->id)
+                                                    <option id="{{ $brand->brand_id }}" selected>{{ $brand->name }}
+                                                    </option>
                                                 @else
-                                                    <option id="{{ $brand->id }}">{{ $brand->name }}</option>
+                                                    <option id="{{ $brand->brand_id }}">{{ $brand->name }}</option>
                                                 @endif
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="inputState">Category</label>
-                                        <select id="category" name="category" class="form-control">
+                                        <select id="category" name="category" class="form-control"
+                                            onchange="getSubCategory()">
                                             <option>~~ Choose Category ~~</option>
                                             @foreach ($categories as $category)
-                                                @if ($product->id == $category->id)
-                                                    <option id="{{ $category->id }}">{{ $category->name }}</option>
+                                                @if ($product->category_id == $category->id)
+                                                    <option id="{{ $category->category_id }}" selected>
+                                                        {{ $category->name }}</option>
                                                 @else
-                                                    <option id="{{ $category->id }}">{{ $category->name }}</option>
+                                                    <option id="{{ $category->category_id }}">{{ $category->name }}
+                                                    </option>
                                                 @endif
                                             @endforeach
                                         </select>
@@ -165,4 +169,13 @@
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+@endsection
+@section('scripts')
+    <script>
+        function getSubCategory() {
+            $.get("demo_test.asp", function(data, status) {
+                alert("Data: " + data + "\n Status: " + status);
+            });
+        }
+    </script>
 @endsection

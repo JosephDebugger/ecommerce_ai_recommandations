@@ -25,15 +25,13 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <a href="{{ url('view-addProduct') }}"><button class="btn btn-primary">
+            <a href="{{ url('inventory/view-addProduct') }}"><button class="btn btn-primary">
                     Add Product
                 </button></a>
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-
-
                             <div class="row">
                                 <h3 class="card-title ">Product List</h3>
                                 <div class="">
@@ -46,7 +44,6 @@
                                 </div>
                             </div>
                         </div>
-
 
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -106,69 +103,7 @@
 
 @section('scripts')
     <script>
-        // $(function() {
-
-        //     var start_date = moment().subtract(1, 'M');
-
-        //     var end_date = moment();
-
-        //     $('#daterange span').html(start_date.format('MMMM D, YYYY') + ' - ' +end_date.format('MMMM D, YYYY'))
-
-        //     $('#daterange').daterangepicker({
-        //         startDate : start_date,
-        //         endDate : end_date
-        //     }, function(start_date, end_date){
-        //         $('#daterange span').html(start_date.format('MMMM D, YYYY') + ' - ' +end_date.format('MMMM D, YYYY'));
-        //         table.draw()
-        //     })
-
-        //     var table = new DataTable('#daterange_table', {
-        //         responsive: true,
-        //         processing: true,
-        //         serverSide: true,
-        //         ajax: {
-        //             url: "{{ route('products') }}",
-        //             data: function(data){
-        //                 data.from_date = $("#daterange").data('daterangepicker').startDate.format('YYYY-MM-DD');
-        //                 data.end_date = $("#daterange").data('daterangepicker').endDate.format('YYYY-MM-DD');
-        //             }
-        //         },
-        //         columns: [{
-        //                 data: 'id',
-        //                 name: 'id'
-        //             },
-        //             {
-        //                 data: 'name',
-        //                 name: 'name'
-        //             },
-        //             {
-        //                 data: 'image',
-        //                 render: function(data) {
-        //                     return renderImage(data);
-        //                 }
-        //             },
-        //             {
-        //                 data: 'price',
-        //                 name: 'price'
-        //             },
-        //             {
-        //                 data: 'discount',
-        //                 name: 'discount'
-        //             },
-        //             {
-        //                 data: 'status',
-        //                 name: 'status'
-        //             },
-        //             {
-        //                 data: 'id',
-        //                 render: function(data) {
-        //                     return renderDropdown(data);
-        //                 }
-        //             }
-        //         ]
-
-        //     });
-        // })
+     
 
         $(function() {
 
@@ -191,7 +126,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('products') }}",
+                    url: "{{ route('inventory.products') }}",
                     data: function(data) {
                         data.from_date = $('#daterange').data('daterangepicker').startDate.format(
                             'YYYY-MM-DD');
@@ -246,7 +181,7 @@
                         <li>
                             <form action="/productDestroy/${id}" method="post">
                                 @csrf
-                                @method('DELETE')
+                                @method('DELETE') 
                                 <button type="submit" class="btn">Delete</button>
                             </form>
                         </li>
