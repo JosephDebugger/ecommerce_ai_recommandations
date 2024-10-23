@@ -79,7 +79,7 @@
                                             <ul class="multi-column-dropdown">
                                                 @php
                                                 foreach ($categories as $key => $category) {
-                                                    if ($category->type == 'male' && ($key < 15 && $key >7)) {
+                                                    if ($category->type == 'male' && ($key < 15 && $key > 7)) {
                                                         echo '<li><a href="/mens">' . $category->name . '</a></li>';
                                                     }
                                                 }
