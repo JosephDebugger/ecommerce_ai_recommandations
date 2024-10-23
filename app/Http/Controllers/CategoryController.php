@@ -36,6 +36,9 @@ class CategoryController extends Controller
                 'regex:/^[a-zA-Z0-9\s]+$/', 
                 'unique:categories,name', 
             ],
+            'type' => [
+                'required'
+            ],
             'description' => [
                 'nullable',
                 'string',
@@ -80,6 +83,9 @@ class CategoryController extends Controller
                 'max:100',
                 'regex:/^[a-zA-Z0-9\s]+$/', 
                 'unique:categories,name,' . $category->id, // Unique validation, ignoring the current record
+            ],
+            'type' => [
+                'required'
             ],
             'description' => [
                 'nullable',

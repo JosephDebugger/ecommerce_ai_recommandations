@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::name('inventory.')->prefix('inventory')->group(function () {
         Route::get('/products', [ProductController::class, 'products'])->name('products'); 
         Route::get('/view-addProduct', [ProductController::class, 'viewAddProduct'])->name('viewAddProduct');
+        Route::get('/get_sub_cat/{id}', [ProductController::class, 'getGetSubCategory'])->name('getGetSubCategory');
     });
 
     Route::resource('brands', BrandController::class);

@@ -43,7 +43,7 @@ class BrandController extends Controller
                 'string',
                 'max:1000',
                 'regex:/^[a-zA-Z0-9\s]+$/', // Alphanumeric validation
-            ],
+            ]
         ]);
 
         Brand::create($validatedData);

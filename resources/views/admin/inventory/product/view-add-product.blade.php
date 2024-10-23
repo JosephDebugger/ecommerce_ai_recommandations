@@ -42,13 +42,15 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="gender" value="male" id="male" checked>
+                                            <input class="form-check-input" type="radio" name="male" value="male"
+                                                id="male" checked>
                                             <label class="form-check-label" for="male">
                                                 Male
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="gender" value="female" id="female">
+                                            <input class="form-check-input" type="radio" name="female" value="female"
+                                                id="female">
                                             <label class="form-check-label" for="female">
                                                 Female
                                             </label>
@@ -57,15 +59,16 @@
                                     <div class="form-group col-md-6">
                                         <label for="inputEmail4">Product Name</label>
                                         <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                            name="name" id="name" placeholder="Name">
+                                            name="name" id="name" placeholder="Product Name"
+                                            value="{{ old('name') }}">
                                         @error('name')
                                             <div class="form-text text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label for="price">Price <small>(Tk)</small></label>
-                                        <input type="number" class="form-control @error('name') is-invalid @enderror"
-                                            name="price" id="price" placeholder="Price">
+                                        <input type="number" class="form-control @error('price') is-invalid @enderror"
+                                            name="price" id="price" placeholder="Price" value="{{ old('price') }}">
 
                                         @error('price')
                                             <div class="form-text text-danger">{{ $message }}</div>
@@ -74,7 +77,8 @@
                                     <div class="form-group col-md-3">
                                         <label for="stock">Opening Stock</label>
                                         <input type="number" class="form-control @error('stock') is-invalid @enderror"
-                                            name="stock" id="stock" placeholder="Opening Stock">
+                                            name="stock" id="stock" placeholder="Opening Stock"
+                                            value="{{ old('stock') }}">
 
                                         @error('stock')
                                             <div class="form-text text-danger">{{ $message }}</div>
@@ -84,30 +88,30 @@
                                 <div class="form-group row">
                                     <div class="form-group col-md-4">
                                         <label for="inputState">Brand</label>
-                                        <select id="brand" name="brand" class="form-control">
+                                        <select id="brand" name="brand" class="form-control"
+                                            value="{{ old('brand') }}">
 
-                                            <option>~~ Choose Brand ~~</option>
+                                            <option value="" selected>~~ Choose Brand ~~</option>
                                             @foreach ($brands as $brand)
-                                                <option id="{{ $brand->id }}">{{ $brand->name }}</option>
+                                                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="inputState">Category</label>
-                                        <select id="category" name="category" class="form-control">
-                                            <option>~~ Choose Category ~~</option>
+                                        <select id="category" name="category" class="form-control"
+                                            value="{{ old('category') }}" onchange="getSubCategory()">
+                                            <option value="">~~ Choose Category ~~</option>
                                             @foreach ($categories as $category)
-                                                <option id="{{ $category->id }}">{{ $category->name }}</option>
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="inputState">Sub Category</label>
-                                        <select id="sub_category" name="sub_category" class="form-control">
+                                        <select id="sub_category" name="sub_category" class="form-control"
+                                            value="{{ old('sub_category') }}">
                                             <option>~~ Choose Sub Category ~~</option>
-                                            @foreach ($categories as $category)
-                                                <option id="{{ $category->id }}">{{ $category->name }}</option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -121,7 +125,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="add_info">Additional Information</label>
-                                    <textarea type="text" class="form-control" name="add_info" id="add_info" placeholder="Additional Information"></textarea>
+                                    <textarea type="text" class="form-control" name="add_info" id="add_info" placeholder="Additional Information">{{ old('add_info') }}</textarea>
                                     @error('add_info')
                                         <div class="form-text text-danger">{{ $message }}</div>
                                     @enderror
@@ -137,7 +141,8 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="inputState">Status</label>
-                                        <select id="status" name="status" class="form-control">
+                                        <select id="status" name="status" class="form-control"
+                                            alue="{{ old('status') }}">
 
                                             <option selected>Active</option>
                                             <option>Inactive</option>
@@ -157,13 +162,15 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="tranding">
+                                        <input class="form-check-input" type="checkbox" value="Yes" id="tranding"
+                                            name="tranding">
                                         <label class="form-check-label" for="tranding">
                                             Tranding
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="featured">
+                                        <input class="form-check-input" type="checkbox" value="Yes" id="featured"
+                                            name="featured">
                                         <label class="form-check-label" for="featured">
                                             Featured
                                         </label>
@@ -190,4 +197,24 @@
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+@endsection
+@section('scripts')
+    <script>
+        function getSubCategory() {
+            var category = $('#category').val();
+            if(category ==''){
+                $('#sub_category').html($('<option>', {
+                                value: ''
+                            }).text('~~ Select Sub Catewgory ~~'));
+            }
+            $.get("get_sub_cat/" + category, function(data) {
+                $("#sub_category").html('');
+                data.forEach((value, key) => {
+                    $('#sub_category').append($('<option>', {
+                                value: value.id
+                            }).text(value.sub_cetegory_name));
+                });
+            });
+        }
+    </script>
 @endsection

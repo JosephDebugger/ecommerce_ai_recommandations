@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Brands</h1>
+                    <h1 class="m-0">Category</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Brands</li>
+                        <li class="breadcrumb-item active">Category</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -40,9 +40,18 @@
                                 @csrf
                                 @method('PUT') 
                                 <div class="form-row">
-                                    <div class="form-group">
+                                    <div class="form-group col-md-12">
+                                        <label for="inputEmail4">Type</label>
+                                        <select  class="form-control @error('name') is-invalid @enderror" value="{{ old('type') }}"
+                                            name="type" id="type" >
+                                        <option value="male">Male</option> <option value="female">Female</option></select>
+                                        @error('type')
+                                            <div class="form-text text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group col-md-12">
                                         <input type="hidden" value="{{ $category->id }}" name="id">
-                                        <label for="inputEmail4">Product Name</label>
+                                        <label for="inputEmail4">Category Name</label>
                                         <input type="text" class="form-control @error('name') is-invalid @enderror"
                                             name="name" id="name" value="{{ old('name', $category->name) }}" placeholder="Name">
                                         @error('name')

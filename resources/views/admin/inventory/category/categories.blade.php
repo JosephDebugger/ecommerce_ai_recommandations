@@ -26,7 +26,7 @@
     <section class="content">
         <div class="container-fluid">
             <a href="{{ url('categories/create') }}"><button class="btn btn-primary">
-                    Add Brand
+                    Add Category
                 </button></a>
             <div class="row">
                 <div class="col-md-12">
@@ -64,30 +64,22 @@
                                             <td>
 
 
-                                                <div class="dropdown">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
-                                                        data-bs-toggle="dropdown" aria-expanded="false">
 
-                                                    </button>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
                                                     <ul class="dropdown-menu">
                                                         <li>
-                                                            <a class="dropdown-item"
-                                                                href="{{ route('categories.edit', $category->id) }}">Edit</a>
-                                                      
-                                                            <a class="dropdown-item" href="#"><form  action="{{ route('categories.destroy', $category->id) }}"
-                                                                method="post">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit"
-                                                                class="btn ">
-                                                                Delete</button>
-                                                            </form></a>
+                                                            <a class="dropdown-item" href="{{ route('categories.edit', $category->id) }}">Edit</a>
                                                         </li>
-
+                                                        <li>
+                                                            <form action="{{ route('categories.destroy', $category->id) }}" method="post">
+                                                                @csrf
+                                                                @method('DELETE') 
+                                                                <button type="submit" class="btn">Delete</button>
+                                                            </form>
+                                                        </li>
                                                     </ul>
                                                 </div>
-
-
                                             </td>
                                         </tr>
                                     @endforeach

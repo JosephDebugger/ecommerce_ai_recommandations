@@ -39,7 +39,16 @@
                             <form action="{!! route('categories.store') !!}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-12">
+                                        <label for="inputEmail4">Category Type</label>
+                                        <select  class="form-control @error('name') is-invalid @enderror" value="{{ old('type') }}"
+                                            name="type" id="type" >
+                                        <option value="male">Male</option> <option value="female">Female</option></select>
+                                        @error('type')
+                                            <div class="form-text text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group col-md-12">
                                         <label for="inputEmail4">Category Name</label>
                                         <input type="text" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}"
                                             name="name" id="name" placeholder="Name">

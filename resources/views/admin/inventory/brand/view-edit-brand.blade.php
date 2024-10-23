@@ -59,7 +59,6 @@
                                         <div class="form-text text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                             
                               
                                     <div class="form-group">
                                         <label for="inputState">Status</label>
@@ -69,7 +68,6 @@
                                             <option>Inactive</option>
                                         </select>
                                     </div>
-
                                 
                                 
                                 <button type="submit" class="btn btn-primary">Submit</button>
