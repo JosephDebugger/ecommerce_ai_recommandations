@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 17, 2024 at 12:05 PM
+-- Generation Time: Oct 23, 2024 at 10:41 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -86,7 +86,7 @@ INSERT INTO `brands` (`id`, `name`, `description`, `status`, `created_at`, `upda
 (1, 'test', NULL, 'Active', '2024-08-13 03:33:43', '2024-08-13 03:33:43'),
 (2, 'test2', NULL, 'Active', '2024-08-13 03:38:02', '2024-08-13 03:38:02'),
 (3, 'test2334', 'hey', 'Active', '2024-08-13 16:43:17', '2024-08-13 16:48:45'),
-(4, 'test44', 'test', 'Inactive', '2024-08-13 16:44:47', '2024-08-13 17:24:27');
+(4, 'test44', 'test', 'Active', '2024-08-13 16:44:47', '2024-08-13 17:24:27');
 
 -- --------------------------------------------------------
 
@@ -129,6 +129,7 @@ CREATE TABLE `cache_locks` (
 CREATE TABLE `categories` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(100) NOT NULL,
+  `type` enum('male','female') DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -139,9 +140,16 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`id`, `name`, `description`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'test 1', 'test', 'Active', '2024-08-13 12:08:29', '2024-08-13 12:13:42'),
-(2, 'test 2', NULL, 'Active', '2024-08-13 12:12:51', '2024-08-13 12:12:51');
+INSERT INTO `categories` (`id`, `name`, `type`, `description`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'test 1', 'male', 'test', 'Active', '2024-08-13 12:08:29', '2024-08-13 12:13:42'),
+(4, 'category 1', 'male', NULL, 'Active', '2024-10-23 13:55:45', '2024-10-23 13:55:45'),
+(5, 'category 2', 'male', NULL, 'Active', '2024-10-23 13:55:54', '2024-10-23 13:55:54'),
+(6, 'category 3', 'male', NULL, 'Active', '2024-10-23 13:56:02', '2024-10-23 13:56:02'),
+(7, 'category 4', 'male', NULL, 'Active', '2024-10-23 13:56:11', '2024-10-23 13:56:11'),
+(8, 'category 5', 'male', NULL, 'Active', '2024-10-23 13:56:22', '2024-10-23 13:56:22'),
+(9, 'category 6', 'male', NULL, 'Active', '2024-10-23 13:56:31', '2024-10-23 13:56:31'),
+(10, 'category 7', 'male', NULL, 'Active', '2024-10-23 13:56:40', '2024-10-23 13:56:40'),
+(11, 'category 8', 'male', NULL, 'Active', '2024-10-23 13:57:12', '2024-10-23 13:57:12');
 
 -- --------------------------------------------------------
 
@@ -268,7 +276,8 @@ INSERT INTO `images` (`id`, `product_id`, `name`, `details`, `status`, `type`, `
 (58, 71, 'uploads/images.png', NULL, 'Active', NULL, '2024-08-23 16:59:41', '2024-08-23 16:59:41'),
 (59, 72, 'uploads/images.png', NULL, 'Active', NULL, '2024-08-23 16:59:43', '2024-08-23 16:59:43'),
 (60, 73, 'uploads/images.png', NULL, 'Active', NULL, '2024-08-23 16:59:44', '2024-08-23 16:59:44'),
-(61, 74, 'uploads/images.png', NULL, 'Active', NULL, '2024-08-23 16:59:44', '2024-08-23 16:59:44');
+(61, 74, 'uploads/images.png', NULL, 'Active', NULL, '2024-08-23 16:59:44', '2024-08-23 16:59:44'),
+(62, 75, 'uploads/images.png', NULL, 'Active', NULL, '2024-10-22 16:34:30', '2024-10-22 16:34:30');
 
 -- --------------------------------------------------------
 
@@ -350,7 +359,10 @@ CREATE TABLE `products` (
   `cloth_for` enum('male','female') DEFAULT NULL,
   `brand_id` bigint(20) DEFAULT NULL,
   `category_id` bigint(20) DEFAULT NULL,
+  `sub_category_id` bigint(20) DEFAULT NULL,
   `unit` varchar(50) DEFAULT NULL,
+  `featured` enum('Yes','No') NOT NULL DEFAULT 'No',
+  `Tranding` enum('Yes','No') NOT NULL DEFAULT 'No',
   `name` varchar(100) NOT NULL,
   `price` int(20) DEFAULT NULL,
   `status` enum('Active','Inactive') DEFAULT NULL,
@@ -366,69 +378,70 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `cloth_for`, `brand_id`, `category_id`, `unit`, `name`, `price`, `status`, `image`, `discount`, `description`, `additional_info`, `created_at`, `updated_at`) VALUES
-(12, NULL, NULL, NULL, NULL, 'test', 300, 'Inactive', NULL, 100, NULL, NULL, '2024-08-03 11:57:48', '2024-08-28 20:16:58'),
-(14, NULL, NULL, NULL, NULL, 'T-shirt', 1000, 'Active', NULL, 100, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever si.', NULL, '2024-08-13 20:55:27', '2024-08-14 02:55:27'),
-(15, NULL, NULL, NULL, NULL, 'test', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 07:10:17', '2024-08-23 13:10:17'),
-(16, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:57:29', '2024-08-23 16:57:29'),
-(17, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:57:57', '2024-08-23 16:57:57'),
-(18, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:58:26', '2024-08-23 16:58:26'),
-(19, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:58:33', '2024-08-23 16:58:33'),
-(20, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:03', '2024-08-23 16:59:03'),
-(21, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:05', '2024-08-23 16:59:05'),
-(22, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:07', '2024-08-23 16:59:07'),
-(23, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:09', '2024-08-23 16:59:09'),
-(24, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:11', '2024-08-23 16:59:11'),
-(25, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:11', '2024-08-23 16:59:11'),
-(26, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:12', '2024-08-23 16:59:12'),
-(27, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:13', '2024-08-23 16:59:13'),
-(28, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:14', '2024-08-23 16:59:14'),
-(29, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:14', '2024-08-23 16:59:14'),
-(30, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:15', '2024-08-23 16:59:15'),
-(31, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:16', '2024-08-23 16:59:16'),
-(32, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:16', '2024-08-23 16:59:16'),
-(33, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:17', '2024-08-23 16:59:17'),
-(34, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:17', '2024-08-23 16:59:17'),
-(35, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:18', '2024-08-23 16:59:18'),
-(36, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:19', '2024-08-23 16:59:19'),
-(37, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:20', '2024-08-23 16:59:20'),
-(38, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:20', '2024-08-23 16:59:20'),
-(39, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:21', '2024-08-23 16:59:21'),
-(40, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:21', '2024-08-23 16:59:21'),
-(41, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:22', '2024-08-23 16:59:22'),
-(42, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:23', '2024-08-23 16:59:23'),
-(43, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:24', '2024-08-23 16:59:24'),
-(44, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:24', '2024-08-23 16:59:24'),
-(45, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:25', '2024-08-23 16:59:25'),
-(46, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:25', '2024-08-23 16:59:25'),
-(47, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:26', '2024-08-23 16:59:26'),
-(48, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:27', '2024-08-23 16:59:27'),
-(49, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:28', '2024-08-23 16:59:28'),
-(50, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:29', '2024-08-23 16:59:29'),
-(51, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:29', '2024-08-23 16:59:29'),
-(52, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:30', '2024-08-23 16:59:30'),
-(53, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:31', '2024-08-23 16:59:31'),
-(54, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:31', '2024-08-23 16:59:31'),
-(55, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:32', '2024-08-23 16:59:32'),
-(56, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:32', '2024-08-23 16:59:32'),
-(57, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:33', '2024-08-23 16:59:33'),
-(58, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:34', '2024-08-23 16:59:34'),
-(59, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:34', '2024-08-23 16:59:34'),
-(60, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:35', '2024-08-23 16:59:35'),
-(61, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:35', '2024-08-23 16:59:35'),
-(62, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:36', '2024-08-23 16:59:36'),
-(63, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:37', '2024-08-23 16:59:37'),
-(64, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:37', '2024-08-23 16:59:37'),
-(65, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:38', '2024-08-23 16:59:38'),
-(66, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:38', '2024-08-23 16:59:38'),
-(67, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:39', '2024-08-23 16:59:39'),
-(68, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:39', '2024-08-23 16:59:39'),
-(69, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:40', '2024-08-23 16:59:40'),
-(70, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:41', '2024-08-23 16:59:41'),
-(71, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:41', '2024-08-23 16:59:41'),
-(72, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:43', '2024-08-23 16:59:43'),
-(73, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:43', '2024-08-23 16:59:43'),
-(74, NULL, NULL, NULL, NULL, 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:44', '2024-08-23 16:59:44');
+INSERT INTO `products` (`id`, `cloth_for`, `brand_id`, `category_id`, `sub_category_id`, `unit`, `featured`, `Tranding`, `name`, `price`, `status`, `image`, `discount`, `description`, `additional_info`, `created_at`, `updated_at`) VALUES
+(12, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test', 300, 'Inactive', NULL, 100, NULL, NULL, '2024-08-03 11:57:48', '2024-08-28 20:16:58'),
+(14, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'T-shirt', 1000, 'Active', NULL, 100, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever si.', NULL, '2024-08-13 20:55:27', '2024-08-14 02:55:27'),
+(15, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 07:10:17', '2024-08-23 13:10:17'),
+(16, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:57:29', '2024-08-23 16:57:29'),
+(17, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:57:57', '2024-08-23 16:57:57'),
+(18, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:58:26', '2024-08-23 16:58:26'),
+(19, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:58:33', '2024-08-23 16:58:33'),
+(20, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:03', '2024-08-23 16:59:03'),
+(21, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:05', '2024-08-23 16:59:05'),
+(22, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:07', '2024-08-23 16:59:07'),
+(23, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:09', '2024-08-23 16:59:09'),
+(24, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:11', '2024-08-23 16:59:11'),
+(25, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:11', '2024-08-23 16:59:11'),
+(26, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:12', '2024-08-23 16:59:12'),
+(27, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:13', '2024-08-23 16:59:13'),
+(28, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:14', '2024-08-23 16:59:14'),
+(29, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:14', '2024-08-23 16:59:14'),
+(30, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:15', '2024-08-23 16:59:15'),
+(31, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:16', '2024-08-23 16:59:16'),
+(32, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:16', '2024-08-23 16:59:16'),
+(33, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:17', '2024-08-23 16:59:17'),
+(34, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:17', '2024-08-23 16:59:17'),
+(35, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:18', '2024-08-23 16:59:18'),
+(36, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:19', '2024-08-23 16:59:19'),
+(37, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:20', '2024-08-23 16:59:20'),
+(38, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:20', '2024-08-23 16:59:20'),
+(39, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:21', '2024-08-23 16:59:21'),
+(40, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:21', '2024-08-23 16:59:21'),
+(41, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:22', '2024-08-23 16:59:22'),
+(42, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:23', '2024-08-23 16:59:23'),
+(43, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:24', '2024-08-23 16:59:24'),
+(44, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:24', '2024-08-23 16:59:24'),
+(45, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:25', '2024-08-23 16:59:25'),
+(46, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:25', '2024-08-23 16:59:25'),
+(47, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:26', '2024-08-23 16:59:26'),
+(48, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:27', '2024-08-23 16:59:27'),
+(49, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:28', '2024-08-23 16:59:28'),
+(50, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:29', '2024-08-23 16:59:29'),
+(51, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:29', '2024-08-23 16:59:29'),
+(52, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:30', '2024-08-23 16:59:30'),
+(53, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:31', '2024-08-23 16:59:31'),
+(54, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:31', '2024-08-23 16:59:31'),
+(55, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:32', '2024-08-23 16:59:32'),
+(56, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:32', '2024-08-23 16:59:32'),
+(57, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:33', '2024-08-23 16:59:33'),
+(58, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:34', '2024-08-23 16:59:34'),
+(59, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:34', '2024-08-23 16:59:34'),
+(60, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:35', '2024-08-23 16:59:35'),
+(61, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:35', '2024-08-23 16:59:35'),
+(62, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:36', '2024-08-23 16:59:36'),
+(63, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:37', '2024-08-23 16:59:37'),
+(64, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:37', '2024-08-23 16:59:37'),
+(65, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:38', '2024-08-23 16:59:38'),
+(66, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:38', '2024-08-23 16:59:38'),
+(67, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:39', '2024-08-23 16:59:39'),
+(68, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:39', '2024-08-23 16:59:39'),
+(69, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:40', '2024-08-23 16:59:40'),
+(70, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:41', '2024-08-23 16:59:41'),
+(71, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:41', '2024-08-23 16:59:41'),
+(72, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:43', '2024-08-23 16:59:43'),
+(73, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:43', '2024-08-23 16:59:43'),
+(74, NULL, 1, 1, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:44', '2024-08-23 16:59:44'),
+(75, 'male', 2, 2, 1, NULL, 'No', 'Yes', 'test 2', 300, 'Active', NULL, 100, 'test', 'test 2', '2024-10-22 10:34:30', '2024-10-22 16:34:30');
 
 -- --------------------------------------------------------
 
@@ -450,8 +463,31 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('D3MoZsGAgUmcI0QCtkYN2DdczzmEPohIUVgQLGB4', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoib1BmUkx3UVk2RzBUenBXdEVMWU03SVYyVkRmeE5YZTlDQXdjMERxcCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC92aWV3LWFkZFByb2R1Y3QiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjM6InVybCI7YTowOnt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mjt9', 1726567458),
-('RixK1UwDgZgNTVlrXkhy5gVikIIiKwiiztLK1tgd', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiVFhENTAwMVBMZzhON0QxWnFYbnlWUEV0Zk9TNTRjTkVUUUowT3VXQyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1726565376);
+('M7VBri4oA3W5EYhcdFlZ1EukfwPhcbst0yVa8bEm', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiSnNzU3g5R25qWWlUTWdpckFtUlhIU2ZyUzR0MEVOTTFKY2NLTXQzOSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9tZW5zIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MDp7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7fQ==', 1729713451);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sub_categories`
+--
+
+CREATE TABLE `sub_categories` (
+  `id` int(11) NOT NULL,
+  `sub_cetegory_name` varchar(100) NOT NULL,
+  `category_id` bigint(20) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sub_categories`
+--
+
+INSERT INTO `sub_categories` (`id`, `sub_cetegory_name`, `category_id`, `created_at`, `updated_at`) VALUES
+(1, 'sub_category_1', 2, '2024-10-22 22:57:36', '2024-10-22 22:57:36'),
+(2, 'sub_category_2', 1, '2024-10-22 22:57:36', '2024-10-22 22:57:36'),
+(3, 'sub_category_3', 2, '2024-10-22 22:57:52', '2024-10-22 22:57:52'),
+(4, 'sub_category_4', 1, '2024-10-22 22:57:52', '2024-10-22 22:57:52');
 
 -- --------------------------------------------------------
 
@@ -476,7 +512,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'User 1', 'example@gmail.com', NULL, '123456', NULL, NULL, NULL),
-(2, 'admin', 'admin@gmail.com', NULL, '$2y$12$p6yFy6sx4vFcRW9l/gE1v.4.rMl0R2Cqt61fHzf.rx5F3tQwYJbwW', NULL, '2024-08-19 10:45:37', '2024-08-19 10:45:37');
+(2, 'admin', 'admin@gmail.com', NULL, '$2y$12$p6yFy6sx4vFcRW9l/gE1v.4.rMl0R2Cqt61fHzf.rx5F3tQwYJbwW', 'wdK1R7hBmZrCwRm15n31ZXkDkNVECE4PEKfmobslmEOpU7BBMJjdKQFLwGfZ', '2024-08-19 10:45:37', '2024-08-19 10:45:37');
 
 --
 -- Indexes for dumped tables
@@ -577,6 +613,12 @@ ALTER TABLE `sessions`
   ADD KEY `sessions_last_activity_index` (`last_activity`);
 
 --
+-- Indexes for table `sub_categories`
+--
+ALTER TABLE `sub_categories`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -609,7 +651,7 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `companies`
@@ -627,7 +669,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `jobs`
@@ -645,7 +687,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+
+--
+-- AUTO_INCREMENT for table `sub_categories`
+--
+ALTER TABLE `sub_categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`

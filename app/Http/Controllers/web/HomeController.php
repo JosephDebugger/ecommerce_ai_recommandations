@@ -5,16 +5,20 @@ namespace App\Http\Controllers\web;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\admin\Product;
+use App\Models\admin\settings\Brand;
+use App\Models\Category;
 
 class HomeController extends Controller
 {
     public function home()
     {
-        $products = Product::leftjoin('images', 'products.id', 'images.product_id')
+        $data['categories'] = Category::latest()->get();
+        $data['brands'] = Brand::latest()->get();
+        $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')
             ->where('products.status', 'Active')
             ->select('products.id', 'products.price', 'products.name', 'products.discount', 'products.status', 'images.name as image',)
             ->orderBy('id', 'desc')->get();
-        return view('frontend.home', ['products' => $products]);
+        return view('frontend.home',  $data);
     }
     public function about()
     {

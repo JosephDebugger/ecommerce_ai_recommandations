@@ -1,4 +1,3 @@
-
 <!-- header-bot -->
 <div class="header header-bot">
     <div class="header-bot_inner_wthreeinfo_header_mid">
@@ -11,17 +10,18 @@
         </div>
         <!-- header-bot -->
         <div class="col-md-4 logo_agile">
-            <h1><a href="{{url('/')}}"><span>E</span> Shop </a></h1>
+            <h1><a href="{{ url('/') }}"><span>E</span> Shop </a></h1>
         </div>
         <!-- header-bot -->
         <div class="col-md-4 agileits-social top_content">
             <ul class=" footer-social ">
-                
-                <li class="btn btn-default ml-2"><a href="{{url('/login')}}"  data-toggle="modal" data-target="#myModal"><i class="fa fa-unlock-alt"
-                    aria-hidden="true"></i> Sign In </a></li>
-                <li class="btn btn-default"><a href="{{url('/register')}}"  data-toggle="modal" data-target="#myModal2"><i class="fa fa-pencil-square-o"
-                    aria-hidden="true"></i> Sign Up </a></li>
-                
+
+                <li class="btn btn-default ml-2"><a href="{{ url('/login') }}" data-toggle="modal"
+                        data-target="#myModal"><i class="fa fa-unlock-alt" aria-hidden="true"></i> Sign In </a></li>
+                <li class="btn btn-default"><a href="{{ url('/register') }}" data-toggle="modal"
+                        data-target="#myModal2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Sign Up </a>
+                </li>
+
             </ul>
 
 
@@ -51,8 +51,8 @@
                     <div class="collapse navbar-collapse menu--shylock" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav menu__list">
                             <li class="active menu__item menu__item--current"><a class="menu__link"
-                                    href="{{url('/')}}">Home <span class="sr-only">(current)</span></a></li>
-                            <li class=" menu__item"><a class="menu__link" href="{{url('/about')}}">About</a></li>
+                                    href="{{ url('/') }}">Home <span class="sr-only">(current)</span></a></li>
+                            <li class=" menu__item"><a class="menu__link" href="{{ url('/about') }}">About</a></li>
                             <li class="dropdown menu__item">
                                 <a href="#" class="dropdown-toggle menu__link" data-toggle="dropdown"
                                     role="button" aria-haspopup="true" aria-expanded="false">Men's wear <span
@@ -60,28 +60,30 @@
                                 <ul class="dropdown-menu multi-column columns-3">
                                     <div class="agile_inner_drop_nav_info">
                                         <div class="col-sm-6 multi-gd-img1 multi-gd-text ">
-                                            <a href="{{url('/mens')}}"><img src="{{asset('web/images/top2.jpg')}}" alt=" " /></a>
+                                            <a href="{{ url('/mens') }}"><img src="{{ asset('web/images/top2.jpg') }}"
+                                                    alt=" " /></a>
                                         </div>
                                         <div class="col-sm-3 multi-gd-img">
                                             <ul class="multi-column-dropdown">
-                                                <li><a href="{{url('/mens')}}">Clothing</a></li>
-                                                <li><a href="{{url('/mens')}}">Wallets</a></li>
-                                                <li><a href="{{url('/mens')}}">Footwear</a></li>
-                                                <li><a href="{{url('/mens')}}">Watches</a></li>
-                                                <li><a href="{{url('/mens')}}">Accessories</a></li>
-                                                <li><a href="{{url('/mens')}}">Bags</a></li>
-                                                <li><a href="{{url('/mens')}}">Caps & Hats</a></li>
+                                                @php
+                                                    foreach ($categories as $key => $category) {
+                                                        if ($category->type == 'male' && $key < 8) {
+                                                            echo '<li><a href="/mens">' . $category->name . '</a></li>';
+                                                        }
+                                                    }
+                                                @endphp
+                                               
                                             </ul>
                                         </div>
                                         <div class="col-sm-3 multi-gd-img">
                                             <ul class="multi-column-dropdown">
-                                                <li><a href="{{url('/mens')}}">Jewellery</a></li>
-                                                <li><a href="{{url('/mens')}}">Sunglasses</a></li>
-                                                <li><a href="{{url('/mens')}}">Perfumes</a></li>
-                                                <li><a href="{{url('/mens')}}">Beauty</a></li>
-                                                <li><a href="{{url('/mens')}}">Shirts</a></li>
-                                                <li><a href="{{url('/mens')}}">Sunglasses</a></li>
-                                                <li><a href="{{url('/mens')}}">Swimwear</a></li>
+                                                @php
+                                                foreach ($categories as $key => $category) {
+                                                    if ($category->type == 'male' && ($key < 15 && $key >7)) {
+                                                        echo '<li><a href="/mens">' . $category->name . '</a></li>';
+                                                    }
+                                                }
+                                            @endphp
                                             </ul>
                                         </div>
                                         <div class="clearfix"></div>
@@ -95,40 +97,42 @@
                                 <ul class="dropdown-menu multi-column columns-3">
                                     <div class="agile_inner_drop_nav_info">
                                         <div class="col-sm-6 multi-gd-img1 multi-gd-text ">
-                                            <a href="{{url('/womens')}}"><img src="{{asset('web/images/top1.jpg')}}" alt=" " /></a>
+                                            <a href="{{ url('/womens') }}"><img
+                                                    src="{{ asset('web/images/top1.jpg') }}" alt=" " /></a>
                                         </div>
                                         <div class="col-sm-3 multi-gd-img">
                                             <ul class="multi-column-dropdown">
-                                                <li><a href="{{url('/womens')}}">Clothing</a></li>
-                                                <li><a href="{{url('/womens')}}">Wallets</a></li>
-                                                <li><a href="{{url('/womens')}}">Footwear</a></li>
-                                                <li><a href="{{url('/womens')}}">Watches</a></li>
-                                                <li><a href="{{url('/womens')}}">Accessories</a></li>
-                                                <li><a href="{{url('/womens')}}">Bags</a></li>
-                                                <li><a href="{{url('/womens')}}">Caps & Hats</a></li>
+                                                <li><a href="{{ url('/womens') }}">Clothing</a></li>
+                                                <li><a href="{{ url('/womens') }}">Wallets</a></li>
+                                                <li><a href="{{ url('/womens') }}">Footwear</a></li>
+                                                <li><a href="{{ url('/womens') }}">Watches</a></li>
+                                                <li><a href="{{ url('/womens') }}">Accessories</a></li>
+                                                <li><a href="{{ url('/womens') }}">Bags</a></li>
+                                                <li><a href="{{ url('/womens') }}">Caps & Hats</a></li>
                                             </ul>
                                         </div>
                                         <div class="col-sm-3 multi-gd-img">
                                             <ul class="multi-column-dropdown">
-                                                <li><a href="{{url('/womens')}}">Jewellery</a></li>
-                                                <li><a href="{{url('/womens')}}">Sunglasses</a></li>
-                                                <li><a href="{{url('/womens')}}">Perfumes</a></li>
-                                                <li><a href="{{url('/womens')}}">Beauty</a></li>
-                                                <li><a href="{{url('/womens')}}">Shirts</a></li>
-                                                <li><a href="{{url('/womens')}}">Sunglasses</a></li>
-                                                <li><a href="{{url('/womens')}}">Swimwear</a></li>
+                                                <li><a href="{{ url('/womens') }}">Jewellery</a></li>
+                                                <li><a href="{{ url('/womens') }}">Sunglasses</a></li>
+                                                <li><a href="{{ url('/womens') }}">Perfumes</a></li>
+                                                <li><a href="{{ url('/womens') }}">Beauty</a></li>
+                                                <li><a href="{{ url('/womens') }}">Shirts</a></li>
+                                                <li><a href="{{ url('/womens') }}">Sunglasses</a></li>
+                                                <li><a href="{{ url('/womens') }}">Swimwear</a></li>
                                             </ul>
                                         </div>
                                         <div class="col-sm-6 multi-gd-img multi-gd-text ">
-                                            <a href="{{url('/womens')}}"><img src="images/top1.jpg"
+                                            <a href="{{ url('/womens') }}"><img src="images/top1.jpg"
                                                     alt=" " /></a>
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
                                 </ul>
                             </li>
-                          
-                            <li class=" menu__item"><a class="menu__link" href="{{url('/contact')}}">Contact</a></li>
+
+                            <li class=" menu__item"><a class="menu__link" href="{{ url('/contact') }}">Contact</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
