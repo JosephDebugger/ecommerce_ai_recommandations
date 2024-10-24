@@ -16,9 +16,9 @@
         <div class="col-md-4 agileits-social top_content">
             <ul class=" footer-social ">
 
-                <li class="btn btn-default ml-2"><a href="{{ url('/login') }}" data-toggle="modal"
+                <li class="btn btn-default ml-2"><a href="{{ url('customer/login') }}" data-toggle="modal"
                         data-target="#myModal"><i class="fa fa-unlock-alt" aria-hidden="true"></i> Sign In </a></li>
-                <li class="btn btn-default"><a href="{{ url('/register') }}" data-toggle="modal"
+                <li class="btn btn-default"><a href="{{ url('customer/register') }}" data-toggle="modal"
                         data-target="#myModal2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Sign Up </a>
                 </li>
 
@@ -102,24 +102,24 @@
                                         </div>
                                         <div class="col-sm-3 multi-gd-img">
                                             <ul class="multi-column-dropdown">
-                                                <li><a href="{{ url('/womens') }}">Clothing</a></li>
-                                                <li><a href="{{ url('/womens') }}">Wallets</a></li>
-                                                <li><a href="{{ url('/womens') }}">Footwear</a></li>
-                                                <li><a href="{{ url('/womens') }}">Watches</a></li>
-                                                <li><a href="{{ url('/womens') }}">Accessories</a></li>
-                                                <li><a href="{{ url('/womens') }}">Bags</a></li>
-                                                <li><a href="{{ url('/womens') }}">Caps & Hats</a></li>
+                                                @php
+                                                foreach ($categories as $key => $category) {
+                                                    if ($category->type == 'female' && $key < 8) {
+                                                        echo '<li><a href="/womens">' . $category->name . '</a></li>';
+                                                    }
+                                                }
+                                            @endphp
                                             </ul>
                                         </div>
                                         <div class="col-sm-3 multi-gd-img">
                                             <ul class="multi-column-dropdown">
-                                                <li><a href="{{ url('/womens') }}">Jewellery</a></li>
-                                                <li><a href="{{ url('/womens') }}">Sunglasses</a></li>
-                                                <li><a href="{{ url('/womens') }}">Perfumes</a></li>
-                                                <li><a href="{{ url('/womens') }}">Beauty</a></li>
-                                                <li><a href="{{ url('/womens') }}">Shirts</a></li>
-                                                <li><a href="{{ url('/womens') }}">Sunglasses</a></li>
-                                                <li><a href="{{ url('/womens') }}">Swimwear</a></li>
+                                                @php
+                                                foreach ($categories as $key => $category) {
+                                                    if ($category->type == 'female' && ($key < 15 && $key > 7)) {
+                                                        echo '<li><a href="/womens">' . $category->name . '</a></li>';
+                                                    }
+                                                }
+                                            @endphp
                                             </ul>
                                         </div>
                                         <div class="col-sm-6 multi-gd-img multi-gd-text ">
