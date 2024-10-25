@@ -12,8 +12,7 @@ class HomeController extends Controller
 {
     public function home()
     {
-        $data['categories'] = Category::latest()->get();
-        $data['brands'] = Brand::latest()->get();
+       
         $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')
             ->where('products.status', 'Active')
             ->select('products.id', 'products.price', 'products.name', 'products.discount', 'products.status', 'images.name as image',)
