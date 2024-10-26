@@ -55,5 +55,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/company-setting/{id}', [CompanyController::class, 'updateSettings'])->name('updateSettings');
 });
 
+// Route::middleware('auth:customer')->group(function () {
+//     Route::name('cart.')->prefix('cart')->group(function () {
+//         Route::get('/checkout/{name}/{qty}', [HomeController::class, 'checkout'])->name('checkout'); 
+
+//     });
+// });
+Route::name('cart.')->prefix('cart')->group(function () {
+    Route::get('/checkout/{name}/{qty}', [HomeController::class, 'checkout'])->name('checkout'); 
+
+});
 require __DIR__ . '/auth.php';
 require __DIR__ . '/customer-auth.php';

@@ -138,9 +138,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- //Modal2 -->
 
     <!-- banner -->
- 
 
-	@yield('content')
+
+    @yield('content')
 
 
     @include('frontend.layouts.footer')
@@ -163,21 +163,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                     <div class="sign-up">
                                         <h4>Email :</h4>
                                         <input type="text" value="Type here" onfocus="this.value = '';"
-                                            onblur="if (this.value == '') {this.value = 'Type here';}"
-                                            required="">
+                                            onblur="if (this.value == '') {this.value = 'Type here';}" required="">
                                     </div>
                                     <div class="sign-up">
                                         <h4>Password :</h4>
                                         <input type="password" value="Password" onfocus="this.value = '';"
-                                            onblur="if (this.value == '') {this.value = 'Password';}"
-                                            required="">
+                                            onblur="if (this.value == '') {this.value = 'Password';}" required="">
 
                                     </div>
                                     <div class="sign-up">
                                         <h4>Re-type Password :</h4>
                                         <input type="password" value="Password" onfocus="this.value = '';"
-                                            onblur="if (this.value == '') {this.value = 'Password';}"
-                                            required="">
+                                            onblur="if (this.value == '') {this.value = 'Password';}" required="">
 
                                     </div>
                                     <div class="sign-up">
@@ -192,14 +189,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                     <div class="sign-in">
                                         <h4>Email :</h4>
                                         <input type="text" value="Type here" onfocus="this.value = '';"
-                                            onblur="if (this.value == '') {this.value = 'Type here';}"
-                                            required="">
+                                            onblur="if (this.value == '') {this.value = 'Type here';}" required="">
                                     </div>
                                     <div class="sign-in">
                                         <h4>Password :</h4>
                                         <input type="password" value="Password" onfocus="this.value = '';"
-                                            onblur="if (this.value == '') {this.value = 'Password';}"
-                                            required="">
+                                            onblur="if (this.value == '') {this.value = 'Password';}" required="">
                                         <a href="#">Forgot password?</a>
                                     </div>
                                     <div class="single-bottom">
@@ -226,29 +221,43 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             style="opacity: 1;"> </span></a>
 
     <!-- js -->
-    <script type="text/javascript" src="{{asset('web/js/jquery-2.1.4.min.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('web/js/jquery-2.1.4.min.js') }}"></script>
     <!-- //js -->
-    <script src="{{asset('web/js/modernizr.custom.js')}}"></script>
+    <script src="{{ asset('web/js/modernizr.custom.js') }}"></script>
     <!-- Custom-JavaScript-File-Links -->
     <!-- cart-js -->
-    <script src="{{asset('web/js/minicart.min.js')}}"></script>
+    <script src="{{ asset('web/js/minicart.js') }}"></script>
 
 
-  
+
     <!-- custom js -->
     @yield('scripts')
 
 
-    
+
     <script>
         // Mini Cart
-        paypal.minicart.render({
-            action: '#'
-        });
+        // paypal.minicart.render({
+        //     action: '#'
+        // });
 
         if (~window.location.search.indexOf('reset=true')) {
             paypal.minicart.reset();
         }
+        paypal.minicart.render();
+
+        paypal.minicart.cart.on('checkout', function(evt) {
+            var items, len, i;
+
+            if (this.subtotal() > 0) {
+                items = this.items();
+
+                for (i = 0, len = items.length; i < len; i++) {
+                    items[i].set('shipping', 0);
+                    items[i].set('shipping2', 0);
+                }
+            }
+        });
     </script>
 
     <!-- //cart-js -->
@@ -274,19 +283,36 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 width: 'auto',
                 fit: true
             });
+
         });
+
+        function chekoutCart() {
+            //alert('checked')
+            let nameArray = $('.minicart-name').map(function() {
+                return $(this).text(); // Get the value of each input
+            }).get();
+            let quentityArray = $('.minicart-quantity').map(function() {
+                return $(this).val(); // Get the value of each input
+            }).get();
+            console.log(nameArray)
+            console.log(quentityArray)
+            var data = [];
+            data.push(nameArray);
+            data.push(quentityArray);
+            location.href = "cart/checkout/"+data+"/0";
+        }
     </script>
     <!-- //script for responsive tabs -->
     <!-- stats -->
-    <script src="{{asset('web/js/jquery.waypoints.min.js')}}"></script>
-    <script src="{{asset('web/js/jquery.countup.js')}}"></script>
+    <script src="{{ asset('web/js/jquery.waypoints.min.js') }}"></script>
+    <script src="{{ asset('web/js/jquery.countup.js') }}"></script>
     <script>
         $('.counter').countUp();
     </script>
     <!-- //stats -->
     <!-- start-smoth-scrolling -->
-    <script type="text/javascript" src="{{asset('web/js/move-top.js')}}"></script>
-    <script type="text/javascript" src="{{asset('web/js/jquery.easing.min.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('web/js/move-top.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('web/js/jquery.easing.min.js') }}"></script>
 
     <script type="text/javascript">
         jQuery(document).ready(function($) {
@@ -320,7 +346,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 
     <!-- for bootstrap working -->
-    <script type="text/javascript" src="{{asset('web/js/bootstrap.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('web/js/bootstrap.js') }}"></script>
 </body>
 
 </html>

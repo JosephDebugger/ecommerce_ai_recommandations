@@ -58,7 +58,7 @@
                             <li class="active menu__item menu__item--current"><a class="menu__link"
                                     href="{{ url('/') }}">Home <span class="sr-only">(current)</span></a></li>
                             <li class=" menu__item"><a class="menu__link" href="{{ url('/about') }}">About</a></li>
-                            
+
                             <x-frontend.categories />
 
                             <li class=" menu__item"><a class="menu__link" href="{{ url('/contact') }}">Contact</a>

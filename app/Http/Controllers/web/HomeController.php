@@ -40,4 +40,9 @@ class HomeController extends Controller
         $product = Product::find($id);
         return view('frontend.product', ['product' => $product]);
     }
+    public function checkout($products,$qty)
+    {
+       
+        return view('frontend.checkOut', ['product' => $products,'quantity'=>$qty]);
+    }
 }
