@@ -42,19 +42,20 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="male" value="male"
+                                            <input class="form-check-input" type="radio" name="checkRadio" value="male"
                                                 id="male" checked>
                                             <label class="form-check-label" for="male">
                                                 Male
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="female" value="female"
+                                            <input class="form-check-input" type="radio" name="checkRadio" value="female"
                                                 id="female">
                                             <label class="form-check-label" for="female">
                                                 Female
                                             </label>
                                         </div>
+                                        
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputEmail4">Product Name</label>

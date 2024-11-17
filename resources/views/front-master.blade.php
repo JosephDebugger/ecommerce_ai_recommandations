@@ -215,20 +215,21 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="{{ asset('web/js/jquery-2.1.4.min.js') }}"></script>
     @yield('jsSources')
     <!-- //login -->
     <a href="#home" class="scroll" id="toTop" style="display: block;"> <span id="toTopHover"
             style="opacity: 1;"> </span></a>
 
     <!-- js -->
-    <script type="text/javascript" src="{{ asset('web/js/jquery-2.1.4.min.js') }}"></script>
+
     <!-- //js -->
     <script src="{{ asset('web/js/modernizr.custom.js') }}"></script>
     <!-- Custom-JavaScript-File-Links -->
     <!-- cart-js -->
     <script src="{{ asset('web/js/minicart.js') }}"></script>
 
-
+    <script src="{{asset('web/js/imagezoom.js')}}"></script>
 
     <!-- custom js -->
     @yield('scripts')
@@ -262,29 +263,30 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
     <!-- //cart-js -->
     <!-- script for responsive tabs -->
-    <script src="js/easy-responsive-tabs.js"></script>
+    <script src="{{ asset('web/js/easy-responsive-tabs.js') }}""></script>
+  
     <script>
-        $(document).ready(function() {
-            $('#horizontalTab').easyResponsiveTabs({
-                type: 'default', //Types: default, vertical, accordion           
-                width: 'auto', //auto or any width like 600px
-                fit: true, // 100% fit in a container
-                closed: 'accordion', // Start closed if in accordion view
-                activate: function(event) { // Callback function if tab is switched
-                    var $tab = $(this);
-                    var $info = $('#tabInfo');
-                    var $name = $('span', $info);
-                    $name.text($tab.text());
-                    $info.show();
-                }
-            });
-            $('#verticalTab').easyResponsiveTabs({
-                type: 'vertical',
-                width: 'auto',
-                fit: true
-            });
-
-        });
+     
+     $(document).ready(function () {
+			$('#horizontalTab').easyResponsiveTabs({
+				type: 'default', //Types: default, vertical, accordion           
+				width: 'auto', //auto or any width like 600px
+				fit: true,   // 100% fit in a container
+				closed: 'accordion', // Start closed if in accordion view
+				activate: function (event) { // Callback function if tab is switched
+					var $tab = $(this);
+					var $info = $('#tabInfo');
+					var $name = $('span', $info);
+					$name.text($tab.text());
+					$info.show();
+				}
+			});
+			$('#verticalTab').easyResponsiveTabs({
+				type: 'vertical',
+				width: 'auto',
+				fit: true
+			});
+		});
 
         function chekoutCart() {
             //alert('checked')
@@ -297,11 +299,21 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             console.log(nameArray)
             console.log(quentityArray)
             var data = [];
+            var data2 = [];
             data.push(nameArray);
             data.push(quentityArray);
-            location.href = "cart/checkout/"+data+"/0";
+            location.href = "cart/checkout/"+data[0]+"/"+data[1];
         }
     </script>
+      <script type="text/javascript" src="{{asset('web/js/jquery.flexslider.js')}}"></script>
+      <script>
+           $(window).load(function () {
+			$('.flexslider').flexslider({
+				animation: "slide",
+				controlNav: "thumbnails"
+			});
+		});
+      </script>
     <!-- //script for responsive tabs -->
     <!-- stats -->
     <script src="{{ asset('web/js/jquery.waypoints.min.js') }}"></script>

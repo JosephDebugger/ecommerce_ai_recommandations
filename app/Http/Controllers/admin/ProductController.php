@@ -53,9 +53,10 @@ class ProductController extends Controller
     public function storeProduct(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:products,name', 
             'price' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+             
         ]);
 
         if ($request->image != null) {
@@ -70,11 +71,9 @@ class ProductController extends Controller
         $tranding = '';
         $featured = '';
 
-        if ($request->has('male')) {
-            $gender = 'male';
-        } else {
-            $gender = 'female';
-        }
+        if ($request->has('checkRadio')) {
+            $gender = $request->has('checkRadio');
+        } 
 
         if ($request->has('tranding')) {
             $tranding = 'Yes';

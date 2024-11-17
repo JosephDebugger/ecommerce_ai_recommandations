@@ -27,7 +27,7 @@ Route::get('/mens', [HomeController::class, 'mens']);
 Route::get('/womens', [HomeController::class, 'womens']);
 Route::get('/product/{id}', [HomeController::class, 'product'])->name('product');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth:web')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -61,9 +61,14 @@ Route::middleware('auth')->group(function () {
 
 //     });
 // });
+// Route::name('cart.')->prefix('cart')->middleware('auth:customer')->group(function () {
+//         Route::get('/checkout/{name}/{qty}', [HomeController::class, 'checkout'])->name('checkout'); 
+// });
 Route::name('cart.')->prefix('cart')->group(function () {
     Route::get('/checkout/{name}/{qty}', [HomeController::class, 'checkout'])->name('checkout'); 
+    Route::get('/checkoutProducts', [HomeController::class, 'checkoutProducts'])->name('checkoutProducts'); 
 
 });
-require __DIR__ . '/auth.php';
 require __DIR__ . '/customer-auth.php';
+require __DIR__ . '/auth.php';
+

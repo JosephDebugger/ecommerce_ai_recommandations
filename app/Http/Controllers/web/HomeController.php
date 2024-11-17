@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\admin\Product;
 use App\Models\admin\settings\Brand;
 use App\Models\Category;
+use App\Models\admin\sale\Sale;
 
 class HomeController extends Controller
 {
@@ -15,7 +16,7 @@ class HomeController extends Controller
        
         $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')
             ->where('products.status', 'Active')
-            ->select('products.id', 'products.price', 'products.name', 'products.discount', 'products.status', 'images.name as image',)
+            ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image',)
             ->orderBy('id', 'desc')->get();
         return view('frontend.home',  $data);
     }
@@ -42,7 +43,22 @@ class HomeController extends Controller
     }
     public function checkout($products,$qty)
     {
-       
-        return view('frontend.checkOut', ['product' => $products,'quantity'=>$qty]);
+        $quantity= explode(",",$qty);
+        $product= explode(",",$products);
+       // dd($qty);
+       $items = Product::whereIn('name',$product)->get();
+
+    //    foreach($products as $product){
+        
+    //    }
+        return view('frontend.checkOut', ['products' => $items,'quantity'=>$quantity]);
     }
+    public function checkoutProducts()
+    {
+        
+        $Sale  = new Sale;
+       
+        return response()->json('success');
+    }
+    
 }

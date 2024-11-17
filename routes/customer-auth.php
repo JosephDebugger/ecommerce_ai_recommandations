@@ -16,7 +16,5 @@ Route::name('customer.')->prefix('customer')->middleware('guest:customer')->grou
 });
 
 Route::name('customer.')->prefix('customer')->middleware('auth:customer')->group(function () {
- 
-    Route::post('logout', [LoginController::class, 'destroy'])
-                ->name('logout');
+    Route::post('logout', [LoginController::class, 'destroy'])->name('logout');
 });
