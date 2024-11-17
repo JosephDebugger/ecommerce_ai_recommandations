@@ -136,8 +136,8 @@
                                 @endphp
                                 <tr id="rowNo_{{ $key }}">
                                     <td class="item">
-                                        <input type="text" id="productId_{{ $key }}"
-                                            value="{{ $item->id }}">
+                                        <input type="input" type="hidden" id="productId_{{ $key }}"
+                                            value="{{ $item->id }}" class="d-none">
                                         <div class="d-flex">
 
                                             <div class="pl-2">
@@ -146,7 +146,7 @@
                                             </div>
                                     </td>
                                     <td id="quantity_{{ $key }}">{{ $quantity[$key] }}</td>
-                                    <td class="d-flex flex-column"><input type="hidden" id="unitPrice_{{ $key }}"
+                                    <td class="d-flex flex-column"><input type="hidden" id="unitPrice_{{ $key }} "
                                             value="{{ $item->price }}"><span class="red">Tk {{ $item->price }}</span>
                                         {{-- <del class="cross">Tk {{$item->price}}</del> --}}
                                     </td>
@@ -180,13 +180,13 @@
                         <div class="col-50">
                             <h3>Billing Address</h3>
                             <label for="fname"><i class="fa fa-user"></i> Full Name</label>
-                            <input type="text" id="fname" name="firstname" placeholder="John M. Doe">
+                            <input type="text" id="fname" name="firstname" placeholder="Enter Name" required>
                             <label for="email"><i class="fa fa-envelope"></i> Email</label>
-                            <input type="text" id="email" name="email" placeholder="john@example.com">
+                            <input type="text" id="email" name="email" placeholder="Enter Email">
                             <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
-                            <input type="text" id="adr" name="address" placeholder="542 W. 15th Street">
+                            <input type="text" id="adr" name="address" placeholder="Write Address">
                             <label for="city"><i class="fa fa-institution"></i> City</label>
-                            <input type="text" id="city" name="city" placeholder="New York">
+                            <input type="text" id="city" name="city" placeholder="Enter City name">
 
                             <div class="row">
                                 <div class="col-50">
@@ -229,15 +229,13 @@
 
                     </div>
                     <label>
-                        <input type="checkbox" checked="checked" name="sameadr"> Shipping address same as billing
+                        <input type="checkbox" checked="checked" name="sameadr" id="sameadr"> Shipping address same as billing
                     </label>
                     <input type="submit" value="Continue to checkout" class="btn">
                 </form>
                 <br>
             </div>
         </div>
-
-
     </div>
     <br>
 @endsection
@@ -254,29 +252,62 @@
 
             $('#rowNo_' + no).remove();
         }
+
         $(document).ready(function() {
             $("#checkOutInfoForm").submit(function(event) {
-
-
                 event.preventDefault();
-                paypal.minicart.reset();
+
+                var fname = $('#fname').val();
+                var email = $('#email').val();
+                var city = $('#city').val();
+                var address = $('#adr').val();
+                var state = $('#state').val();
+                var zip = $('#zip').val();
+                var cname = $('#cname').val();
+                var ccnum = $('#ccnum').val();
+                var expmonth = $('#expmonth').val();
+                var expyear = $('#expyear').val();
+                var cvv = $('#cvv').val();
+                var sameadr = $('#sameadr').val();
+              
                 var productIds = [];
                 $('input[id^="productId_"]').each(function() {
                     productIds.push($(this).val())
                 })
+                var quantity =[]
                  $('td[id^="quantity_"]').each(function() {
-                    productIds.push($(this).val())
+                    quantity.push($(this).text())
                 })
-                alert(productIds)
+                var unitPrice =[]
+                 $('input[id^="unitPrice_"]').each(function() {
+                    unitPrice.push($(this).val())
+                })
 
+                data ={
+                    fname: fname,
+                    email: email,
+                    city: city,
+                    address: address,
+                    state: state,
+                    zip: zip,
+                    cname: cname,
+                    expmonth: expmonth,
+                    expyear: expyear,
+                    cvv: cvv,
+                    productIds: productIds,
+                    quantity: quantity,
+                    unitPrice: unitPrice,
+                }
                 $.ajax({
                     type: "POST",
-                    url: "process.php",
-                    data: formData,
+                    url: "{{url('')}}",
+                    data: data,
                     dataType: "json",
                     encode: true,
                 }).done(function(data) {
                     console.log(data);
+
+                    paypal.minicart.reset();
                 });
 
             });
