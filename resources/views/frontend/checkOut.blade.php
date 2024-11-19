@@ -136,8 +136,8 @@
                                 @endphp
                                 <tr id="rowNo_{{ $key }}">
                                     <td class="item">
-                                        <input type="input" type="hidden" id="productId_{{ $key }}"
-                                            value="{{ $item->id }}" class="d-none">
+                                        <input type="hidden" id="productId_{{ $key }}" value="{{ $item->id }}"
+                                            class="d-none">
                                         <div class="d-flex">
 
                                             <div class="pl-2">
@@ -176,6 +176,7 @@
             <div class="container main-box">
                 <form id="checkOutInfoForm" action="#">
 
+                    @csrf
                     <div class="row">
                         <div class="col-50">
                             <h3>Billing Address</h3>
@@ -229,7 +230,8 @@
 
                     </div>
                     <label>
-                        <input type="checkbox" checked="checked" name="sameadr" id="sameadr"> Shipping address same as billing
+                        <input type="checkbox" checked="checked" name="sameadr" id="sameadr"> Shipping address same as
+                        billing
                     </label>
                     <input type="submit" value="Continue to checkout" class="btn">
                 </form>
@@ -269,21 +271,22 @@
                 var expyear = $('#expyear').val();
                 var cvv = $('#cvv').val();
                 var sameadr = $('#sameadr').val();
-              
+             
+
                 var productIds = [];
                 $('input[id^="productId_"]').each(function() {
                     productIds.push($(this).val())
                 })
-                var quantity =[]
-                 $('td[id^="quantity_"]').each(function() {
+                var quantity = []
+                $('td[id^="quantity_"]').each(function() {
                     quantity.push($(this).text())
                 })
-                var unitPrice =[]
-                 $('input[id^="unitPrice_"]').each(function() {
+                var unitPrice = []
+                $('input[id^="unitPrice_"]').each(function() {
                     unitPrice.push($(this).val())
                 })
 
-                data ={
+                data = {
                     fname: fname,
                     email: email,
                     city: city,
@@ -297,18 +300,22 @@
                     productIds: productIds,
                     quantity: quantity,
                     unitPrice: unitPrice,
+                    _token: "{{ csrf_token() }}",
                 }
+                console.log(data)
+  
+
                 $.ajax({
                     type: "POST",
-                    url: "{{url('')}}",
+                    url:  "{{ route('cart.checkoutProducts') }}",
                     data: data,
                     dataType: "json",
-                    encode: true,
-                }).done(function(data) {
-                    console.log(data);
-
-                    paypal.minicart.reset();
+                    success: function(response) {
+                        console.log(response);
+                        paypal.minicart.reset();
+                    }
                 });
+
 
             });
         });

@@ -45,20 +45,19 @@ class HomeController extends Controller
     {
         $quantity= explode(",",$qty);
         $product= explode(",",$products);
-       // dd($qty);
-       $items = Product::whereIn('name',$product)->get();
-
-    //    foreach($products as $product){
-        
-    //    }
+        $items = Product::whereIn('name',$product)->get();
         return view('frontend.checkOut', ['products' => $items,'quantity'=>$quantity]);
     }
-    public function checkoutProducts()
+    
+    public function checkoutProducts(Request $request)
     {
         
-        $Sale  = new Sale;
-       
-        return response()->json('success');
+        $sale  = new Sale;
+        sale_date
+        total_amount
+        customer_id
+        payment_method
+        return response()->json($request->all());
     }
     
 }

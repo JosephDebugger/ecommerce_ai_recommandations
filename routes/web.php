@@ -66,8 +66,7 @@ Route::middleware('auth:web')->group(function () {
 // });
 Route::name('cart.')->prefix('cart')->group(function () {
     Route::get('/checkout/{name}/{qty}', [HomeController::class, 'checkout'])->name('checkout'); 
-    Route::get('/checkoutProducts', [HomeController::class, 'checkoutProducts'])->name('checkoutProducts'); 
-
+    Route::post('checkoutProducts', [HomeController::class, 'checkoutProducts'])->name('checkoutProducts'); 
 });
 require __DIR__ . '/customer-auth.php';
 require __DIR__ . '/auth.php';
