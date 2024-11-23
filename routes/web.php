@@ -20,6 +20,8 @@ Route::get('/mens', [HomeController::class, 'mens']);
 Route::get('/womens', [HomeController::class, 'womens']);
 Route::get('/product/{id}', [HomeController::class, 'product'])->name('product');
 
+Route::get('/recommendations', [HomeController::class, 'recommendations']);
+
 // Route::middleware('auth:web')->group(function () {
  
 // });

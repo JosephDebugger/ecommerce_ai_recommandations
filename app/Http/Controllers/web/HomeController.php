@@ -12,12 +12,14 @@ use App\Models\admin\sale\SaleItems;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use App\Events\ProductInteracted;
+use App\Models\Rating;
 
 class HomeController extends Controller
 {
     public function home()
     {
-       
+
         $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')
             ->where('products.status', 'Active')
             ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image',)
@@ -43,16 +45,18 @@ class HomeController extends Controller
     public function product($id)
     {
         $product = Product::find($id);
+        $userId = 0;
+        ProductInteracted::dispatch($userId, $id, 'view');
         return view('frontend.product', ['product' => $product]);
     }
-    public function checkout($products,$qty)
+    public function checkout($products, $qty)
     {
-        $quantity= explode(",",$qty);
-        $product= explode(",",$products);
-        $items = Product::whereIn('name',$product)->get();
-        return view('frontend.checkOut', ['products' => $items,'quantity'=>$quantity]);
+        $quantity = explode(",", $qty);
+        $product = explode(",", $products);
+        $items = Product::whereIn('name', $product)->get();
+        return view('frontend.checkOut', ['products' => $items, 'quantity' => $quantity]);
     }
-    
+
     // public function checkoutProducts(Request $request)
     // {
     //     $productIds = $request->productIds;
@@ -84,7 +88,7 @@ class HomeController extends Controller
     //     }catch(Exception $e){
     //         DB::rollback();
     //     }
-        
+
 
     //     return response()->json('success');
     // }
@@ -94,28 +98,28 @@ class HomeController extends Controller
         $productIds = $request->productIds;
         $quantities = $request->quantity;
         $unitPrices = $request->unitPrice;
-    
+        $userId = 1;
         try {
             DB::beginTransaction();
-    
+
             // Create Sale record
             $sale = Sale::create([
                 'sale_date' => now()->format('Y-m-d H:i:s'),
                 'customer_id' => 1,
                 'payment_method' => 'Card',
             ]);
-    
+
             $totalPrice = 0;
-    
+
             // Prepare SaleItems data
             $saleItemsData = [];
             foreach ($productIds as $key => $productId) {
                 $quantity = $quantities[$key];
                 $unitPrice = $unitPrices[$key];
                 $itemTotalPrice = $quantity * $unitPrice;
-    
+
                 $totalPrice += $itemTotalPrice;
-    
+
                 $saleItemsData[] = [
                     'sales_id' => $sale->id,
                     'product_id' => $productId,
@@ -124,19 +128,48 @@ class HomeController extends Controller
                     'total_price' => $itemTotalPrice,
                 ];
             }
-    
+
             // Bulk insert SaleItems
             SaleItems::insert($saleItemsData);
-    
+
             // Update total amount in Sale
             $sale->update(['total_amount' => $totalPrice]);
-    
+
             DB::commit();
+
+            ProductInteracted::dispatch($userId, $productId, 'purchase');
+
             return response()->json(['message' => 'success'], 200);
         } catch (Exception $e) {
             DB::rollback();
             return response()->json(['message' => 'error', 'error' => $e->getMessage()], 500);
         }
     }
+    public function rateProduct(Request $request, $productId)
+    {
+        // $userId = auth()->id();
+        $rating = $request->input('rating');
+        $userId = 1;
+        // Save the rating to the database
+        Rating::updateOrCreate(
+            ['user_id' => $userId, 'product_id' => $productId],
+            ['rating' => $rating]
+        );
+
+        // Trigger the event
+        ProductInteracted::dispatch($userId, $productId, 'rate');
+
+        return response()->json(['message' => 'Rating saved successfully']);
+    }
+    public function recommendations()  {
+        // $userId = auth()->id();
+        $userId = 1;
+        $recommendedProducts = Product::whereIn('id', function ($query) use ($userId) {
+            $query->select('product_id')
+                  ->from('recommendations')
+                  ->where('user_id', $userId);
+        })->get();
     
+       // return view('partials.recommendations', compact('recommendedProducts'));
+    }
 }

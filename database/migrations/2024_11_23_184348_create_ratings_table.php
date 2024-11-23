@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('recommendations', function (Blueprint $table) {
+        Schema::create('ratings', function (Blueprint $table) {
             $table->bigInteger('id');
             $table->unsignedBigInteger('user_id')->default('0');
             $table->unsignedBigInteger('product_id')->default('0');
+            $table->string('rating')->nullable();
+            
             $table->timestamps();
-    
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('recommendations');
+        Schema::dropIfExists('ratings');
     }
 };
