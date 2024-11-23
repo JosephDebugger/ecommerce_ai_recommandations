@@ -8,6 +8,10 @@ use App\Models\admin\Product;
 use App\Models\admin\settings\Brand;
 use App\Models\Category;
 use App\Models\admin\sale\Sale;
+use App\Models\admin\sale\SaleItems;
+use Illuminate\Container\Attributes\Auth;
+use Illuminate\Support\Facades\DB;
+use Exception;
 
 class HomeController extends Controller
 {
@@ -49,15 +53,90 @@ class HomeController extends Controller
         return view('frontend.checkOut', ['products' => $items,'quantity'=>$quantity]);
     }
     
+    // public function checkoutProducts(Request $request)
+    // {
+    //     $productIds = $request->productIds;
+    //     $quantity = $request->quantity;
+    //     $unitPrice = $request->unitPrice;
+    //     $totalPrice =0;
+    //     try{
+    //         DB::beginTransaction();
+    //         $sale  = new Sale;
+    //         $sale->sale_date = date('Y-m-d');
+    //         $sale->customer_id = '1';
+    //         $sale->payment_method = 'Card';
+    //         $sale->save();
+    //         $id = $sale->id;
+    //         foreach($productIds as $key => $productId){
+    //             // echo $productId;
+    //             $totalPrice += $unitPrice[$key]*$quantity[$key];
+    //             $saleItems = new SaleItems;
+    //             $saleItems->sales_id = $id;
+    //             $saleItems->product_id = $productId;
+    //             $saleItems->quantity =  $quantity[$key]; 
+    //             $saleItems->price_per_unit =  $unitPrice[$key];
+    //             $saleItems->total_price =  $unitPrice[$key]*$quantity[$key];
+    //             $saleItems->save();
+    //         }
+    //         $sale->total_amount = $totalPrice;
+    //         $sale->save();
+    //         DB::commit();
+    //     }catch(Exception $e){
+    //         DB::rollback();
+    //     }
+        
+
+    //     return response()->json('success');
+    // }
+
     public function checkoutProducts(Request $request)
     {
-        
-        $sale  = new Sale;
-        sale_date
-        total_amount
-        customer_id
-        payment_method
-        return response()->json($request->all());
+        $productIds = $request->productIds;
+        $quantities = $request->quantity;
+        $unitPrices = $request->unitPrice;
+    
+        try {
+            DB::beginTransaction();
+    
+            // Create Sale record
+            $sale = Sale::create([
+                'sale_date' => now()->format('Y-m-d H:i:s'),
+                'customer_id' => 1,
+                'payment_method' => 'Card',
+            ]);
+    
+            $totalPrice = 0;
+    
+            // Prepare SaleItems data
+            $saleItemsData = [];
+            foreach ($productIds as $key => $productId) {
+                $quantity = $quantities[$key];
+                $unitPrice = $unitPrices[$key];
+                $itemTotalPrice = $quantity * $unitPrice;
+    
+                $totalPrice += $itemTotalPrice;
+    
+                $saleItemsData[] = [
+                    'sales_id' => $sale->id,
+                    'product_id' => $productId,
+                    'quantity' => $quantity,
+                    'price_per_unit' => $unitPrice,
+                    'total_price' => $itemTotalPrice,
+                ];
+            }
+    
+            // Bulk insert SaleItems
+            SaleItems::insert($saleItemsData);
+    
+            // Update total amount in Sale
+            $sale->update(['total_amount' => $totalPrice]);
+    
+            DB::commit();
+            return response()->json(['message' => 'success'], 200);
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json(['message' => 'error', 'error' => $e->getMessage()], 500);
+        }
     }
     
 }

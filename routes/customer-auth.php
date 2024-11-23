@@ -3,7 +3,7 @@
 use App\Http\Controllers\Customer\Auth\LoginController;
 use App\Http\Controllers\Customer\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
-
+    
 Route::name('customer.')->prefix('customer')->middleware('guest:customer')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
 

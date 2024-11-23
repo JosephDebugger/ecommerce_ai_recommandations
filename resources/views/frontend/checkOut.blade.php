@@ -132,7 +132,9 @@
                             @endphp
                             @foreach ($products as $key => $item)
                                 @php
-                                    $total += $quantity[$key] * $item->price;
+                                    $price = $item->price - $item->discount;
+                                    $total += $quantity[$key] * $price;
+                                   
                                 @endphp
                                 <tr id="rowNo_{{ $key }}">
                                     <td class="item">
@@ -147,11 +149,11 @@
                                     </td>
                                     <td id="quantity_{{ $key }}">{{ $quantity[$key] }}</td>
                                     <td class="d-flex flex-column"><input type="hidden" id="unitPrice_{{ $key }} "
-                                            value="{{ $item->price }}"><span class="red">Tk {{ $item->price }}</span>
+                                            value="{{ $price }}"><span class="red">Tk {{ $price }}</span>
                                         {{-- <del class="cross">Tk {{$item->price}}</del> --}}
                                     </td>
                                     <td class="font-weight-bold">
-                                        {{ $quantity[$key] * $item->price }}
+                                        {{ $quantity[$key] * $price }}
                                         <div class="close" onclick="delRow({{ $key }})">&times;</div>
 
                                     </td>
@@ -311,8 +313,11 @@
                     data: data,
                     dataType: "json",
                     success: function(response) {
-                        console.log(response);
+                        alert(JSON.stringify(response));
                         paypal.minicart.reset();
+                    },
+                    error: function (error) {
+                        alert(JSON.stringify(error));
                     }
                 });
 
