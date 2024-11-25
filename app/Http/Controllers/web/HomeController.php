@@ -9,11 +9,11 @@ use App\Models\admin\settings\Brand;
 use App\Models\Category;
 use App\Models\admin\sale\Sale;
 use App\Models\admin\sale\SaleItems;
-use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use App\Events\ProductInteracted;
 use App\Models\Rating;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -45,7 +45,7 @@ class HomeController extends Controller
     public function product($id)
     {
         $product = Product::find($id);
-        $userId = 0;
+        $userId = 1;
         ProductInteracted::dispatch($userId, $id, 'view');
         return view('frontend.product', ['product' => $product]);
     }
@@ -137,7 +137,10 @@ class HomeController extends Controller
 
             DB::commit();
 
-            ProductInteracted::dispatch($userId, $productId, 'purchase');
+            if (Auth::guard('customer')->check()) {
+                ProductInteracted::dispatch($userId, $productId, 'purchase');
+            }
+
 
             return response()->json(['message' => 'success'], 200);
         } catch (Exception $e) {
@@ -161,15 +164,43 @@ class HomeController extends Controller
 
         return response()->json(['message' => 'Rating saved successfully']);
     }
-    public function recommendations()  {
+    public function recommendations()
+    {
         // $userId = auth()->id();
-        $userId = 1;
-        $recommendedProducts = Product::whereIn('id', function ($query) use ($userId) {
-            $query->select('product_id')
-                  ->from('recommendations')
-                  ->where('user_id', $userId);
-        })->get();
+      
+        
+        if (Auth::guard('customer')->check()) {
+            $userId = Auth::guard('customer')->check();
+            $recommendedProducts = Product::whereIn('id', function ($query) use ($userId) {
+                $query->select('product_id')
+                    ->from('recommendations')
+                    ->where('user_id', $userId);
+            })->get();
     
-       // return view('partials.recommendations', compact('recommendedProducts'));
+        }else{
+            $recommendedProducts = Product::whereIn('id', function ($query)  {
+                $query->select('product_id')
+                    ->from('recommendations');
+            })->get();
+        }
+      
+        return response()->json(compact('recommendedProducts'));
+       
+    }
+
+    public function setReview(Request $request)
+    {
+        if (Auth::guard('customer')->check()) {
+            $userId = Auth::guard('customer')->id();
+            $product_id = $request->product_id;
+            $ratingNum = $request->review;;
+            $rating = Rating::create([
+                'product_id' => $product_id,
+                'user_id' => $userId,
+                'rating' => $ratingNum,
+            ]);
+            $fached = ProductInteracted::dispatch($userId, $product_id, 'rate');
+        }
+        return response()->json(['status' => $fached]);
     }
 }

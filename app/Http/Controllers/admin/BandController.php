@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\admin\Band;
+use App\Models\Customer;
 
 class BandController extends Controller
 {
@@ -153,5 +154,12 @@ class BandController extends Controller
 
         return redirect()->route('bands.index')
             ->with('success', 'Band deleted successfully.');
+    }
+
+
+    public function bandAssign(){
+        $assignedCustomers = Customer::join('bands', 'bands.id' ,'customers.band_id')
+                             ->select('customers.name','customers.email','customers.type','bands.name as bandName','bands.band_logo','bands.contact_email')->get();
+        return view('admin.band.assign-bands', compact('assignedCustomers'));
     }
 }

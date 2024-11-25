@@ -1,6 +1,5 @@
 @extends('front-master')
 @section('cssSources')
- 
 @endsection
 @section('content')
     <!-- Content Header (Page header) -->
@@ -12,17 +11,23 @@
                     <div class="flexslider">
 
                         <ul class="slides">
-                            <li data-thumb="{{ asset('uploads/images.png') }}">
-                                <div class="thumb-image"> <img src="{{ asset('uploads/images.png') }}" data-imagezoom="true"
-                                        class="img-responsive"> </div>
+                            <li
+                                data-thumb="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif">
+                                <div class="thumb-image"> <img
+                                        src="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
+                                        data-imagezoom="true" class="img-responsive"> </div>
                             </li>
-                            <li data-thumb="{{ asset('uploads/images.png') }}">
-                                <div class="thumb-image"> <img src="{{ asset('uploads/images.png') }}" data-imagezoom="true"
-                                        class="img-responsive"> </div>
+                            <li
+                                data-thumb="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif">
+                                <div class="thumb-image"> <img
+                                        src="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
+                                        data-imagezoom="true" class="img-responsive"> </div>
                             </li>
-                            <li data-thumb="{{ asset('uploads/images.png') }}">
-                                <div class="thumb-image"> <img src="{{ asset('uploads/images.png') }}" data-imagezoom="true"
-                                        class="img-responsive"> </div>
+                            <li
+                                data-thumb="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif">
+                                <div class="thumb-image"> <img
+                                        src="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
+                                        data-imagezoom="true" class="img-responsive"> </div>
                             </li>
                         </ul>
                         <div class="clearfix"></div>
@@ -31,30 +36,33 @@
             </div>
             <div class="col-md-8 single-right-left simpleCart_shelfItem">
                 <h3>{{ $product->name }}</h3>
-                <p><span class="item_price">{{ $product->discount }}</span> <del>- {{ $product->price }}</del></p>
+                <input type="hidden" id="product_id" value="{{ $product->id }}">
+                <p><span class="item_price">$ {{ $product->price }}</span> </p>
                 <div class="rating1">
                     <span class="starRating">
-                        <input id="rating5" type="radio" name="rating" value="5">
+                        <input id="rating5" type="radio" name="rating" value="5" onclick="getReview(5)">
                         <label for="rating5">5</label>
-                        <input id="rating4" type="radio" name="rating" value="4">
+                        <input id="rating4" type="radio" name="rating" value="4" onclick="getReview(4)">
                         <label for="rating4">4</label>
-                        <input id="rating3" type="radio" name="rating" value="3" checked="">
+                        <input id="rating3" type="radio" name="rating" value="3" checked=""
+                            onclick="getReview(3)">
                         <label for="rating3">3</label>
-                        <input id="rating2" type="radio" name="rating" value="2">
+                        <input id="rating2" type="radio" name="rating" value="2" onclick="getReview(2)">
                         <label for="rating2">2</label>
-                        <input id="rating1" type="radio" name="rating" value="1">
+                        <input id="rating1" type="radio" name="rating" value="1" onclick="getReview(1)">
                         <label for="rating1">1</label>
                     </span>
                 </div>
+                <form action="#" class="description" method="post">
+                    {{-- <input type="text" value="Enter pincode" onfocus="this.value = '';"
+                        onblur="if (this.value == '') {this.value = 'Enter pincode';}" required=""> --}}
+                    <input type="button" value="Add Review" onclick="setReview()">
+                </form>
                 <div class="description">
                     <h5>{{ $product->description }}</h5>
-                    <form action="#" method="post">
-                        <input type="text" value="Enter pincode" onfocus="this.value = '';"
-                            onblur="if (this.value == '') {this.value = 'Enter pincode';}" required="">
-                        <input type="submit" value="Check">
-                    </form>
+
                 </div>
-                <div class="color-quality">
+                {{-- <div class="color-quality">
                     <div class="color-quality-right">
                         <h5>Quality :</h5>
                         <select id="country1" onchange="change_country(this.value)" class="frm-field required sect">
@@ -64,8 +72,8 @@
                             <option value="null">10 Qty</option>
                         </select>
                     </div>
-                </div>
-                <div class="occasional">
+                </div> --}}
+                {{-- <div class="occasional">
                     <h5>Types :</h5>
                     <div class="colr ert">
                         <label class="radio"><input type="radio" name="radio" checked=""><i></i>Casual
@@ -78,7 +86,7 @@
                         <label class="radio"><input type="radio" name="radio"><i></i>Formal Shoes</label>
                     </div>
                     <div class="clearfix"> </div>
-                </div>
+                </div> --}}
                 <div class="occasion-cart">
                     <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
                         <form action="#" method="post">
@@ -205,197 +213,62 @@
             <!-- //new_arrivals -->
             <!--/slider_owl-->
 
-            <div class="w3_agile_latest_arrivals">
-                <h3 class="wthree_text_info">Featured <span>Arrivals</span></h3>
-                <div class="col-md-3 product-men single">
-                    <div class="men-pro-item simpleCart_shelfItem">
-                        <div class="men-thumb-item">
-                            <img src="images/w2.jpg" alt="" class="pro-image-front">
-                            <img src="images/w2.jpg" alt="" class="pro-image-back">
-                            <div class="men-cart-pro">
-                                <div class="inner-men-cart-pro">
-                                    <a href="single.html" class="link-product-add-cart">Quick View</a>
-                                </div>
-                            </div>
-                            <span class="product-new-top">New</span>
-
-                        </div>
-                        <div class="item-info-product ">
-                            <h4><a href="single.html">Sleeveless Solid Blue Top</a></h4>
-                            <div class="info-product-price">
-                                <span class="item_price">$140.99</span>
-                                <del>$189.71</del>
-                            </div>
-                            <div
-                                class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
-                                <form action="#" method="post">
-                                    <fieldset>
-                                        <input type="hidden" name="cmd" value="_cart">
-                                        <input type="hidden" name="add" value="1">
-                                        <input type="hidden" name="business" value=" ">
-                                        <input type="hidden" name="item_name" value="Sleeveless Solid Blue Top">
-                                        <input type="hidden" name="amount" value="30.99">
-                                        <input type="hidden" name="discount_amount" value="1.00">
-                                        <input type="hidden" name="currency_code" value="USD">
-                                        <input type="hidden" name="return" value=" ">
-                                        <input type="hidden" name="cancel_return" value=" ">
-                                        <input type="submit" name="submit" value="Add to cart" class="button">
-                                    </fieldset>
-                                </form>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 product-men single">
-                    <div class="men-pro-item simpleCart_shelfItem">
-                        <div class="men-thumb-item">
-                            <img src="images/w4.jpg" alt="" class="pro-image-front">
-                            <img src="images/w4.jpg" alt="" class="pro-image-back">
-                            <div class="men-cart-pro">
-                                <div class="inner-men-cart-pro">
-                                    <a href="single.html" class="link-product-add-cart">Quick View</a>
-                                </div>
-                            </div>
-                            <span class="product-new-top">New</span>
-
-                        </div>
-                        <div class="item-info-product ">
-                            <h4><a href="single.html">Black Basic Shorts</a></h4>
-                            <div class="info-product-price">
-                                <span class="item_price">$120.99</span>
-                                <del>$189.71</del>
-                            </div>
-                            <div
-                                class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
-                                <form action="#" method="post">
-                                    <fieldset>
-                                        <input type="hidden" name="cmd" value="_cart">
-                                        <input type="hidden" name="add" value="1">
-                                        <input type="hidden" name="business" value=" ">
-                                        <input type="hidden" name="item_name" value="Black Basic Shorts">
-                                        <input type="hidden" name="amount" value="30.99">
-                                        <input type="hidden" name="discount_amount" value="1.00">
-                                        <input type="hidden" name="currency_code" value="USD">
-                                        <input type="hidden" name="return" value=" ">
-                                        <input type="hidden" name="cancel_return" value=" ">
-                                        <input type="submit" name="submit" value="Add to cart" class="button">
-                                    </fieldset>
-                                </form>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 product-men single">
-                    <div class="men-pro-item simpleCart_shelfItem">
-                        <div class="men-thumb-item">
-                            <img src="images/s6.jpg" alt="" class="pro-image-front">
-                            <img src="images/s6.jpg" alt="" class="pro-image-back">
-                            <div class="men-cart-pro">
-                                <div class="inner-men-cart-pro">
-                                    <a href="single.html" class="link-product-add-cart">Quick View</a>
-                                </div>
-                            </div>
-                            <span class="product-new-top">New</span>
-
-                        </div>
-                        <div class="item-info-product ">
-                            <h4><a href="single.html">Aero Canvas Loafers </a></h4>
-                            <div class="info-product-price">
-                                <span class="item_price">$120.99</span>
-                                <del>$199.71</del>
-                            </div>
-                            <div
-                                class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
-                                <form action="#" method="post">
-                                    <fieldset>
-                                        <input type="hidden" name="cmd" value="_cart">
-                                        <input type="hidden" name="add" value="1">
-                                        <input type="hidden" name="business" value=" ">
-                                        <input type="hidden" name="item_name" value="Aero Canvas Loafers">
-                                        <input type="hidden" name="amount" value="30.99">
-                                        <input type="hidden" name="discount_amount" value="1.00">
-                                        <input type="hidden" name="currency_code" value="USD">
-                                        <input type="hidden" name="return" value=" ">
-                                        <input type="hidden" name="cancel_return" value=" ">
-                                        <input type="submit" name="submit" value="Add to cart" class="button">
-                                    </fieldset>
-                                </form>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 product-men single">
-                    <div class="men-pro-item simpleCart_shelfItem">
-                        <div class="men-thumb-item">
-                            <img src="{{ asset('uploads/images.png') }}" alt="" class="pro-image-front">
-                            <img src="{{ asset('uploads/images.png') }}" alt="" class="pro-image-back">
-                            <div class="men-cart-pro">
-                                <div class="inner-men-cart-pro">
-                                    <a href="single.html" class="link-product-add-cart">Quick View</a>
-                                </div>
-                            </div>
-                            <span class="product-new-top">New</span>
-
-                        </div>
-                        <div class="item-info-product ">
-                            <h4><a href="single.html">Ankle Length Socks</a></h4>
-                            <div class="info-product-price">
-                                <span class="item_price">$100.99</span>
-                                <del>$159.71</del>
-                            </div>
-                            <div
-                                class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
-                                <form action="#" method="post">
-                                    <fieldset>
-                                        <input type="hidden" name="cmd" value="_cart">
-                                        <input type="hidden" name="add" value="1">
-                                        <input type="hidden" name="business" value=" ">
-                                        <input type="hidden" name="item_name" value="Ankle Length Socks">
-                                        <input type="hidden" name="amount" value="30.99">
-                                        <input type="hidden" name="discount_amount" value="1.00">
-                                        <input type="hidden" name="currency_code" value="USD">
-                                        <input type="hidden" name="return" value=" ">
-                                        <input type="hidden" name="cancel_return" value=" ">
-                                        <input type="submit" name="submit" value="Add to cart" class="button">
-                                    </fieldset>
-                                </form>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="clearfix"> </div>
-                <!--//slider_owl-->
-            </div>
+            <x-frontend.featuredProducts />
         </div>
     </div>
 
     <!-- /.content -->
 @endsection
-@section('jsSources')
-@endsection
 
-@section('scripts')
+
+@section('jsSources')
     <script>
         // Can also be used with $(document).ready()
 
         $(document).ready(function() {
-            
-            	var defaults = {
-            	containerID: 'toTop', // fading element id
-            	containerHoverID: 'toTopHover', // fading element hover id
-            	scrollSpeed: 1200,
-            	easingType: 'linear' 
-            	};
-           
+
+            var defaults = {
+                containerID: 'toTop', // fading element id
+                containerHoverID: 'toTopHover', // fading element hover id
+                scrollSpeed: 1200,
+                easingType: 'linear'
+            };
+
 
             $().UItoTop({
                 easingType: 'easeOutQuart'
             });
 
         });
+
+        var review = 0;
+
+        function getReview(i) {
+            review = i
+        }
+
+        function setReview() {
+            var product_id = $('#product_id').val();
+    
+            $.ajax({
+                type: "POST",
+                url: "{{ url('setReview') }}",
+                data: {
+                    product_id: product_id,
+                    review: review,
+                    _token: "{{ csrf_token() }}",
+                },
+                dataType: "json",
+                success: function(response) {
+                    if(response.status == 'success'){
+                        console.log(JSON.stringify(response));
+                    }
+                    console.log(JSON.stringify(response));
+                },
+                error: function(error) {
+                    alert(JSON.stringify(error));
+                }
+            });
+        }
     </script>
 @endsection

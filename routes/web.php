@@ -21,6 +21,7 @@ Route::get('/womens', [HomeController::class, 'womens']);
 Route::get('/product/{id}', [HomeController::class, 'product'])->name('product');
 
 Route::get('/recommendations', [HomeController::class, 'recommendations']);
+Route::post('/setReview', [HomeController::class, 'setReview'])->name('setReview');
 
 // Route::middleware('auth:web')->group(function () {
  

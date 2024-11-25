@@ -39,6 +39,7 @@ Route::name('sales.')->prefix('sales')->group(function () {
     
 });
 
+Route::get('bands/bandAssign', [BandController::class, 'bandAssign'])->name('bandAssign');
 
 Route::resource('brands', BrandController::class);
 Route::resource('categories', CategoryController::class);

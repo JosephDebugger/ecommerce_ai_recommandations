@@ -28,3 +28,5 @@ class categories extends Component
         return view('components.frontend.categories',$data);
     }
 }
+
+

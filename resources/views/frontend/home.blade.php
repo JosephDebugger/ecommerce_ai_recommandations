@@ -266,13 +266,14 @@
     </div> --}}
     <!--grids-->
     @endsection
-
+    @section('jsSources')
     <script>
         function loadRecommendations() {
     $.ajax({
         url: '/recommendations',
         method: 'GET',
         success: function (data) {
+            //alert(data)
             $('#recommendations').html(data); // Replace the section with new data
         }
     });
@@ -280,5 +281,6 @@
 
 // Trigger loadRecommendations when the user interacts with a product
 loadRecommendations();
-        <script>
+</script>
 
+    @endsection
