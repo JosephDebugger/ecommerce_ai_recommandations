@@ -27,10 +27,21 @@
             <li class="btn btn-default"><a href="{{ url('customer/register') }}" >
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Sign Up </a>
             </li>
+            <li>
+                @if (auth('customer')->check())
+    <p>Welcome, {{ auth('customer')->user()->name }}!</p>
+    <li><a class="dropdown-item" href="#"><form action="{{ route('customer.logout') }}"
+        method="post">
+        @csrf
+        @method('POST')
+        <button type="submit"
+            class="btn btn-default btn-sm">Logout</button>
+    </form></a></li>
+@else
+    <p>Please <a href="{{ route('customer.login') }}">log in</a> to access your account.</p>
+@endif
+            </li>
             </ul>
-
-
-
         </div>
         <div class="clearfix"></div>
     </div>

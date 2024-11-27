@@ -14,7 +14,7 @@ Route::get('/', function () {
 //})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/', [HomeController::class, 'home'])->name('home');;
-Route::get('/about', [HomeController::class, 'about']);
+// Route::get('/about', [HomeController::class, 'about']);
 Route::get('/contact', [HomeController::class, 'contact']);
 Route::get('/mens', [HomeController::class, 'mens']);
 Route::get('/womens', [HomeController::class, 'womens']);
@@ -22,6 +22,12 @@ Route::get('/product/{id}', [HomeController::class, 'product'])->name('product')
 
 Route::get('/recommendations', [HomeController::class, 'recommendations']);
 Route::post('/setReview', [HomeController::class, 'setReview'])->name('setReview');
+
+Route::middleware('customer')->group(function () {
+    Route::get('/about', [HomeController::class, 'about']);
+});
+
+
 
 // Route::middleware('auth:web')->group(function () {
  

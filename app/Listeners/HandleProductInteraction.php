@@ -27,12 +27,15 @@ class HandleProductInteraction
         $action = $event->action;
 
         Log::info("User $userId performed $action on product $productId");
-        $command = escapeshellcmd("python /PyScripts/recommendation_script.py $userId $productId $action");
-        $output = shell_exec($command); // Execute the script
+        $command = escapeshellcmd("C:/Python312/python.exe /PyScripts/recommendation_script.py $userId $productId $action");
+        $output = shell_exec($command . " 2>&1"); // Execute the script
         if ($output === null) {
-            Log::error("Python script failed to execute. No output received.");
+            $errorMessage = "Python script failed to execute. No output received.";
+            Log::error($errorMessage);
+            echo $errorMessage;
         } else {
-            Log::info("Python script executed successfully. Output: " . $output);
+            Log::info("Python script executed. Output/Error: " . $output);
+            echo $output;
         }
     }
 }
