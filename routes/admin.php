@@ -40,6 +40,9 @@ Route::name('sales.')->prefix('sales')->group(function () {
 });
 
 Route::get('bands/bandAssign', [BandController::class, 'bandAssign'])->name('bandAssign');
+Route::post('bands/bandAssignStore', [BandController::class, 'bandAssignStore'])->name('bandAssignStore');
+Route::get('bands/editAssignedCustomer/{id}', [BandController::class, 'editAssignedCustomer'])->name('editAssignedCustomer');
+Route::post('bands/UpdateAssignedCustomer', [BandController::class, 'UpdateAssignedCustomer'])->name('UpdateAssignedCustomer');
 
 Route::resource('brands', BrandController::class);
 Route::resource('categories', CategoryController::class);
