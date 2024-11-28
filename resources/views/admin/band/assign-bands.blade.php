@@ -24,14 +24,13 @@
 
     <!-- Main content -->
     <section class="content">
+
         <div class="container-fluid">
            
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Assign New</button>
-                        </div>
+                       
 
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -42,6 +41,76 @@
                                             aria-label="Close"></button>
                                 </div>
                             @endif
+
+
+
+                            <form action="{!! url('bands/bandAssignStore') !!}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputEmail4">Choose Customer</label>
+                                        <select type="text" class="form-control @error('customer') is-invalid @enderror" value="{{ old('customer') }}"
+                                            name="customer" id="customer" placeholder="customer">
+                                            <option value="">Select Customer   </option>
+                                                @foreach ($customers as $customer)
+                                                <option value="{{$customer->id}}"> {{$customer->name}}  </option>
+                                                @endforeach
+                                         
+                                        </select>
+                                        @error('customer')
+                                            <div class="form-text text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                </div>
+                                <div class="form-group col-md-6">
+                                
+                                    <label for="band">Choose Band</label>
+                                    <select  class="form-control @error('band') is-invalid @enderror" value="{{ old('band') }}"
+                                        name="band" id="band" placeholder="band">
+                                        <option value="">Select band   </option>
+                                            @foreach ($bands as $band)
+                                            <option value="{{$band->id}}"> {{$band->name}}  </option>
+                                            @endforeach
+                                     
+                                    </select>
+                                    @error('band')
+                                        <div class="form-text text-danger">{{ $message }}</div>
+                                    @enderror
+                                  
+                                </div>
+                              
+                                
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                          
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix">
+                         
+                        </div>
+                    </div>
+                    <!-- /.card -->
+
+                </div>
+                <!-- /.col -->
+
+            </div>
+
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+
+
+        <div class="container-fluid">
+           
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                      
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                          
                             <table class="table table-bordered">
                                 <thead class="thead-dark">
                                     <tr>
@@ -71,15 +140,8 @@
                                                     </button>
                                                     <ul class="dropdown-menu">
                                                       <li>
-                                                        <a class="dropdown-item" href="{{ route('bands.edit', $band->id) }}">Edit</a>
-                                                        <a class="dropdown-item" href="#">
-                                                            <form action="{{ route('bands.destroy', $band->id) }}"
-                                                                method="post">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit"
-                                                                    class="btn btn-danger btn-sm">Delete</button>
-                                                            </form></a></li>
+                                                        <a class="dropdown-item" href="{{ url('admin/bands/editAssignedCustomer/'.$assignedCustomer->id) }}">Edit</a>
+                                                       </li>
                                                    
                                                     </ul>
                                                   </div>
@@ -92,13 +154,14 @@
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer clearfix">
-                            <ul class="pagination pagination-sm m-0 float-right">
+                              {{ $assignedCustomers->links() }}
+                            {{-- <ul class="pagination pagination-sm m-0 float-right">
                                 <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
                                 <li class="page-item"><a class="page-link" href="#">1</a></li>
                                 <li class="page-item"><a class="page-link" href="#">2</a></li>
                                 <li class="page-item"><a class="page-link" href="#">3</a></li>
                                 <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                            </ul>
+                            </ul> --}}
                         </div>
                     </div>
                     <!-- /.card -->
