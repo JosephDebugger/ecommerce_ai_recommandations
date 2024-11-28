@@ -162,4 +162,38 @@ class BandController extends Controller
                              ->select('customers.name','customers.email','customers.type','bands.name as bandName','bands.band_logo','bands.contact_email')->get();
         return view('admin.band.assign-bands', compact('assignedCustomers'));
     }
+
+    
+    public function bandAssignStore(Request $request)
+    {
+        $validatedData = $request->validate([
+            'customer' => [
+                'required',
+            ],
+            'band' => [
+                'required',
+            ],
+        ]);
+
+        $customer =  Customer::find($request->customer);
+        $customer->band_id = $request->band;
+        $customer->save();
+        return redirect()->route('bandAssign')
+            ->with('success', 'Band member successfully assigned.');
+    }
+    public function editAssignedCustomer($id)
+    {
+        $bands = Band::latest()->get();
+        $customer =  Customer::find($id);
+        return view('admin.band.editAssigned-band', ['customer'=> $customer, 'bands'=> $bands]);
+    }
+
+    public function  UpdateAssignedCustomer(Request $request)
+    {
+        $customer =  Customer::find($request->customer);
+        $customer->band_id = $request->band;
+        $customer->save();
+        return redirect()->route('bandAssign')
+            ->with('success', 'Band member successfully Edited.');
+    }
 }
