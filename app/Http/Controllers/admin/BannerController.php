@@ -48,7 +48,17 @@ class BannerController extends Controller
             ],
         ]);
 
+        if ($request->file_name != null) {
+            $imageName = time() . '.' . $request->band_cover->extension();
+            $request->file_name->move(public_path('uploads/banners/'), $imageName);
+            $imagePath = 'uploads/banners/' . $imageName;
+            $validatedData['file_name'] = $imagePath;
+        } else {
+            $imagePath = 'uploads/images.png';
+        }
+
         Banner::create($validatedData);
+        
 
         return redirect()->route('banners.index')
             ->with('success', 'Banner created successfully.');

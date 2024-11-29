@@ -602,6 +602,7 @@ color: #a2a6af
   position: relative;
   font-size: 16px;
   line-height: 20px;
+  border-bottom: 1px solid rgb(209, 204, 204); 
   
   
 }
@@ -639,26 +640,11 @@ strong { color: #292929; }
                     <ol class="sales-list alternating-colors">
                         @foreach($sales as $sale)
                       <li>
-                        <strong>{{$sale->}}</strong>
-                        <p>Fight aliens, wear a head crab, learn about gravity</p>
+                        <strong>{{$sale->product_name}}, Date: {{$sale->sale_date}}</strong>
+                        <p>Quantity: {{$sale->quantity}}, Price: {{$sale->total_price}}</p>
                       </li>
                       @endforeach
-                      <li>
-                        <strong>Halo: Combat Evolved</strong>
-                        <p>Fight aliens, wear an AI, learn about screen peeking siblings</p>
-                      </li>
-                      <li>
-                        <strong>Team Fortress 2</strong>
-                        <p>Fight non-alien residents, wear hats, learn about teamwork</p>
-                      </li>
-                      <li>
-                        <strong>Tribes</strong>
-                        <p>Ski, slip, and slide your way to victory</p>
-                      </li>
-                      <li>
-                        <strong>Tribes</strong>
-                        <p>Ski, slip, and slide your way to victory</p>
-                      </li>
+                      
                     </ol>
                 </div>
             </div>

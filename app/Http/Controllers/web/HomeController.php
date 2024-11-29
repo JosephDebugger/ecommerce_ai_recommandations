@@ -34,14 +34,39 @@ class HomeController extends Controller
     {
         return view('frontend.contact');
     }
-    public function mens()
+    
+    public function categorized($gender, $category)
     {
-        return view('frontend.mens');
+        if($category == 0){
+            $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')
+            ->where('products.status', 'Active')
+            ->where('products.cloth_for', $gender)   
+            ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image',)
+            ->orderBy('id', 'desc')->get();
+        }else{
+            $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')
+            ->where('products.status', 'Active')
+            ->where('products.cloth_for', $gender)
+            ->where('products.category_id', $category)
+            ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image',)
+            ->orderBy('id', 'desc')->get();
+        }
+       
+        return view('frontend.'.$gender,['products' =>  $data['products']]);
     }
-    public function womens()
+    public function bandProducts($id)
     {
-        return view('frontend.womens');
+     
+            $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')
+            ->where('products.status', 'Active')
+            ->where('products.band_id', $id)   
+            ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image',)
+            ->orderBy('id', 'desc')->get();
+        
+       
+        return view('frontend.bandProducts',['products' =>  $data['products']]);
     }
+    
     public function product($id)
     {
         $product = Product::find($id);

@@ -68,6 +68,25 @@ class BandController extends Controller
             ]
         ]);
 
+        if ($request->band_logo != null) {
+            $imageName = time() . '.' . $request->band_logo->extension();
+            $request->band_logo->move(public_path('uploads/bands/'), $imageName);
+            $imagePath = 'uploads/bands/' . $imageName;
+            $validatedData['band_logo'] = $imagePath;
+        } else {
+            $imagePath = 'uploads/images.png';
+        }
+        
+        if ($request->band_cover != null) {
+            $imageName = time() . '.' . $request->band_cover->extension();
+            $request->band_cover->move(public_path('uploads/bands/'), $imageName);
+            $imagePath = 'uploads/bands/' . $imageName;
+            $validatedData['band_cover'] = $imagePath;
+        } else {
+            $imagePath = 'uploads/images.png';
+        }
+
+
         Band::create($validatedData);
 
         return redirect()->route('bands.index')
@@ -137,6 +156,25 @@ class BandController extends Controller
                 'required'
             ],
         ]);
+
+        if ($request->band_logo != null) {
+            $imageName = time() . '.' . $request->band_logo->extension();
+            $request->band_logo->move(public_path('uploads/bands/'), $imageName);
+            $imagePath = 'uploads/bands/' . $imageName;
+            $validatedData['band_logo'] = $imagePath;
+        } else {
+            $imagePath = 'uploads/images.png';
+        }
+        if ($request->band_cover != null) {
+            $imageName = time() . '.' . $request->band_cover->extension();
+            $request->band_cover->move(public_path('uploads/bands/'), $imageName);
+            $imagePath = 'uploads/bands/' . $imageName;
+            $validatedData['band_cover'] = $imagePath;
+        } else {
+            $imagePath = 'uploads/images.png';
+        }
+
+
         $band = Band::find($id);
         $band->update($validatedData);
 

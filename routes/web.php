@@ -14,22 +14,27 @@ Route::get('/', function () {
 //})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/', [HomeController::class, 'home'])->name('home');;
-// Route::get('/about', [HomeController::class, 'about']);
+Route::get('/about', [HomeController::class, 'about']);
 Route::get('/contact', [HomeController::class, 'contact']);
-Route::get('/mens', [HomeController::class, 'mens']);
-Route::get('/womens', [HomeController::class, 'womens']);
+Route::get('/{gender}/{category}', [HomeController::class, 'categorized']);
+Route::get('/band/{id}', [HomeController::class, 'bandProducts']);
+
+// Route::get('/mens', [HomeController::class, 'mens']);
+// Route::get('/womens', [HomeController::class, 'womens']);
 Route::get('/product/{id}', [HomeController::class, 'product'])->name('product');
 
 Route::get('/recommendations', [HomeController::class, 'recommendations']);
 Route::post('/setReview', [HomeController::class, 'setReview'])->name('setReview');
 
 Route::middleware('customer')->group(function () {
-    Route::get('/about', [HomeController::class, 'about']);
+    Route::get('/account_home', [AccountController::class, 'accountHome']);
+    Route::get('/account_bill_info', [AccountController::class, 'accountBillInfo']);
+    Route::get('/account_sales', [AccountController::class, 'accountBandSale']);
+    Route::get('/account_orders', [AccountController::class, 'accountCustomerSalesOrder']);
+    Route::get('/account_band_profile', [AccountController::class, 'accountBandProfile']);
 });
 
-Route::get('/account_home', [AccountController::class, 'accountHome']);
-Route::get('/account_bill_info', [AccountController::class, 'accountBillInfo']);
-Route::get('/account_sales', [AccountController::class, 'accountBandSell']);
+
 
 // Route::middleware('auth:web')->group(function () {
  
