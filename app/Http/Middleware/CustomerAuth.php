@@ -17,6 +17,7 @@ class CustomerAuth
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::guard('customer')->check()) {
+            session()->put('url.intended', $request->fullUrl());
             return redirect('/customer/login');
         }
         return $next($request);

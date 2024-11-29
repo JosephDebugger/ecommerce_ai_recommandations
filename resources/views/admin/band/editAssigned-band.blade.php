@@ -41,13 +41,19 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputEmail4">Choose Customer</label>
-                                        <select type="text" class="form-control @error('customer') is-invalid @enderror" value="{{ old('customer') }}"
-                                            name="customer" id="customer" placeholder="customer">
-                                            <option value="">Select Customer   </option>
-                                                @foreach ($customers as $customer)
-                                                <option value="{{$customer->id}}"> {{$customer->name}}  </option>
-                                                @endforeach
-                                         
+                                        <select type="text" class="form-control @error('customer') is-invalid @enderror"
+                                            value="{{ old('customer') }}" name="customer" id="customer"
+                                            placeholder="customer">
+                                            <option value="">Select Customer </option>
+                                            @foreach ($customers as $customer)
+                                                @if ($customerInfo->id == $customer->id)
+                                                    <option value="{{ $customer->id }}" selected> {{ $customer->name }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $customer->id }}"> {{ $customer->name }} </option>
+                                                @endif
+                                            @endforeach
+
                                         </select>
                                         @error('customer')
                                             <div class="form-text text-danger">{{ $message }}</div>
@@ -56,23 +62,27 @@
 
                                 </div>
                                 <div class="form-group col-md-6">
-                                
+
                                     <label for="band">Choose Band</label>
-                                    <select  class="form-control @error('band') is-invalid @enderror" value="{{ old('band') }}"
-                                        name="band" id="band" placeholder="band">
-                                        <option value="">Select band   </option>
-                                            @foreach ($bands as $band)
-                                            <option value="{{$band->id}}"> {{$band->name}}  </option>
-                                            @endforeach
-                                     
+                                    <select class="form-control @error('band') is-invalid @enderror"
+                                        value="{{ old('band') }}" name="band" id="band" placeholder="band">
+                                        <option value="">Select band </option>
+                                        @foreach ($bands as $band)
+                                            @if ($customerInfo->band_id == $band->id)
+                                                <option value="{{ $band->id }}" selected> {{ $band->name }} </option>
+                                            @else
+                                                <option value="{{ $band->id }}"> {{ $band->name }} </option>
+                                            @endif
+                                        @endforeach
+
                                     </select>
                                     @error('band')
                                         <div class="form-text text-danger">{{ $message }}</div>
                                     @enderror
-                                  
+
                                 </div>
-                              
-                                
+
+
                                 <button type="submit" class="btn btn-primary">Update</button>
                             </form>
                         </div>

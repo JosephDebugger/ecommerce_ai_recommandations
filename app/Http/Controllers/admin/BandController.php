@@ -158,9 +158,11 @@ class BandController extends Controller
 
 
     public function bandAssign(){
+        $bands = Band::latest()->get();
+        $customers =  Customer::latest()->get();
         $assignedCustomers = Customer::join('bands', 'bands.id' ,'customers.band_id')
-                             ->select('customers.name','customers.email','customers.type','bands.name as bandName','bands.band_logo','bands.contact_email')->get();
-        return view('admin.band.assign-bands', compact('assignedCustomers'));
+                             ->select('customers.id','customers.name','customers.email','customers.type','bands.name as bandName','bands.band_logo','bands.contact_email')->paginate();
+        return view('admin.band.assign-bands', ['assignedCustomers'=>$assignedCustomers,'customers'=>$customers,'bands'=>$bands]);
     }
 
     
@@ -177,6 +179,7 @@ class BandController extends Controller
 
         $customer =  Customer::find($request->customer);
         $customer->band_id = $request->band;
+        $customer->type = 'band';
         $customer->save();
         return redirect()->route('bandAssign')
             ->with('success', 'Band member successfully assigned.');
@@ -184,8 +187,9 @@ class BandController extends Controller
     public function editAssignedCustomer($id)
     {
         $bands = Band::latest()->get();
-        $customer =  Customer::find($id);
-        return view('admin.band.editAssigned-band', ['customer'=> $customer, 'bands'=> $bands]);
+        $customerInfo =  Customer::select('band_id', 'id')->find($id);
+        $customers =  Customer::latest()->get();
+        return view('admin.band.editAssigned-band', ['customers'=> $customers, 'bands'=> $bands,'customerInfo'=> $customerInfo]);
     }
 
     public function  UpdateAssignedCustomer(Request $request)

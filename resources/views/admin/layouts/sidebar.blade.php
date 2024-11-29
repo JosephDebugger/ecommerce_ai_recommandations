@@ -38,7 +38,7 @@
 
 
                   <li class="nav-item">
-                      <a href="#" class="nav-link">
+                      <a href="#" class="nav-link" aria-current="page" data-toggle="collapse">
                           <i class="nav-icon fas fa-copy"></i>
                           <p>
                               Inventory
@@ -46,7 +46,7 @@
                               {{-- <span class="badge badge-info right">6</span> --}}
                           </p>
                       </a>
-                      <ul class="nav nav-treeview">
+                      <ul class="nav nav-treeview collapse ">
                           <li class="nav-item">
                               <a href="{{ url('inventory/products') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>

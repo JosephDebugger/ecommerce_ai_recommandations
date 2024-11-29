@@ -140,7 +140,7 @@
                                                     </button>
                                                     <ul class="dropdown-menu">
                                                       <li>
-                                                        <a class="dropdown-item" href="{{ url('admin/bands/editAssignedCustomer/'.$assignedCustomer->id) }}">Edit</a>
+                                                        <a class="dropdown-item" href="{{ route("editAssignedCustomer" , ['id'=> $assignedCustomer->id]) }}">Edit</a>
                                                        </li>
                                                    
                                                     </ul>

@@ -203,4 +203,6 @@ class HomeController extends Controller
         }
         return response()->json(['status' => $fached]);
     }
+    
+    
 }

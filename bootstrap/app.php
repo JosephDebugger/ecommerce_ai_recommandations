@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Auth\AuthenticationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CustomerAuth;
 
@@ -38,4 +39,24 @@ return Application::configure(basePath: dirname(__DIR__))
                 ['Location' => $redirectUrl]
             );
         });
+
+        // $exceptions->map(AuthenticationException::class, function (AuthenticationException $exception) {
+        //     $guard = $exception->guards()[0] ?? 'web';
+
+        //     // Handle unauthenticated access based on guard
+        //     $redirectUrl = match ($guard) {
+        //         'customer' => route('customer.login'),
+        //         default => route('login'),
+        //     };
+
+        //     // Allow logout requests to proceed without redirecting
+        //     if (request()->routeIs('logout') || request()->is('logout')) {
+        //         throw new HttpException(401, 'Unauthenticated');
+        //     }
+
+        //     // Redirect for other unauthenticated cases
+        //     return request()->expectsJson()
+        //         ? response()->json(['message' => 'Unauthenticated.'], 401)
+        //         : redirect()->guest($redirectUrl);
+        // });
     })->create();

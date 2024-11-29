@@ -22,24 +22,24 @@
                         data-target="#myModal2"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Sign Up </a>
                 </li> --}}
 
+            <li>
+                @if (auth('customer')->check())
+                    <p>Welcome, {{ auth('customer')->user()->name }}!</p>
+                    <li><a class="dropdown-item" href="#"><form action="{{ route('customer.logout') }}"
+                        method="post">
+                        @csrf
+                        @method('POST')
+                        <button type="submit"
+                            class="btn btn-default btn-sm">Logout</button>
+                    </form></a></li>
+                @else
+                    
                 <li class="btn btn-default ml-2"><a href="{{ url('customer/login') }}">
                     <i class="fa fa-unlock-alt" aria-hidden="true"></i> Sign In </a></li>
             <li class="btn btn-default"><a href="{{ url('customer/register') }}" >
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Sign Up </a>
             </li>
-            <li>
-                @if (auth('customer')->check())
-    <p>Welcome, {{ auth('customer')->user()->name }}!</p>
-    <li><a class="dropdown-item" href="#"><form action="{{ route('customer.logout') }}"
-        method="post">
-        @csrf
-        @method('POST')
-        <button type="submit"
-            class="btn btn-default btn-sm">Logout</button>
-    </form></a></li>
-@else
-    <p>Please <a href="{{ route('customer.login') }}">log in</a> to access your account.</p>
-@endif
+                @endif
             </li>
             </ul>
         </div>
@@ -74,6 +74,10 @@
 
                             <li class=" menu__item"><a class="menu__link" href="{{ url('/contact') }}">Contact</a>
                             </li>
+                            @if (auth('customer')->check())
+                            <li class=" menu__item"><a class="menu__link" href="{{ url('/account_home') }}">Account</a>
+                            </li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -81,7 +85,7 @@
         </div>
         <div class="top_nav_right">
             <div class="wthreecartaits wthreecartaits2 cart cart box_1">
-                <form action="#" method="post" class="last">
+                <form action="" method="post" class="last">
                     <input type="hidden" name="cmd" value="_cart">
                     <input type="hidden" name="display" value="1">
                     <button class="w3view-cart" type="submit" name="submit" value=""><i

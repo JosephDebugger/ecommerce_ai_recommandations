@@ -3,7 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\web\HomeController;
-
+use App\Http\Controllers\web\AccountController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,7 +27,9 @@ Route::middleware('customer')->group(function () {
     Route::get('/about', [HomeController::class, 'about']);
 });
 
-
+Route::get('/account_home', [AccountController::class, 'accountHome']);
+Route::get('/account_bill_info', [AccountController::class, 'accountBillInfo']);
+Route::get('/account_sales', [AccountController::class, 'accountBandSell']);
 
 // Route::middleware('auth:web')->group(function () {
  
