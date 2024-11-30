@@ -42,14 +42,14 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="checkRadio" value="male"
+                                            <input class="form-check-input" type="radio" name="checkRadio" onclick="loadCategory('male')" value="male"
                                                 id="male" checked>
                                             <label class="form-check-label" for="male">
                                                 Male
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="checkRadio" value="female"
+                                            <input class="form-check-input" type="radio" name="checkRadio" onclick="loadCategory('female')" value="female"
                                                 id="female">
                                             <label class="form-check-label" for="female">
                                                 Female
@@ -57,7 +57,7 @@
                                         </div>
                                         
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
                                         <label for="inputEmail4">Product Name</label>
                                         <input type="text" class="form-control @error('name') is-invalid @enderror"
                                             name="name" id="name" placeholder="Product Name"
@@ -66,7 +66,7 @@
                                             <div class="form-text text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-4">
                                         <label for="price">Price <small>(Tk)</small></label>
                                         <input type="number" class="form-control @error('price') is-invalid @enderror"
                                             name="price" id="price" placeholder="Price" value="{{ old('price') }}">
@@ -75,20 +75,21 @@
                                             <div class="form-text text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="stock">Opening Stock</label>
-                                        <input type="number" class="form-control @error('stock') is-invalid @enderror"
-                                            name="stock" id="stock" placeholder="Opening Stock"
-                                            value="{{ old('stock') }}">
-
-                                        @error('stock')
-                                            <div class="form-text text-danger">{{ $message }}</div>
-                                        @enderror
+                                    <div class="form-group col-md-4">
+                                        <label for="band">Assign to Band <small>(If the product will assign for band)</small></label>
+                                        <select id="band" name="band" class="form-control"
+                                            value="{{ old('band') }}" >
+                                            <option value="">~~ Choose band ~~</option>
+                                            @foreach ($bands as $band)
+                                                <option value="{{ $band->id }}">{{ $band->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
+                                   
                                 </div>
                                 <div class="form-group row">
                                     <div class="form-group col-md-4">
-                                        <label for="inputState">Brand</label>
+                                        <label for="brand">Brand</label>
                                         <select id="brand" name="brand" class="form-control"
                                             value="{{ old('brand') }}">
 
@@ -99,7 +100,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label for="inputState">Category</label>
+                                        <label for="category">Category</label>
                                         <select id="category" name="category" class="form-control"
                                             value="{{ old('category') }}" onchange="getSubCategory()">
                                             <option value="">~~ Choose Category ~~</option>
@@ -109,16 +110,16 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label for="inputState">Sub Category</label>
+                                        <label for="sub_category">Sub Category</label>
                                         <select id="sub_category" name="sub_category" class="form-control"
                                             value="{{ old('sub_category') }}">
-                                            <option>~~ Choose Sub Category ~~</option>
+                                            <option value="" selected>~~ Choose Sub Category ~~</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputAddress">Description</label>
-                                    <textarea type="text" class="form-control" name="description" name="description" id="inputAddress"
+                                    <label for="description">Description</label>
+                                    <textarea type="text" class="form-control" name="description"  id="description"
                                         placeholder="Description"></textarea>
                                     @error('description')
                                         <div class="form-text text-danger">{{ $message }}</div>
@@ -132,7 +133,17 @@
                                     @enderror
                                 </div>
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
+                                        <label for="stock">Opening Stock</label>
+                                        <input type="number" class="form-control @error('stock') is-invalid @enderror"
+                                            name="stock" id="stock" placeholder="Opening Stock"
+                                            value="{{ old('stock') }}">
+
+                                        @error('stock')
+                                            <div class="form-text text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group col-md-4">
                                         <label for="discount">Discount Price <small>(Tk)</small></label>
                                         <input type="text" class="form-control @error('name') is-invalid @enderror"
                                             name="discount" id="discount" placeholder="Discount Price">
@@ -143,7 +154,7 @@
                                     <div class="form-group col-md-4">
                                         <label for="inputState">Status</label>
                                         <select id="status" name="status" class="form-control"
-                                            alue="{{ old('status') }}">
+                                            value="{{ old('status') }}">
 
                                             <option selected>Active</option>
                                             <option>Inactive</option>
@@ -201,6 +212,24 @@
 @endsection
 @section('scripts')
     <script>
+
+        function loadCategory(gender){
+           // var gender = $('checkRadio').val();
+            if(gender ==''){
+                $('#sub_category').html($('<option>', {
+                                value: ''
+                            }).text('~~ Select Sub Catewgory ~~'));
+            }
+            $.get("get_categories/" + gender, function(data) {
+                $("#category").html('');
+                data.forEach((value, key) => {
+                    $('#category').append($('<option>', {
+                                value: value.id
+                            }).text(value.name));
+                });
+            });
+        }
+
         function getSubCategory() {
             var category = $('#category').val();
             if(category ==''){

@@ -698,7 +698,8 @@ color: #a2a6af
                 </div>
                 <div class="content-panel">
                     <h2 class="title">Profile<span class="pro-label label label-warning">PRO</span></h2>
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" action="{{ route('account_update_profile')}}" method="POST">
+                        @csrf
                         <fieldset class="fieldset">
                             <h3 class="fieldset-title">Personal Info</h3>
                             <div class="form-group avatar">
@@ -711,6 +712,7 @@ color: #a2a6af
                                 </div>
                             </div>
                             <div class="form-group">
+                                <input type="hidden" id="user_id" name="user_id" value="{{$customerInfo->id}}">
                                 <label class="col-md-2 col-sm-3 col-xs-12 control-label">User Name</label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
                                     <input type="text" class="form-control" value="{{ $customerInfo->name}}">
@@ -720,7 +722,7 @@ color: #a2a6af
                             <div class="form-group">
                                 <label class="col-md-2 col-sm-3 col-xs-12 control-label">Full Name</label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input type="text" class="form-control"  value="{{ $customerInfo->name}}">
+                                    <input type="text" class="form-control"  name="name" value="{{ $customerInfo->name}}">
                                 </div>
                             </div>
                             
@@ -730,14 +732,14 @@ color: #a2a6af
                             <div class="form-group">
                                 <label class="col-md-2  col-sm-3 col-xs-12 control-label">Email</label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input type="email" class="form-control" value="{{ $customerInfo->email}}">
+                                    <input type="email" name="email" class="form-control" value="{{ $customerInfo->email}}">
                                     <p class="help-block">This is the email </p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-2  col-sm-3 col-xs-12 control-label">Address</label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input type="text" class="form-control"  value="{{ $customerInfo->address}}">
+                                    <input type="text" name="address" class="form-control"  value="{{ $customerInfo->address}}">
                                     <p class="help-block"></p>
                                 </div>
                                 
@@ -745,7 +747,7 @@ color: #a2a6af
                             <div class="form-group">
                                 <label class="col-md-2  col-sm-3 col-xs-12 control-label">State</label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input type="text" class="form-control"  value="{{ $customerInfo->state}}">
+                                    <input type="text" name="state" class="form-control"  value="{{ $customerInfo->state}}">
                                     <p class="help-block"></p>
                                 </div>
                                 
@@ -753,7 +755,7 @@ color: #a2a6af
                             <div class="form-group">
                                 <label class="col-md-2  col-sm-3 col-xs-12 control-label">City</label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input type="text" class="form-control" value="{{ $customerInfo->city}}">
+                                    <input type="text" name="city" class="form-control" value="{{ $customerInfo->city}}">
                                     <p class="help-block"></p>
                                 </div>
                                 

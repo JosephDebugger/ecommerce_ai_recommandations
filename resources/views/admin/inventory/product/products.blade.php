@@ -25,15 +25,15 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <a href="{{ url('inventory/view-addProduct') }}"><button class="btn btn-primary">
-                    Add Product
-                </button></a>
+          
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <div class="row">
-                                <h3 class="card-title ">Product List</h3>
+                            <div class="row d-flex">
+                                <a href="{{ url('inventory/view-addProduct') }}"><button class="btn btn-primary">
+                                    Add Product
+                                </button></a>
                                 <div class="">
                                     <div id="daterange" class="float-end"
                                         style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; text-align: center;">

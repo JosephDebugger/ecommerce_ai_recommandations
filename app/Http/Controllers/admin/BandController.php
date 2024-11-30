@@ -72,7 +72,7 @@ class BandController extends Controller
             $imageName = time() . '.' . $request->band_logo->extension();
             $request->band_logo->move(public_path('uploads/bands/'), $imageName);
             $imagePath = 'uploads/bands/' . $imageName;
-            $validatedData['band_logo'] = $imagePath;
+            $band_logo = $imagePath;
         } else {
             $imagePath = 'uploads/images.png';
         }
@@ -81,13 +81,22 @@ class BandController extends Controller
             $imageName = time() . '.' . $request->band_cover->extension();
             $request->band_cover->move(public_path('uploads/bands/'), $imageName);
             $imagePath = 'uploads/bands/' . $imageName;
-            $validatedData['band_cover'] = $imagePath;
+            $band_cover = $imagePath;
         } else {
             $imagePath = 'uploads/images.png';
         }
 
 
-        Band::create($validatedData);
+        //Band::create($validatedData);
+        $band = new Band;
+        $band->name = $request->input('name');
+        $band->details = $request->input('details');
+        $band->contact_email = $request->input('contact_email');
+        $band->contact_phone = $request->input('contact_phone');
+        $band->band_logo = $band_logo;
+        $band->band_cover = $band_cover;
+        $band->save();
+
 
         return redirect()->route('bands.index')
             ->with('success', 'Band created successfully.');
@@ -158,25 +167,32 @@ class BandController extends Controller
         ]);
 
         if ($request->band_logo != null) {
-            $imageName = time() . '.' . $request->band_logo->extension();
-            $request->band_logo->move(public_path('uploads/bands/'), $imageName);
-            $imagePath = 'uploads/bands/' . $imageName;
-            $validatedData['band_logo'] = $imagePath;
+            $logoImageName = time() . '_logo.' . $request->band_logo->extension();
+            $request->band_logo->move(public_path('uploads/bands/'), $logoImageName);
+            $band_logo = 'uploads/bands/' . $logoImageName;
         } else {
-            $imagePath = 'uploads/images.png';
+            $band_logo = 'uploads/images.png'; // Default image for band_logo
         }
+        
         if ($request->band_cover != null) {
-            $imageName = time() . '.' . $request->band_cover->extension();
-            $request->band_cover->move(public_path('uploads/bands/'), $imageName);
-            $imagePath = 'uploads/bands/' . $imageName;
-            $validatedData['band_cover'] = $imagePath;
+            $coverImageName = time() . '_cover.' . $request->band_cover->extension();
+            $request->band_cover->move(public_path('uploads/bands/'), $coverImageName);
+            $band_cover = 'uploads/bands/' . $coverImageName;
         } else {
-            $imagePath = 'uploads/images.png';
+            $band_cover = 'uploads/images.png'; // Default image for band_cover
         }
 
 
         $band = Band::find($id);
-        $band->update($validatedData);
+     
+        $band->name = $request->input('name');
+        $band->details = $request->input('details');
+        $band->contact_email = $request->input('contact_email');
+        $band->contact_phone = $request->input('contact_phone');
+        $band->band_logo = $band_logo;
+        $band->band_cover = $band_cover;
+        $band->update();
+
 
         return redirect()->route('bands.index')
             ->with('success', 'Band Updated successfully.');

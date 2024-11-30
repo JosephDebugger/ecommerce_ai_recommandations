@@ -16,11 +16,9 @@ Route::get('/', function () {
 Route::get('/', [HomeController::class, 'home'])->name('home');;
 Route::get('/about', [HomeController::class, 'about']);
 Route::get('/contact', [HomeController::class, 'contact']);
-Route::get('/{gender}/{category}', [HomeController::class, 'categorized']);
+Route::get('/category/{gender}/{category}', [HomeController::class, 'categorized']);
 Route::get('/band/{id}', [HomeController::class, 'bandProducts']);
 
-// Route::get('/mens', [HomeController::class, 'mens']);
-// Route::get('/womens', [HomeController::class, 'womens']);
 Route::get('/product/{id}', [HomeController::class, 'product'])->name('product');
 
 Route::get('/recommendations', [HomeController::class, 'recommendations']);
@@ -32,6 +30,8 @@ Route::middleware('customer')->group(function () {
     Route::get('/account_sales', [AccountController::class, 'accountBandSale']);
     Route::get('/account_orders', [AccountController::class, 'accountCustomerSalesOrder']);
     Route::get('/account_band_profile', [AccountController::class, 'accountBandProfile']);
+    Route::post('/account_update_profile', [AccountController::class, 'accountProfileUpdate'])->name('account_update_profile');
+    Route::post('/account_update_bill_info', [AccountController::class, 'accountProfileBillUpdate'])->name('account_update_bill_info');
 });
 
 

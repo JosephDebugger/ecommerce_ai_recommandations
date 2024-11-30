@@ -34,44 +34,48 @@ class HomeController extends Controller
     {
         return view('frontend.contact');
     }
-    
+
     public function categorized($gender, $category)
     {
-        if($category == 0){
+        if ($category == 0) {
             $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')
-            ->where('products.status', 'Active')
-            ->where('products.cloth_for', $gender)   
-            ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image',)
-            ->orderBy('id', 'desc')->get();
-        }else{
+                ->where('products.status', 'Active')
+                ->where('products.cloth_for', $gender)
+                ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image',)
+                ->orderBy('id', 'desc')->get();
+        } else {
             $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')
-            ->where('products.status', 'Active')
-            ->where('products.cloth_for', $gender)
-            ->where('products.category_id', $category)
-            ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image',)
-            ->orderBy('id', 'desc')->get();
+                ->where('products.status', 'Active')
+                ->where('products.cloth_for', $gender)
+                ->where('products.category_id', $category)
+                ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image',)
+                ->orderBy('id', 'desc')->get();
         }
-       
-        return view('frontend.'.$gender,['products' =>  $data['products']]);
+
+        return view('frontend.' . $gender, ['products' =>  $data['products']]);
     }
     public function bandProducts($id)
     {
-     
-            $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')
+
+        $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')
             ->where('products.status', 'Active')
-            ->where('products.band_id', $id)   
+            ->where('products.band_id', $id)
             ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image',)
             ->orderBy('id', 'desc')->get();
-        
-       
-        return view('frontend.bandProducts',['products' =>  $data['products']]);
+
+
+        return view('frontend.bandProducts', ['products' =>  $data['products']]);
     }
-    
+
     public function product($id)
     {
         $product = Product::find($id);
-        $userId = 1;
-        ProductInteracted::dispatch($userId, $id, 'view');
+
+        if (Auth::guard('customer')->check()) {
+            $userId = Auth::guard('customer')->check();
+            ProductInteracted::dispatch($userId, $id, 'view');
+        }
+
         return view('frontend.product', ['product' => $product]);
     }
     public function checkout($products, $qty)
@@ -163,6 +167,7 @@ class HomeController extends Controller
             DB::commit();
 
             if (Auth::guard('customer')->check()) {
+                $userId = Auth::guard('customer')->id();
                 ProductInteracted::dispatch($userId, $productId, 'purchase');
             }
 
@@ -184,33 +189,30 @@ class HomeController extends Controller
             ['rating' => $rating]
         );
 
-        // Trigger the event
-        ProductInteracted::dispatch($userId, $productId, 'rate');
+        if (Auth::guard('customer')->check()) {
+            $userId = Auth::guard('customer')->id();
+            ProductInteracted::dispatch($userId, $productId, 'rate');
+        }
 
         return response()->json(['message' => 'Rating saved successfully']);
     }
     public function recommendations()
     {
-        // $userId = auth()->id();
-      
-        
-        if (Auth::guard('customer')->check()) {
-            $userId = Auth::guard('customer')->check();
-            $recommendedProducts = Product::whereIn('id', function ($query) use ($userId) {
-                $query->select('product_id')
-                    ->from('recommendations')
-                    ->where('user_id', $userId);
-            })->get();
     
-        }else{
-            $recommendedProducts = Product::whereIn('id', function ($query)  {
-                $query->select('product_id')
-                    ->from('recommendations');
-            })->get();
+
+
+        if (Auth::guard('customer')->check()) {
+            $userId = Auth::guard('customer')->id();
+            $recommendedProducts = Product::select('products.id', 'products.cloth_for', 'products.brand_id', 'products.category_id', 'products.sub_category_id', 'products.band_id', 'products.unit',  'products.name', 'products.price',  'products.image', 'products.discount')
+                ->join('recommendations', 'recommendations.product_id', 'products.id')
+                ->where('recommendations.user_id', $userId)->get();
+        } else {
+            $recommendedProducts = Product::select('products.id', 'products.cloth_for', 'products.brand_id', 'products.category_id', 'products.sub_category_id', 'products.band_id', 'products.unit', 'products.name', 'products.price', 'products.image', 'products.discount')
+                ->join('recommendations', 'recommendations.product_id', 'products.id')
+                ->get();
         }
-      
+
         return response()->json(compact('recommendedProducts'));
-       
     }
 
     public function setReview(Request $request)
@@ -228,6 +230,4 @@ class HomeController extends Controller
         }
         return response()->json(['status' => $fached]);
     }
-    
-    
 }

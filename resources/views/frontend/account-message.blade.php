@@ -5,6 +5,7 @@
 
 
 
+
 .view-account{
 background:#FFFFFF; 
 margin-top:20px;
@@ -588,39 +589,7 @@ color: #a2a6af
 
     </style>
 
-    {{-- <div class="container">
-
-   
-<div id="main">
-    <div class="right_side">
-      <h2><a href="#">sNews 1.5 !</a></h2>
-      <h3>TRY THIS TEMPLATE WITH SNEWS 1.5</h3>
-      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer euismod ante non diam. Sed eleifend odio sed quam. Sed vulputate, turpis at tincidunt porttitor, est elit consequat metus, non dignissim augue mauris quis arcu. Phasellus faucibus blandit eros. Curabitur porttitor ante non est. Maecenas dolor. Aenean egestas sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Sed suscipit, nisi sit amet pharetra malesuada, sem velit laoreet sem, vitae iaculis diam neque consequat est. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque tincidunt eros non quam. Mauris a magna sit amet libero accumsan auctor. Aenean nec urna non dui lobortis viverra...
-      <p class="date">Posted by David <img src="images/more.gif" alt="" /> <a href="#">Read more</a> <img src="images/comment.gif" alt="" /> <a href="#">Comments (3)</a> <img src="images/timeicon.gif" alt="" /> 21.02.</p>
-      <br />
-      <h2><a href="#">Free Css Templates</a></h2>
-      <h3>FREE CSS / XHTML TEMPLATES</h3>
-      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer euismod ante non diam. Sed eleifend odio sed quam. Sed vulputate, turpis at tincidunt porttitor, est elit consequat metus, non dignissim augue mauris quis arcu. Phasellus <a href="#">faucibus blandit</a> eros. Curabitur porttitor ante non est. Maecenas dolor. Aenean egestas sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Sed suscipit, nisi sit amet pharetra malesuada, sem velit laoreet sem, vitae iaculis diam neque consequat est. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque tincidunt eros non quam. Mauris a magna sit amet libero accumsan auctor. Aenean nec urna non dui lobortis viverra...
-      <p class="date">Posted by Jack <img src="images/more.gif" alt="" /> <a href="#">Read more</a> <img src="images/comment.gif" alt="" /> <a href="#">Comments (15)</a> <img src="images/timeicon.gif" alt="" /> 17.01.</p>
-      <br />
-    </div>
-    <div class="left_side">
-      <div class="sideNav">
-        <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Articles</a></li>
-          <li><a href="#">Gallery</a></li>
-          <li><a href="#">Affiliates</a></li>
-          <li><a href="#">Archives</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </div>
-      <br />
-    
-    </div>
-  </div>
-</div> --}}
+ 
 
 <div class="container">
     <div class="view-account">
@@ -640,58 +609,7 @@ color: #a2a6af
                 </div>
                 <div class="content-panel">
                   
-                    <form class="form-horizontal" action="{{route('account_update_bill_info')}}" method="POST">
-                     @csrf
-                        <fieldset class="fieldset">
-                            <h3 class="fieldset-title">Billing Info</h3>
-                            <div class="form-group">
-                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Name on Card</label>
-                                <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input type="text" name="name_on_card" class="form-control" value="{{ $customerInfo->name_on_card}}">
-                                    <p class="help-block">Name on Card </p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Credit Card Number</label>
-                                <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input type="text"  name="cc_number"  class="form-control"  value="{{ $customerInfo->cc_number}}">
-                                    <p class="help-block"></p>
-                                </div>
-                                
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Exp Month</label>
-                                <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input type="month"  name="exp" class="form-control"  value="{{ $customerInfo->exp}}">
-                                    <p class="help-block"></p>
-                                </div>
-                                
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Year</label>
-                                <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input type="text"  name="exp_year" class="form-control" value="{{ $customerInfo->exp_year}}">
-                                    <p class="help-block"></p>
-                                </div>
-                                
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">CVV</label>
-                                <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input type="text"  name="cvv" class="form-control" value="{{ $customerInfo->cvv}}">
-                                    <p class="help-block"></p>
-                                </div>
-                                
-                            </div>
-                          
-                        </fieldset>
-                        <hr>
-                        <div class="form-group">
-                            <div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
-                                <input class="btn btn-primary" type="submit" value="Update Profile">
-                            </div>
-                        </div>
-                    </form>
+                    
                 </div>
             </div>
         </section>

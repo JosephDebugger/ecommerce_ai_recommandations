@@ -28,6 +28,7 @@ Route::middleware(['auth:web'])->group(function () {
         Route::get('/products', [ProductController::class, 'products'])->name('products');
         Route::get('/view-addProduct', [ProductController::class, 'viewAddProduct'])->name('viewAddProduct');
         Route::get('/get_sub_cat/{id}', [ProductController::class, 'getGetSubCategory'])->name('getGetSubCategory');
+        Route::get('/get_categories/{gender}', [ProductController::class, 'getCategory'])->name('getGetSubCategory');
     });
     Route::name('sales.')->prefix('sales')->group(function () {
         Route::get('/getSales', [SalesController::class, 'getSales'])->name('getSales');

@@ -252,7 +252,7 @@
 
             var price = total_price - (unitPrice * quantity);
 
-            $('#total_price').text(price);
+            $('#total_price').text(parseFloat(price));
 
             $('#rowNo_' + no).remove();
         }

@@ -39,7 +39,35 @@
                             <form action="{!! route('updateProduct') !!}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-12">
+                                        <div class="form-check">
+                                            @php
+                                                if ($product->type == 'male') {
+                                                    $maleChecked = 'checked';
+                                                    $femaleChecked = '';
+                                                } else {
+                                                    $maleChecked = '';
+                                                    $femaleChecked = 'checked';
+                                                }
+                                            @endphp
+                                            <input class="form-check-input" type="radio" name="checkRadio"
+                                                onclick="loadCategory('male')" value="male" id="male"
+                                                {{ $maleChecked }}>
+                                            <label class="form-check-label" for="male">
+                                                Male
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="checkRadio"
+                                                onclick="loadCategory('female')" value="female" id="female"
+                                                {{ $femaleChecked }}>
+                                            <label class="form-check-label" for="female">
+                                                Female
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group col-md-4">
                                         <input type="hidden" value="{{ $product->id }}" name="id">
                                         <label for="inputEmail4">Product Name</label>
                                         <input type="text" class="form-control @error('name') is-invalid @enderror"
@@ -48,7 +76,7 @@
                                             <div class="form-text text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
                                         <label for="price">Price</label>
                                         <input type="text" class="form-control @error('name') is-invalid @enderror"
                                             name="price" id="price" value="{{ $product->price }}" placeholder="Price">
@@ -56,6 +84,22 @@
                                         @error('price')
                                             <div class="form-text text-danger">{{ $message }}</div>
                                         @enderror
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="band">Assign to Band <small>(If the product will assign for
+                                                band)</small></label>
+                                        <select id="band" name="band" class="form-control"
+                                            value="{{ old('band') }}">
+                                            <option value="">~~ Choose band ~~</option>
+                                            @foreach ($bands as $band)
+                                                @if ($product->band_id == $band->id)
+                                                    <option value="{{ $band->id }}" selected>{{ $band->name }}
+                                                    </option>
+                                                @else
+                                                    <option id="{{ $band->id }}">{{ $band->name }}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -66,10 +110,10 @@
                                             <option>~~ Choose Brand ~~</option>
                                             @foreach ($brands as $brand)
                                                 @if ($product->brand_id == $brand->id)
-                                                    <option id="{{ $brand->brand_id }}" selected>{{ $brand->name }}
+                                                    <option id="{{ $brand->id }}" selected>{{ $brand->name }}
                                                     </option>
                                                 @else
-                                                    <option id="{{ $brand->brand_id }}">{{ $brand->name }}</option>
+                                                    <option id="{{ $brand->id }}">{{ $brand->name }}</option>
                                                 @endif
                                             @endforeach
                                         </select>
@@ -102,16 +146,16 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="inputAddress">Description</label>
-                                    <textarea type="text" class="form-control" value="{{ $product->description }}" name="description" name="description"
-                                        id="inputAddress" placeholder="Description"></textarea>
+                                    <textarea type="text" class="form-control" value="{{ $product->description }}" name="description"
+                                        name="description" id="inputAddress" placeholder="Description"></textarea>
                                     @error('description')
                                         <div class="form-text text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="add_info">Additional Information</label>
-                                    <textarea type="text" class="form-control" value="{{ $product->additional_info }}" name="add_info" id="add_info"
-                                        placeholder="Additional Information"></textarea>
+                                    <textarea type="text" class="form-control" value="{{ $product->additional_info }}" name="add_info"
+                                        id="add_info" placeholder="Additional Information"></textarea>
                                     @error('add_info')
                                         <div class="form-text text-danger">{{ $message }}</div>
                                     @enderror
@@ -128,9 +172,18 @@
                                     <div class="form-group col-md-4">
                                         <label for="inputState">Status</label>
                                         <select id="status" name="status" class="form-control">
+                                            @php
+                                                if ($product->status == 'Active') {
+                                                    $activeSelected = 'selected';
+                                                    $inactiveSelected = '';
+                                                } else {
+                                                    $activeSelected = '';
+                                                    $inactiveSelected = 'selected';
+                                                }
+                                            @endphp
+                                            <option value="Active" {{ $activeSelected }}>Active</option>
+                                            <option value="Inactive" {{ $inactiveSelected }}>Inactive</option>
 
-                                            <option>Active</option>
-                                            <option>Inactive</option>
                                         </select>
                                     </div>
 
@@ -145,6 +198,36 @@
                                         @error('image')
                                             <div class="form-text text-danger">{{ $message }}</div>
                                         @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        @php
+                                            if ($product->Tranding == 'Yes') {
+                                                $trandChecked = 'checked';
+                                            } else {
+                                                $trandChecked = '';
+                                            }
+                                        @endphp
+                                        <input class="form-check-input" type="checkbox" value="Yes" id="tranding"
+                                            name="tranding" {{ $trandChecked }}>
+                                        <label class="form-check-label" for="tranding">
+                                            Tranding
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        @php
+                                            if ($product->featured == 'Yes') {
+                                                $featuredChecked = 'checked';
+                                            } else {
+                                                $featuredChecked = '';
+                                            }
+                                        @endphp
+                                        <input class="form-check-input" type="checkbox" value="Yes" id="featured"
+                                            name="featured" {{ $featuredChecked }}>
+                                        <label class="form-check-label" for="featured">
+                                            Featured
+                                        </label>
                                     </div>
                                 </div>
 

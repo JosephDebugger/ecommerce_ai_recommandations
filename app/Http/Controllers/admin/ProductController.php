@@ -14,6 +14,7 @@ use Illuminate\Support\Carbon;
 use App\Models\admin\settings\Category;
 use App\Models\admin\settings\Brand;
 use Illuminate\Support\Facades\DB;
+use App\Models\admin\Band;
 
 class ProductController extends Controller
 {
@@ -45,9 +46,10 @@ class ProductController extends Controller
     }
     public function viewAddProduct()
     {
+        $bands = Band::select('name', 'id')->where('status', 'Active')->get();
         $brands = Brand::select('name', 'id')->where('status', 'Active')->get();
         $categories = Category::select('name', 'id')->where('status', 'Active')->get();
-        return view('admin.inventory.product.view-add-product', ['brands' => $brands, 'categories' => $categories]);
+        return view('admin.inventory.product.view-add-product', ['bands' => $bands,'brands' => $brands, 'categories' => $categories]);
     }
 
     public function storeProduct(Request $request)
@@ -90,6 +92,7 @@ class ProductController extends Controller
         $Product = new Product;
         $Product->name = $request->input('name');
         $Product->price = $request->input('price');
+        $Product->band_id = $request->input('band');
         $Product->brand_id = $request->input('brand');
         $Product->category_id = $request->input('category');
         $Product->sub_category_id = $request->input('sub_category');
@@ -112,9 +115,17 @@ class ProductController extends Controller
     {
         $data  = [];
         $data['product'] = Product::find($id);
+        $data['bands'] = Band::select('name', 'id')->where('status', 'Active')->get();
         $data['brands'] = Brand::select('name', 'id')->where('status', 'Active')->get();
         $data['categories'] = Category::select('name', 'id')->where('status', 'Active')->get();
         return view('admin.inventory.product.view-edit-product', $data);
+    }
+    public function getCategory($gender)
+    {
+        
+        $data = DB::table('categories')->where('type', $gender)->get();
+       
+        return response()->json($data);
     }
     public function getGetSubCategory($id)
     {
@@ -123,6 +134,7 @@ class ProductController extends Controller
        
         return response()->json($data);
     }
+    
     public function updateProduct(Request $request)
     {
         $validated = $request->validate([
@@ -134,12 +146,31 @@ class ProductController extends Controller
         // $imageName = time().'.'.$request->input('image')->extension();
         // $request->image->move(public_path('uploads/images/priducts/'), $imageName);
 
+        if ($request->has('checkRadio')) {
+            $gender = $request->has('checkRadio');
+        } 
+
+        if ($request->has('tranding')) {
+            $tranding = 'Yes';
+        } else {
+            $tranding = 'No';
+        }
+
+        if ($request->has('featured')) {
+            $featured = 'Yes';
+        } else {
+            $featured = 'No';
+        }
 
         $Product =  Product::find($request->input('id'));
         $Product->name = $request->input('name');
         $Product->price = $request->input('price');
+        $Product->band_id = $request->input('band');
         $Product->description = $request->input('description');
         $Product->discount = $request->input('discount');
+        $Product->cloth_for = $gender;
+        $Product->Tranding = $tranding;
+        $Product->featured = $featured;
         $Product->additional_info = $request->input('add_info');
         $Product->status = $request->input('status');
         $Product->save();

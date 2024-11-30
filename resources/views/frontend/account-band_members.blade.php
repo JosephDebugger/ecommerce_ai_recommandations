@@ -713,7 +713,7 @@
 
                             </ul>
                         </div>
-                        <x-frontend.accNavbar type="sales" user="{{ $customerInfo->type }}" />
+                        <x-frontend.accNavbar type="bandProfile" user="{{ $customerInfo->type }}" />
                     </div>
                     <div class="content-panel">
                         <div class="padding">
@@ -721,9 +721,9 @@
                                 <!-- Column -->
                                 <div class="card"> 
                                     <img class="card-img-top" src="{{$band->band_cover}}"
-                                        alt="Card image cap">
+                                        alt="Card image cap" style="height: 500px; width:100vw; overflow-y: hidden;">
                                     <div class="card-body little-profile text-center">
-                                        <div class="pro-img"><img src="{{$band->band_logo}}" alt="user">
+                                        <div class="pro-img"><img src="{{$band->band_logo}}" alt="user"  style=" margin-top: -40px; height: 250px; width:200px; overflow-y: hidden;">
                                         </div>
                                         <h3 class="m-b-0">{{$band->name}}</h3>
                                         <p>Musical Band &amp; </p> <a href="javascript:void(0)"
@@ -746,7 +746,7 @@
                                     @foreach ($members as $member)
                                         <figure>
                                             <picture>
-                                                <img src="https://randomuser.me/api/portraits/women/2.jpg">
+                                                <img src="{{ $member->image !='' ? $member->image : asset('uploads/sample-user.webp') }}">
                                             </picture>
                                             <figcaption>{{ $member->name }}</figcaption>
                                         </figure>

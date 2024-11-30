@@ -56,37 +56,13 @@
                 <form action="#" class="description" method="post">
                     {{-- <input type="text" value="Enter pincode" onfocus="this.value = '';"
                         onblur="if (this.value == '') {this.value = 'Enter pincode';}" required=""> --}}
-                    <input type="button" value="Add Review" onclick="setReview()">
+                    <input type="button" value="Add Rating" onclick="setReview()">
                 </form>
                 <div class="description">
                     <h5>{{ $product->description }}</h5>
 
                 </div>
-                {{-- <div class="color-quality">
-                    <div class="color-quality-right">
-                        <h5>Quality :</h5>
-                        <select id="country1" onchange="change_country(this.value)" class="frm-field required sect">
-                            <option value="null">5 Qty</option>
-                            <option value="null">6 Qty</option>
-                            <option value="null">7 Qty</option>
-                            <option value="null">10 Qty</option>
-                        </select>
-                    </div>
-                </div> --}}
-                {{-- <div class="occasional">
-                    <h5>Types :</h5>
-                    <div class="colr ert">
-                        <label class="radio"><input type="radio" name="radio" checked=""><i></i>Casual
-                            Shoes</label>
-                    </div>
-                    <div class="colr">
-                        <label class="radio"><input type="radio" name="radio"><i></i>Sneakers </label>
-                    </div>
-                    <div class="colr">
-                        <label class="radio"><input type="radio" name="radio"><i></i>Formal Shoes</label>
-                    </div>
-                    <div class="clearfix"> </div>
-                </div> --}}
+              
                 <div class="occasion-cart">
                     <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
                         <form action="#" method="post">
@@ -141,17 +117,9 @@
                         <div class="tab1">
 
                             <div class="single_page_agile_its_w3ls">
-                                <h6>Lorem ipsum dolor sit amet</h6>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elPellentesque vehicula augue
-                                    eget nisl ullamcorper, molestie blandit ipsum auctor. Mauris volutpat augue
-                                    dolor.Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut lab ore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
-                                    labore et dolore magna aliqua.</p>
-                                <p class="w3ls_para">Lorem ipsum dolor sit amet, consectetur adipisicing elPellentesque
-                                    vehicula augue eget nisl ullamcorper, molestie blandit ipsum auctor. Mauris volutpat
-                                    augue dolor.Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut lab
-                                    ore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                    ullamco. labore et dolore magna aliqua.</p>
+                                <h6>{{ $product->name }}</h6>
+                                <p>{{ $product->description }}</p>
+                                <p class="w3ls_para">{{ $product->additional_info }}</p>
                             </div>
                         </div>
                         <!--//tab_one-->
@@ -161,7 +129,7 @@
                                 <div class="bootstrap-tab-text-grids">
                                     <div class="bootstrap-tab-text-grid">
                                         <div class="bootstrap-tab-text-grid-left">
-                                            <img src="images/t1.jpg" alt=" " class="img-responsive">
+                                            <img src="{{asset('uploads/sample-user.webp')}}" style="width: 100px; height:100px;" alt=" " class="img-responsive">
                                         </div>
                                         <div class="bootstrap-tab-text-grid-right">
                                             <ul>
@@ -176,8 +144,10 @@
                                                 autem
                                                 vel eum iure reprehenderit.</p>
                                         </div>
+                                        
                                         <div class="clearfix"> </div>
                                     </div>
+                                    
                                     <div class="add-review">
                                         <h4>add a review</h4>
                                         <form action="#" method="post">
@@ -194,17 +164,8 @@
                         <div class="tab3">
 
                             <div class="single_page_agile_its_w3ls">
-                                <h6>Big Wing Sneakers (Navy)</h6>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elPellentesque vehicula augue
-                                    eget nisl ullamcorper, molestie blandit ipsum auctor. Mauris volutpat augue
-                                    dolor.Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut lab ore et
-                                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
-                                    labore et dolore magna aliqua.</p>
-                                <p class="w3ls_para">Lorem ipsum dolor sit amet, consectetur adipisicing elPellentesque
-                                    vehicula augue eget nisl ullamcorper, molestie blandit ipsum auctor. Mauris volutpat
-                                    augue dolor.Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut lab
-                                    ore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                    ullamco. labore et dolore magna aliqua.</p>
+                                <h6>Additional Information</h6>
+                                <p>{{ $product->additional_info }}</p>
                             </div>
                         </div>
                     </div>
