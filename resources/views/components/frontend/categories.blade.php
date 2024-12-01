@@ -73,7 +73,6 @@
     </ul>
 </li>
 
-
 <li class="dropdown menu__item">
     <a href="#" class="dropdown-toggle menu__link" data-toggle="dropdown"
         role="button" aria-haspopup="true" aria-expanded="false">Bands <span
@@ -81,8 +80,8 @@
     <ul class="dropdown-menu multi-column columns-3">
         <div class="agile_inner_drop_nav_info">
             <div class="col-sm-6 multi-gd-img1 multi-gd-text ">
-                <a href="{{ url('/female/0') }}"><img
-                        src="{{ asset('web/images/top1.jpg') }}" alt=" " /></a>
+                <a href="{{ url('/band/0') }}"><img
+                        src="{{ asset('uploads/band_banner.jpg') }}" alt=" " /></a>
             </div>
             <div class="col-sm-3 multi-gd-img">
                 <ul class="multi-column-dropdown">
