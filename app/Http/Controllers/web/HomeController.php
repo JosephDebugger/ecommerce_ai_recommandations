@@ -57,16 +57,24 @@ class HomeController extends Controller
     public function bandProducts($id)
     {
 
-        $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')
+        if($id == 0){
+            $data['products'] = Product::leftjoin('images',  'products.id', 'images.product_id')
+            ->where('products.status', 'Active')
+            ->where('products.band_id','>', 0)
+            ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image',)
+            ->orderBy('id', 'desc')->get();
+        }else{
+            $data['products'] = Product::leftjoin('images',  'products.id', 'images.product_id')
             ->where('products.status', 'Active')
             ->where('products.band_id', $id)
             ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image',)
             ->orderBy('id', 'desc')->get();
 
+        }
+     
 
         return view('frontend.bandProducts', ['products' =>  $data['products']]);
     }
-
     public function product($id)
     {
         $product = Product::find($id);
