@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Contact;
 
 class UserController extends Controller
 {
@@ -107,4 +108,11 @@ class UserController extends Controller
         return redirect()->route('brands.index')
             ->with('success', 'Brand deleted successfully.');
     }
+    public function getUserMessages()
+    {
+        $messages = Contact::latest()->get();
+        return view('admin.settings.user.messages', compact('messages'));
+    }
+
+    
 }

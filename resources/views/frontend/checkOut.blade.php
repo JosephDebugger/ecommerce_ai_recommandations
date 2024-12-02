@@ -313,8 +313,9 @@
                     data: data,
                     dataType: "json",
                     success: function(response) {
-                        alert(JSON.stringify(response));
+                       //alert(JSON.stringify(response));
                         paypal.minicart.reset();
+                        window.location.href = "{{ url('/') }}";
                     },
                     error: function (error) {
                         alert(JSON.stringify(error));

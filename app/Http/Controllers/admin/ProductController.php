@@ -146,6 +146,15 @@ class ProductController extends Controller
         // $imageName = time().'.'.$request->input('image')->extension();
         // $request->image->move(public_path('uploads/images/priducts/'), $imageName);
 
+
+        if ($request->image != null) {
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('uploads/products/'), $imageName);
+            $imagePath = 'uploads/products/' . $imageName;
+        } else {
+            $imagePath = 'uploads/images.png';
+        }
+
         if ($request->has('checkRadio')) {
             $gender = $request->has('checkRadio');
         } 
@@ -174,6 +183,10 @@ class ProductController extends Controller
         $Product->additional_info = $request->input('add_info');
         $Product->status = $request->input('status');
         $Product->save();
+        Image::where('product_id', $Product->id)
+       ->update([
+           'name' =>$imagePath
+        ]);
         // $image = new Image;
         // $image->name = 'images/'.$imageName;
         // $image->product_id = $Product->id;

@@ -688,8 +688,8 @@ color: #a2a6af
                     <div class="user-info">
                         <img class="img-profile img-circle img-responsive center-block" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
                         <ul class="meta list list-unstyled">
-                            <li class="name">Rebecca Sanders
-                                <label class="label label-info">UX Designer</label>
+                            <li class="name">{{ $customerInfo->name}}
+                                <label class="label label-info">Silver</label>
                             </li>
                            
                         </ul>
@@ -715,7 +715,7 @@ color: #a2a6af
                                 <input type="hidden" id="user_id" name="user_id" value="{{$customerInfo->id}}">
                                 <label class="col-md-2 col-sm-3 col-xs-12 control-label">User Name</label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input type="text" class="form-control" value="{{ $customerInfo->name}}">
+                                    <input type="text" class="form-control" value="{{ $customerInfo->user_name}}">
                                 </div>
                             </div>
         

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\admin\cms\Banner;
+use Validator;
 
 class BannerController extends Controller
 {
@@ -30,26 +31,21 @@ class BannerController extends Controller
         $validatedData = $request->validate([
             'title' => [
                 'required',
-                'string',
                 'max:255',
                 'regex:/^[a-zA-Z0-9\s]+$/'
             ],
             'description' => [
                 'nullable',
-                'string',
-                'max:1000',
-                'regex:/^[a-zA-Z0-9\s]+$/', // Alphanumeric validation
+                'max:1000'
             ],
             'file_name' =>  [
-                'file_name',
                 'mimes:jpeg,png,jpg,gif',
                 'max:2048'
-              
             ],
         ]);
 
         if ($request->file_name != null) {
-            $imageName = time() . '.' . $request->band_cover->extension();
+            $imageName = time() . '.' . $request->file_name->extension();
             $request->file_name->move(public_path('uploads/banners/'), $imageName);
             $imagePath = 'uploads/banners/' . $imageName;
             $validatedData['file_name'] = $imagePath;
@@ -58,7 +54,6 @@ class BannerController extends Controller
         }
 
         Banner::create($validatedData);
-        
 
         return redirect()->route('banners.index')
             ->with('success', 'Banner created successfully.');
@@ -80,16 +75,10 @@ class BannerController extends Controller
     {
         $validatedData = $request->validate([
             'file_name' => [
-                'required',
-                'string',
-                'min:2',
-                'max:100',
-                'regex:/^[a-zA-Z0-9\s]+$/'
-               
+                'nullable',
             ],
             'description' => [
                 'nullable',
-                'string',
                 'max:255',
                 'regex:/^[a-zA-Z0-9\s]+$/', 
             ],
@@ -97,6 +86,14 @@ class BannerController extends Controller
                 'required'
             ],
         ]);
+        if ($request->file_name != null) {
+            $imageName = time() . '.' . $request->file_name->extension();
+            $request->file_name->move(public_path('uploads/banners/'), $imageName);
+            $imagePath = 'uploads/banners/' . $imageName;
+            $validatedData['file_name'] = $imagePath;
+        } else {
+            $imagePath = 'uploads/images.png';
+        }
         $brand->update($validatedData);
 
         return redirect()->route('banners.index')

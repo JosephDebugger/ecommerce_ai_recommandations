@@ -83,6 +83,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
                             </li>
+                          
                         </ul>
                     </div>
                 </div><!-- /.card-header -->
@@ -113,5 +114,48 @@
     </div>
     <!-- /.row (main row) -->
 @endsection
+@section('scripts')
+<script>
+   $(document).ready(function () {
+            // Fetch data from the Laravel API
+            $.ajax({
+                url: '/sales-data',
+                method: 'GET',
+                success: function (response) {
+                    //alert(response)
+                    // Process the response data
+                    const labels = response.map(item => item.sale_date);
+                    const data = response.map(item => item.total_amount);
+
+                    // Render the Chart.js graph
+                    const ctx = document.getElementById('revenue-chart-canvas').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'line', // Choose chart type (e.g., 'bar', 'pie')
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Sales Amount',
+                                data: data,
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                },
+                error: function (error) {
+                    console.error('Error fetching sales data:', error);
+                }
+            });
+        });
+    </script>
 
 
+@endsection

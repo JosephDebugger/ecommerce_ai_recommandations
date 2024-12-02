@@ -46,9 +46,14 @@ Route::middleware(['auth:web'])->group(function () {
     Route::resource('bands', BandController::class);
     Route::resource('banners', BannerController::class);
 
+    
+    Route::get('getUserMessages', [UserController::class, 'getUserMessages'])->name('getUserMessages');
+
     Route::get('/company-setting', [CompanyController::class, 'getSettings'])->name('getSettings');
     Route::post('/company-setting/{id}', [CompanyController::class, 'updateSettings'])->name('updateSettings');
 });
+
+Route::get('/sales-data', [SalesController::class, 'getSalesData']);
 
 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

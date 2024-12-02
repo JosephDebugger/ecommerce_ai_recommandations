@@ -109,7 +109,7 @@
                 <div id="horizontalTab">
                     <ul class="resp-tabs-list">
                         <li>Description</li>
-                        <li>Reviews</li>
+                        {{-- <li>Reviews</li> --}}
                         <li>Information</li>
                     </ul>
                     <div class="resp-tabs-container">
@@ -124,6 +124,13 @@
                         </div>
                         <!--//tab_one-->
                         <div class="tab2">
+
+                            <div class="single_page_agile_its_w3ls">
+                                <h6>Additional Information</h6>
+                                <p>{{ $product->additional_info }}</p>
+                            </div>
+                        </div>
+                        <div class="tab3">
 
                             <div class="single_page_agile_its_w3ls">
                                 <div class="bootstrap-tab-text-grids">
@@ -161,13 +168,7 @@
 
                             </div>
                         </div>
-                        <div class="tab3">
-
-                            <div class="single_page_agile_its_w3ls">
-                                <h6>Additional Information</h6>
-                                <p>{{ $product->additional_info }}</p>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>

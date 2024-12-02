@@ -15,7 +15,7 @@ Route::get('/', function () {
 
 Route::get('/', [HomeController::class, 'home'])->name('home');;
 Route::get('/about', [HomeController::class, 'about']);
-Route::get('/contact', [HomeController::class, 'contact']);
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/category/{gender}/{category}', [HomeController::class, 'categorized']);
 Route::get('/band/{id}', [HomeController::class, 'bandProducts']);
 
@@ -23,6 +23,12 @@ Route::get('/product/{id}', [HomeController::class, 'product'])->name('product')
 
 Route::get('/recommendations', [HomeController::class, 'recommendations']);
 Route::post('/setReview', [HomeController::class, 'setReview'])->name('setReview');
+
+Route::post('/save-user-msg', [HomeController::class, 'saveUserMsg'])->name('save-user-msg');
+
+
+
+
 
 Route::middleware('customer')->group(function () {
     Route::get('/account_home', [AccountController::class, 'accountHome']);

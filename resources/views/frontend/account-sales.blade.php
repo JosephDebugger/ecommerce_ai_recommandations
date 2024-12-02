@@ -625,8 +625,8 @@ strong { color: #292929; }
                     <div class="user-info">
                         <img class="img-profile img-circle img-responsive center-block" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
                         <ul class="meta list list-unstyled">
-                            <li class="name">Rebecca Sanders
-                                <label class="label label-info">UX Designer</label>
+                            <li class="name">{{ $customerInfo->name}}
+                                <label class="label label-info">Silver</label>
                             </li>
                            
                         </ul>

@@ -191,7 +191,7 @@
         }
 
         function renderImage(data, width = '70px', altText = '') {
-            return `<img src="${data}" width="${width}" alt="${altText}">`;
+            return `<img src="{{asset('${data}')}}" width="${width}" alt="${altText}">`;
         }
     </script>
 @endsection

@@ -7,12 +7,14 @@ use Illuminate\Http\Request;
 use App\Models\admin\sale\Sale;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Carbon;
+use DB;
 
 
 class SalesController extends Controller
 {
-    function getSales(Request $request){
-    
+    function getSales(Request $request)
+    {
+
         if ($request->ajax()) {
             $query = Sale::select('sales.id', 'sales.total_amount', 'sales.sale_date', 'customers.name', 'customers.email')
                 ->leftJoin('customers', 'customers.id', '=', 'sales.customer_id');
@@ -23,15 +25,24 @@ class SalesController extends Controller
                 $query->whereBetween('sales.sale_date', [$fromDate, $toDate]);
             }
             $sales = $query->get();
-          
+
             return DataTables::of($sales)->addIndexColumn()->make(true);
         }
         $sales = Sale::select('sales.id', 'sales.total_amount', 'sales.sale_date', 'customers.name', 'customers.email')
-              ->leftJoin('customers', 'customers.id', '=', 'sales.customer_id');
+            ->leftJoin('customers', 'customers.id', '=', 'sales.customer_id');
 
-        return  view('admin.sales.sales', ['sales' => $sales]);
+        return view('admin.sales.sales', ['sales' => $sales]);
     }
-    function saleInvoice(Request $request){
+    function saleInvoice(Request $request)
+    {
 
+    }
+    public function getSalesData()
+    {
+        $sales = DB::table('sales')
+            ->select('sale_date', DB::raw('SUM(total_amount) as total_amount'))
+            ->groupBy('sale_date')
+            ->get();
+        return response()->json($sales);
     }
 }

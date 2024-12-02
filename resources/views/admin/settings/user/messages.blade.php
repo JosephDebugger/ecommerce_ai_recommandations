@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Banners</h1>
+                    <h1 class="m-0">Messages</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Banners</li>
+                        <li class="breadcrumb-item active">Messages</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -25,14 +25,12 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <a href="{{ url('banners/create') }}"><button class="btn btn-primary">
-                    Add Banner
-                </button></a>
+            
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Banner List</h3>
+                            <h3 class="card-title">Message List</h3>
                         </div>
 
                         <!-- /.card-header -->
@@ -48,46 +46,20 @@
                                 <thead class="thead-dark">
                                     <tr>
                                         <th style="width: 10px">SN</th>
-                                        <th>Image</th>
                                         <th>Name</th>
-                                        <th>Description</th>
-                                        <th>Status</th>
-                                        <th style="width: 40px">Action</th>
+                                        <th>Email</th>
+                                        <th>Subject</th>
+                                        <th>Message</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($banners as $key => $banner)
+                                    @foreach ($messages as $key => $message)
                                         <tr>
-                                            <td>{{$key+1}}</td>
-                                            <td><img src="{{ $banner->file_name }}" style="width: 550px; height:200px;"></td>
-                                            <td>{{ $banner->title }}</td>
-                                            <td>{{ $banner->description }}</td>
-                                            <td>{{ $banner->status }}</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
-                                                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('banners.edit', $banner->id) }}">Edit</a>
-                                                        <a class="dropdown-item">
-                                                            <form action="{{ route('banners.destroy', $banner->id) }}"
-                                                                method="post">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit"
-                                                                    class="btn btn-danger btn-sm">Delete</button>
-                                                            </form>
-                                                        </a>
-
-                                                    </div>
-                                                </div>
-
-
-                                            </td>
+                                            <td>{{ $key +1 }}</td>
+                                            <td>{{ $message->full_name }}</td>
+                                            <td>{{ $message->email }}</td>
+                                            <td>{{ $message->subject }}</td>
+                                            <td><textarea class="form-control" readonly>{{ $message->message }}</textarea></td>
                                         </tr>
                                     @endforeach
 

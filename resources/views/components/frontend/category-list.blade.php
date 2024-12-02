@@ -6,7 +6,7 @@
 
                 @foreach($categories as $categorie)
 
-                <li><input type="checkbox" id="item-0-0" /><label for="item-0-0"><i class="fa fa-long-arrow-right" aria-hidden="true"></i>{{$categorie->name}}</label>
+                <li><input type="checkbox" id="item-0-0" /><label for="item-0-0"><i class="fa fa-long-arrow-right" aria-hidden="true"></i><a href="{{url('category/'.$categorie->type.'/'.$categorie->id)}}">{{$categorie->name}}</a></label>
                 </li>
                     @endforeach
                    
