@@ -148,7 +148,7 @@
                                             </div>
                                     </td>
                                     <td id="quantity_{{ $key }}">{{ $quantity[$key] }}</td>
-                                    <td class="d-flex flex-column"><input type="hidden" id="unitPrice_{{ $key }} "
+                                    <td class="d-flex flex-column"><input type="hidden" id="unitPrice_{{ $key }}"
                                             value="{{ $price }}"><span class="red">Tk {{ $price }}</span>
                                         {{-- <del class="cross">Tk {{$item->price}}</del> --}}
                                     </td>
@@ -249,6 +249,7 @@
             var unitPrice = parseFloat($('#unitPrice_' + no).val())
             var total_price = parseFloat($('#total_price').text());
             var quantity = parseFloat($('#quantity_' + no).text());
+            //alert(unitPrice+' '+total_price+' '+quantity)
 
             var price = total_price - (unitPrice * quantity);
 
