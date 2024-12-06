@@ -550,17 +550,17 @@ a.simpleCart_empty {
 /*-- //banner-top --*/
 .carousel-caption {
     position: inherit;
+	margin-top: -600px;
     min-height:500px!important;
     padding-top:10em;
 }
 /*-- banner --*/  
-.carousel .item{    
-	background:-webkit-linear-gradient(rgba(23, 22, 23, 0.2), rgba(23, 22, 23, 0.5)), url(../images/banner1.jpg) no-repeat;
-	background:-moz-linear-gradient(rgba(23, 22, 23, 0.2), rgba(23, 22, 23, 0.5)), url(../images/banner1.jpg) no-repeat;
-	background:-ms-linear-gradient(rgba(23, 22, 23, 0.2), rgba(23, 22, 23, 0.5)), url(../images/banner1.jpg) no-repeat; 
-	background:linear-gradient(rgba(23, 22, 23, 0.2), rgba(23, 22, 23, 0.5)), url(../images/banner1.jpg) no-repeat;
+ .carousel .item{    
+	background:linear-gradient(rgba(23, 22, 23, 0.2), rgba(23, 22, 23, 0.5));
+	background-color: #c0bcbc;
 	background-size:cover;	 
 }
+/*
 .carousel .item.item2{   
 	background:-webkit-linear-gradient(rgba(23, 22, 23, 0.2), rgba(23, 22, 23, 0.5)), url(../images/banner2.jpg) no-repeat;
 	background:-moz-linear-gradient(rgba(23, 22, 23, 0.2), rgba(23, 22, 23, 0.5)), url(../images/banner2.jpg) no-repeat;
@@ -588,13 +588,14 @@ a.simpleCart_empty {
 	background:-ms-linear-gradient(rgba(23, 22, 23, 0.2), rgba(23, 22, 23, 0.5)), url(../images/banner5.jpg) no-repeat;
 	background:linear-gradient(rgba(23, 22, 23, 0.2), rgba(23, 22, 23, 0.5)), url(../images/banner5.jpg) no-repeat;
 	background-size:cover; 
-}  
+}   */
 
 .carousel-caption h2, .carousel-caption h3 {
     font-size: 3em;
     font-weight: 300;
     letter-spacing: 14px;
     text-transform: uppercase;
+	text-shadow: 3px 3px 3px black;
 } 
 .carousel-caption h2 span, .carousel-caption h3 span{
     font-weight: 800;
@@ -606,6 +607,7 @@ a.simpleCart_empty {
     font-weight: 600;
     color: #ffb900;
     margin-top: 1em;
+	text-shadow: 2px 2px 2px rgb(90, 87, 87);
 }
 .carousel-caption a {
     color: #fff;

@@ -302,7 +302,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             var data2 = [];
             data.push(nameArray);
             data.push(quentityArray);
-            location.href = "cart/checkout/"+data[0]+"/"+data[1];
+           // location.href = "cart/checkout/"+data[0]+"/"+data[1];
+            window.location.replace("http://127.0.0.1:8000/cart/checkout/"+data[0]+"/"+data[1])
         }
     </script>
       <script type="text/javascript" src="{{asset('web/js/jquery.flexslider.js')}}"></script>

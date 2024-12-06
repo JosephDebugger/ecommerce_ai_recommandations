@@ -680,7 +680,7 @@
                             <div class="col-md-6">
                                 <h2 class="title">Band Sales List<span class="pro-label label label-warning"></span></h2>
                             </div>
-                            @if($customerInfo->band_id  >0)
+                            @if($customerInfo && $customerInfo->band_id && $customerInfo->band_id  >0 && $customerInfo->band_id !='')
                             <div class="col-md-6">
 
                                 <label for="">Current Balence</label>

@@ -6,27 +6,19 @@
         <ol class="carousel-indicators">
             @foreach ($banners as $key => $banner)
             <li data-target="#myCarousel" data-slide-to="{{$key}}" class="{{ $key == 0 ? 'active' : '' }}"></li>
-          
             @endforeach
         </ol>
         <div class="carousel-inner" role="listbox">
             @foreach ($banners as $key => $banner)
-                <div class="item {{ $key == 0 ? 'active' : '' }}">
+                <div class="item slides {{ $key == 0 ? 'active' : '' }}">
                     <img src="{{ $banner->file_name }}" width="100%"  alt="Slide {{$key+1}}">
                     <div class="container">
-                       
-
                         <div  class="carousel-caption">
                             <h3>{{ $banner->title }}</h3>
                             <p>{{ $banner->description }}</p>
-                            <a class="hvr-outline-out button2" href="{{ url('male/0') }}">Shop Now </a>
-                            
-                           
+                            <a class="hvr-outline-out button2" href="{{ url('category/male/0') }}">Shop Now </a>
                         </div>
-
                     </div>
-
-
                 </div>
             @endforeach
 

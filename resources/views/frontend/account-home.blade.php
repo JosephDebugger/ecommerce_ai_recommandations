@@ -686,7 +686,7 @@ color: #a2a6af
             <div class="module-inner">
                 <div class="side-bar">
                     <div class="user-info">
-                        <img class="img-profile img-circle img-responsive center-block" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                        <img class="img-profile img-circle img-responsive center-block" src="@if ($customerInfo->image) {{ asset($customerInfo->image) }}@else{{ asset('uploads/avatar1.png') }} @endif" alt="">
                         <ul class="meta list list-unstyled">
                             <li class="name">{{ $customerInfo->name}}
                                 <label class="label label-info">Silver</label>
@@ -698,16 +698,16 @@ color: #a2a6af
                 </div>
                 <div class="content-panel">
                     <h2 class="title">Profile<span class="pro-label label label-warning">PRO</span></h2>
-                    <form class="form-horizontal" action="{{ route('account_update_profile')}}" method="POST">
+                    <form class="form-horizontal" action="{{ route('account_update_profile')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <fieldset class="fieldset">
                             <h3 class="fieldset-title">Personal Info</h3>
                             <div class="form-group avatar">
                                 <figure class="figure col-md-2 col-sm-3 col-xs-12">
-                                    <img class="img-rounded img-responsive" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                                    <img class="img-rounded img-responsive" src="@if ($customerInfo->image) {{ asset($customerInfo->image) }}@else{{ asset('uploads/avatar1.png') }} @endif" alt="">
                                 </figure>
                                 <div class="form-inline col-md-10 col-sm-9 col-xs-12">
-                                    <input type="file" class="file-uploader pull-left">
+                                    <input type="file" name="user_image" class="file-uploader pull-left">
                                     <button type="submit" class="btn btn-sm btn-default-alt pull-left">Update Image</button>
                                 </div>
                             </div>

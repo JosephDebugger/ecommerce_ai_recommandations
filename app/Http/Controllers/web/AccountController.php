@@ -27,6 +27,7 @@ class AccountController extends Controller
         if (Auth::guard('customer')->check()) {
             $userId = Auth::guard('customer')->id();
             $customerInfo  = Customer::find($userId);
+          
             return view('frontend.account-bill_info', compact('customerInfo'));
         }
     }
@@ -37,6 +38,7 @@ class AccountController extends Controller
 
             $customerInfo  = Customer::find($userId);
 
+            $band  = Band::find($customerInfo->band_id);
             $query = SaleItems::select('sale_items.id','products.name as product_name', 'sale_items.quantity','sales.sale_date', 'sale_items.total_price', 'customers.name', 'customers.email')
                 ->leftJoin('sales', 'sale_items.sales_id', '=', 'sales.id')
                 ->leftJoin('products', 'sale_items.product_id', '=', 'products.id')
@@ -44,7 +46,7 @@ class AccountController extends Controller
                 ->where('products.band_id', $customerInfo->band_id);
             $sales = $query->get();
 
-            return view('frontend.account-sales', ['sales' => $sales, 'customerInfo' => $customerInfo]);
+            return view('frontend.account-sales', ['band'=>$band,'sales' => $sales, 'customerInfo' => $customerInfo]);
         } else {
             return  redirect()->route('customer.login');
         }
@@ -82,8 +84,17 @@ class AccountController extends Controller
     public function accountProfileUpdate(Request $request){
         $userId = Auth::guard('customer')->id();
         $customer  = Customer::find($userId);
+
+        if ($request->user_image != null) {
+            $logoImageName = time() . '_logo.' . $request->user_image->extension();
+            $request->user_image->move(public_path('uploads/users/'), $logoImageName);
+            $user_image = 'uploads/users/' . $logoImageName;
+        } else {
+            $user_image = 'uploads/avatar1.png'; // Default image for band_logo
+        }
         $customer->user_name  = $request->user_name;
         $customer->name  = $request->name;
+        $customer->image  = $user_image;
         $customer->email  = $request->email;
         $customer->address  = $request->address;
         $customer->state  = $request->state;
