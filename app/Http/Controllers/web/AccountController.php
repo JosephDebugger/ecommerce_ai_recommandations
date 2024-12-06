@@ -82,6 +82,7 @@ class AccountController extends Controller
     public function accountProfileUpdate(Request $request){
         $userId = Auth::guard('customer')->id();
         $customer  = Customer::find($userId);
+        $customer->user_name  = $request->user_name;
         $customer->name  = $request->name;
         $customer->email  = $request->email;
         $customer->address  = $request->address;

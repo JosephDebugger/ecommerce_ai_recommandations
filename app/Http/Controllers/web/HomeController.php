@@ -16,6 +16,9 @@ use App\Models\Rating;
 use Illuminate\Support\Facades\Auth;
 use App\Models\admin\cms\Banner;
 use App\Models\Contact;
+use App\Models\Customer;
+use App\Models\admin\Band;
+
 class HomeController extends Controller
 {
     public function home()
@@ -43,14 +46,14 @@ class HomeController extends Controller
             $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')
                 ->where('products.status', 'Active')
                 ->where('products.cloth_for', $gender)
-                ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image', )
+                ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image',)
                 ->orderBy('id', 'desc')->get();
         } else {
             $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')
                 ->where('products.status', 'Active')
                 ->where('products.cloth_for', $gender)
                 ->where('products.category_id', $category)
-                ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image', )
+                ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image',)
                 ->orderBy('id', 'desc')->get();
         }
 
@@ -71,7 +74,6 @@ class HomeController extends Controller
                 ->where('products.band_id', $id)
                 ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image')
                 ->orderBy('id', 'desc')->get();
-
         }
 
 
@@ -96,7 +98,13 @@ class HomeController extends Controller
         $quantity = explode(",", $qty);
         $product = explode(",", $products);
         $items = Product::whereIn('name', $product)->get();
-        return view('frontend.checkOut', ['products' => $items, 'quantity' => $quantity]);
+        $customerInfo = '';
+        if (Auth::guard('customer')->check()) {
+            $userId = Auth::guard('customer')->id();
+            $customerInfo  = Customer::find($userId);
+        }
+
+        return view('frontend.checkOut', ['products' => $items, 'quantity' => $quantity, 'customerInfo' => $customerInfo]);
     }
 
     // public function checkoutProducts(Request $request)
@@ -141,12 +149,26 @@ class HomeController extends Controller
         $quantities = $request->quantity;
         $unitPrices = $request->unitPrice;
         $userId = 1;
-        if (Auth::guard('customer')->check()) {
-            $userId = Auth::guard('customer')->id();
-        }
+
         try {
             DB::beginTransaction();
 
+            if (Auth::guard('customer')->check()) {
+                $userId = Auth::guard('customer')->id();
+                $customer  = Customer::find($userId);
+                $customer->name  = $request->fname;
+                $customer->email  = $request->email;
+                $customer->address  = $request->address;
+                $customer->state  = $request->state;
+                $customer->city  = $request->city;
+                $customer->name_on_card  = $request->cname;
+                $customer->cc_number  = $request->cc_number;
+                $customer->exp  = $request->expmonth;
+                $customer->exp_year  = $request->expyear;
+                $customer->cvv  = $request->cvv;
+                $customer->save();
+            } else {
+            }
             // Create Sale record
             $sale = Sale::create([
                 'sale_date' => now()->format('Y-m-d H:i:s'),
@@ -173,12 +195,19 @@ class HomeController extends Controller
                     'total_price' => $itemTotalPrice,
                 ];
             }
-
+            
             // Bulk insert SaleItems
             SaleItems::insert($saleItemsData);
-
             // Update total amount in Sale
             $sale->update(['total_amount' => $totalPrice]);
+
+            $bandRevenue = ($totalPrice / 10);
+
+            if ($customer->band_id > 0) {
+                $band = Band::find($customer->band_id);
+                $band->current_balance += $bandRevenue;
+                $band->save();
+            }
 
             DB::commit();
 
@@ -234,8 +263,7 @@ class HomeController extends Controller
         if (Auth::guard('customer')->check()) {
             $userId = Auth::guard('customer')->id();
             $product_id = $request->product_id;
-            $ratingNum = $request->review;
-            ;
+            $ratingNum = $request->review;;
             $rating = Rating::create([
                 'product_id' => $product_id,
                 'user_id' => $userId,
@@ -255,5 +283,4 @@ class HomeController extends Controller
         $messages->save();
         return redirect()->route('contact');
     }
-
 }

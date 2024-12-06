@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2024 at 10:14 PM
+-- Generation Time: Dec 01, 2024 at 02:13 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,7 +45,8 @@ CREATE TABLE `bands` (
 --
 
 INSERT INTO `bands` (`id`, `name`, `details`, `contact_email`, `contact_phone`, `band_logo`, `band_cover`, `status`, `created_at`, `updated_at`) VALUES
-(3, 'test', NULL, NULL, '01829786918', NULL, NULL, 'Active', '2024-08-19 19:07:33', '2024-08-19 19:07:33');
+(3, 'test', NULL, NULL, '01829786918', NULL, NULL, 'Active', '2024-08-19 19:07:33', '2024-08-19 19:07:33'),
+(4, 'Warfaze', NULL, NULL, '01829786918', 'uploads/bands/1733058606.png', 'uploads/bands/1733058606.jpg', 'Active', '2024-12-01 13:10:06', '2024-12-01 13:10:06');
 
 -- --------------------------------------------------------
 
@@ -55,13 +56,23 @@ INSERT INTO `bands` (`id`, `name`, `details`, `contact_email`, `contact_phone`, 
 
 CREATE TABLE `banners` (
   `id` int(11) NOT NULL,
-  `file_name` varchar(255) NOT NULL,
+  `file_name` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `description` varchar(550) DEFAULT NULL,
   `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `banners`
+--
+
+INSERT INTO `banners` (`id`, `file_name`, `title`, `description`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'uploads/banners/banner1.jpg', 'The Biggest Sale', 'Special for today', 'Active', '2024-12-01 15:48:30', '2024-12-01 15:48:30'),
+(2, 'uploads/banners/banner2.jpg', 'Summer Collection', 'New Arrivals On Sale', 'Active', '2024-12-01 15:48:30', '2024-12-01 15:48:30'),
+(3, 'uploads/banners/banner3.jpg', 'The Biggest Sale', 'Special for today', 'Active', '2024-12-01 15:49:14', '2024-12-01 15:49:14'),
+(4, 'uploads/banners/banner4.jpg', 'Summer Collection', 'New Arrivals On Sale', 'Active', '2024-12-01 15:49:14', '2024-12-01 15:49:14');
 
 -- --------------------------------------------------------
 
@@ -86,7 +97,9 @@ INSERT INTO `brands` (`id`, `name`, `description`, `status`, `created_at`, `upda
 (1, 'test', NULL, 'Active', '2024-08-13 03:33:43', '2024-08-13 03:33:43'),
 (2, 'test2', NULL, 'Active', '2024-08-13 03:38:02', '2024-08-13 03:38:02'),
 (3, 'test2334', 'hey', 'Active', '2024-08-13 16:43:17', '2024-08-13 16:48:45'),
-(4, 'test44', 'test', 'Active', '2024-08-13 16:44:47', '2024-08-13 17:24:27');
+(4, 'test44', 'test', 'Active', '2024-08-13 16:44:47', '2024-08-13 17:24:27'),
+(5, 'Gucci', NULL, 'Active', '2024-11-28 07:36:33', '2024-11-28 07:36:33'),
+(6, 'Nike', NULL, 'Active', '2024-11-28 07:36:42', '2024-11-28 07:36:42');
 
 -- --------------------------------------------------------
 
@@ -99,14 +112,6 @@ CREATE TABLE `cache` (
   `value` mediumtext NOT NULL,
   `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `cache`
---
-
-INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('abc@gmail.com|127.0.0.1', 'i:2;', 1724097017),
-('abc@gmail.com|127.0.0.1:timer', 'i:1724097017;', 1724097017);
 
 -- --------------------------------------------------------
 
@@ -149,7 +154,8 @@ INSERT INTO `categories` (`id`, `name`, `type`, `description`, `status`, `create
 (8, 'category 5', 'male', NULL, 'Active', '2024-10-23 13:56:22', '2024-10-23 13:56:22'),
 (9, 'category 6', 'male', NULL, 'Active', '2024-10-23 13:56:31', '2024-10-23 13:56:31'),
 (10, 'category 7', 'male', NULL, 'Active', '2024-10-23 13:56:40', '2024-10-23 13:56:40'),
-(11, 'category 8', 'male', NULL, 'Active', '2024-10-23 13:57:12', '2024-10-23 13:57:12');
+(11, 'category 8', 'male', NULL, 'Active', '2024-10-23 13:57:12', '2024-10-23 13:57:12'),
+(12, 'female category 1', 'female', NULL, 'Active', '2024-12-01 07:07:14', '2024-12-01 07:07:14');
 
 -- --------------------------------------------------------
 
@@ -181,19 +187,53 @@ INSERT INTO `companies` (`id`, `company_name`, `description`, `address`, `phone`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `contacts`
+--
+
+CREATE TABLE `contacts` (
+  `id` int(11) NOT NULL,
+  `full_name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `subject` varchar(100) NOT NULL,
+  `message` varchar(100) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `contacts`
+--
+
+INSERT INTO `contacts` (`id`, `full_name`, `email`, `subject`, `message`, `created_at`, `updated_at`) VALUES
+(1, 'Joseph dias', 'name@gmail.com', 'subject', 'Mail goes to spam', '2024-12-01 06:02:20', '2024-12-01 06:02:20');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `customers`
 --
 
 CREATE TABLE `customers` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
+  `user_name` varchar(100) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
+  `type` enum('general','band') NOT NULL DEFAULT 'general',
+  `band_id` int(20) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `customers`
+--
+
+INSERT INTO `customers` (`id`, `name`, `user_name`, `email`, `email_verified_at`, `type`, `band_id`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'test', NULL, 'test@gmail.com', NULL, 'general', 3, '$2y$12$V/eFqfIveKY82rCicGM2nug38ep9DipRqUdpuc4u9TiMXI1Z7Wzte', NULL, '2024-10-25 11:09:44', '2024-11-28 01:27:52'),
+(2, 'Md Tousif', 'md-tousif', 'tousif@gmail.com', NULL, 'general', NULL, '$2y$12$.BEXwfhByZnQU.kxXruvuehsKOvtHAb4aLNIQXXU81vSHkgxxQ0w6', NULL, '2024-12-01 01:58:16', '2024-12-01 01:58:16');
 
 -- --------------------------------------------------------
 
@@ -294,7 +334,10 @@ INSERT INTO `images` (`id`, `product_id`, `name`, `details`, `status`, `type`, `
 (59, 72, 'uploads/images.png', NULL, 'Active', NULL, '2024-08-23 16:59:43', '2024-08-23 16:59:43'),
 (60, 73, 'uploads/images.png', NULL, 'Active', NULL, '2024-08-23 16:59:44', '2024-08-23 16:59:44'),
 (61, 74, 'uploads/images.png', NULL, 'Active', NULL, '2024-08-23 16:59:44', '2024-08-23 16:59:44'),
-(62, 75, 'uploads/images.png', NULL, 'Active', NULL, '2024-10-22 16:34:30', '2024-10-22 16:34:30');
+(62, 75, 'uploads/images.png', NULL, 'Active', NULL, '2024-10-22 16:34:30', '2024-10-22 16:34:30'),
+(63, 1, 'uploads/products/1733050966.jpg', NULL, 'Active', NULL, '2024-11-14 16:51:52', '2024-12-01 11:02:46'),
+(64, 2, 'uploads/products/1731721471.jpg', NULL, 'Active', NULL, '2024-11-16 01:44:31', '2024-11-16 01:44:31'),
+(65, 3, 'uploads/products/1731776537.jpg', NULL, 'Active', NULL, '2024-11-16 17:02:17', '2024-11-16 17:02:17');
 
 -- --------------------------------------------------------
 
@@ -376,6 +419,7 @@ CREATE TABLE `products` (
   `id` bigint(20) NOT NULL,
   `cloth_for` enum('male','female') DEFAULT NULL,
   `brand_id` bigint(20) DEFAULT NULL,
+  `band_id` int(20) DEFAULT NULL,
   `category_id` bigint(20) DEFAULT NULL,
   `sub_category_id` bigint(20) DEFAULT NULL,
   `unit` varchar(50) DEFAULT NULL,
@@ -385,7 +429,7 @@ CREATE TABLE `products` (
   `price` int(20) DEFAULT NULL,
   `status` enum('Active','Inactive') DEFAULT NULL,
   `image` varchar(1000) DEFAULT NULL,
-  `discount` int(20) DEFAULT NULL,
+  `discount` decimal(10,2) DEFAULT 0.00,
   `description` varchar(400) DEFAULT NULL,
   `additional_info` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -396,70 +440,162 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `cloth_for`, `brand_id`, `category_id`, `sub_category_id`, `unit`, `featured`, `Tranding`, `name`, `price`, `status`, `image`, `discount`, `description`, `additional_info`, `created_at`, `updated_at`) VALUES
-(12, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test', 300, 'Inactive', NULL, 100, NULL, NULL, '2024-08-03 11:57:48', '2024-08-28 20:16:58'),
-(14, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'T-shirt', 1000, 'Active', NULL, 100, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever si.', NULL, '2024-08-13 20:55:27', '2024-08-14 02:55:27'),
-(15, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 07:10:17', '2024-08-23 13:10:17'),
-(16, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:57:29', '2024-08-23 16:57:29'),
-(17, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:57:57', '2024-08-23 16:57:57'),
-(18, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:58:26', '2024-08-23 16:58:26'),
-(19, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:58:33', '2024-08-23 16:58:33'),
-(20, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:03', '2024-08-23 16:59:03'),
-(21, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:05', '2024-08-23 16:59:05'),
-(22, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:07', '2024-08-23 16:59:07'),
-(23, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:09', '2024-08-23 16:59:09'),
-(24, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:11', '2024-08-23 16:59:11'),
-(25, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:11', '2024-08-23 16:59:11'),
-(26, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:12', '2024-08-23 16:59:12'),
-(27, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:13', '2024-08-23 16:59:13'),
-(28, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:14', '2024-08-23 16:59:14'),
-(29, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:14', '2024-08-23 16:59:14'),
-(30, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:15', '2024-08-23 16:59:15'),
-(31, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:16', '2024-08-23 16:59:16'),
-(32, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:16', '2024-08-23 16:59:16'),
-(33, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:17', '2024-08-23 16:59:17'),
-(34, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:17', '2024-08-23 16:59:17'),
-(35, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:18', '2024-08-23 16:59:18'),
-(36, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:19', '2024-08-23 16:59:19'),
-(37, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:20', '2024-08-23 16:59:20'),
-(38, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:20', '2024-08-23 16:59:20'),
-(39, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:21', '2024-08-23 16:59:21'),
-(40, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:21', '2024-08-23 16:59:21'),
-(41, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:22', '2024-08-23 16:59:22'),
-(42, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:23', '2024-08-23 16:59:23'),
-(43, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:24', '2024-08-23 16:59:24'),
-(44, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:24', '2024-08-23 16:59:24'),
-(45, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:25', '2024-08-23 16:59:25'),
-(46, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:25', '2024-08-23 16:59:25'),
-(47, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:26', '2024-08-23 16:59:26'),
-(48, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:27', '2024-08-23 16:59:27'),
-(49, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:28', '2024-08-23 16:59:28'),
-(50, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:29', '2024-08-23 16:59:29'),
-(51, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:29', '2024-08-23 16:59:29'),
-(52, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:30', '2024-08-23 16:59:30'),
-(53, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:31', '2024-08-23 16:59:31'),
-(54, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:31', '2024-08-23 16:59:31'),
-(55, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:32', '2024-08-23 16:59:32'),
-(56, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:32', '2024-08-23 16:59:32'),
-(57, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:33', '2024-08-23 16:59:33'),
-(58, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:34', '2024-08-23 16:59:34'),
-(59, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:34', '2024-08-23 16:59:34'),
-(60, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:35', '2024-08-23 16:59:35'),
-(61, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:35', '2024-08-23 16:59:35'),
-(62, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:36', '2024-08-23 16:59:36'),
-(63, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:37', '2024-08-23 16:59:37'),
-(64, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:37', '2024-08-23 16:59:37'),
-(65, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:38', '2024-08-23 16:59:38'),
-(66, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:38', '2024-08-23 16:59:38'),
-(67, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:39', '2024-08-23 16:59:39'),
-(68, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:39', '2024-08-23 16:59:39'),
-(69, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:40', '2024-08-23 16:59:40'),
-(70, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:41', '2024-08-23 16:59:41'),
-(71, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:41', '2024-08-23 16:59:41'),
-(72, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:43', '2024-08-23 16:59:43'),
-(73, NULL, NULL, NULL, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:43', '2024-08-23 16:59:43'),
-(74, NULL, 1, 1, NULL, NULL, 'No', 'No', 'test 3', 300, 'Active', NULL, 100, 'test', 'test', '2024-08-23 10:59:44', '2024-08-23 16:59:44'),
-(75, 'male', 2, 2, 1, NULL, 'No', 'Yes', 'test 2', 300, 'Active', NULL, 100, 'test', 'test 2', '2024-10-22 10:34:30', '2024-10-22 16:34:30');
+INSERT INTO `products` (`id`, `cloth_for`, `brand_id`, `band_id`, `category_id`, `sub_category_id`, `unit`, `featured`, `Tranding`, `name`, `price`, `status`, `image`, `discount`, `description`, `additional_info`, `created_at`, `updated_at`) VALUES
+(1, 'male', 1, 3, 4, NULL, NULL, 'No', 'Yes', 'Polo Tshirt', 1000, 'Active', NULL, 100.00, NULL, NULL, '2024-11-14 10:51:52', '2024-12-01 11:02:46'),
+(2, 'male', 1, NULL, 10, NULL, NULL, 'Yes', 'No', 'Cargo Pants Mens', 600, 'Active', NULL, NULL, NULL, NULL, '2024-11-15 19:44:31', '2024-12-01 10:41:04'),
+(3, 'female', 2, NULL, 4, NULL, NULL, 'Yes', 'No', 'Black And Red Embroidered Linen Kurti', 1100, 'Active', NULL, NULL, NULL, 'Embrace the elegance and enhance your style with Women\'s Screen Printed with Hand Embroidered Linen Kurti by Grameen Check.', '2024-11-16 11:02:17', '2024-11-16 17:02:17');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ratings`
+--
+
+CREATE TABLE `ratings` (
+  `id` int(11) NOT NULL,
+  `product_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL DEFAULT 0,
+  `rating` varchar(100) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ratings`
+--
+
+INSERT INTO `ratings` (`id`, `product_id`, `user_id`, `rating`, `created_at`, `updated_at`) VALUES
+(1, 2, 1, '4', '2024-11-26 05:07:10', '2024-11-26 05:07:10'),
+(2, 1, 1, '3', '2024-11-26 05:54:28', '2024-11-26 05:54:28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `recommendations`
+--
+
+CREATE TABLE `recommendations` (
+  `id` bigint(20) NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `predicted_score` float NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `timestamp` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `recommendations`
+--
+
+INSERT INTO `recommendations` (`id`, `user_id`, `predicted_score`, `product_id`, `created_at`, `updated_at`, `timestamp`) VALUES
+(0, 1, 0.750659, 2, NULL, NULL, '2024-11-30 17:20:18'),
+(0, 1, 0.750659, 3, NULL, NULL, '2024-11-30 17:20:18'),
+(0, 1, 0.249341, 1, NULL, NULL, '2024-11-30 17:20:18'),
+(0, 1, 0.750659, 3, NULL, NULL, '2024-11-30 17:33:47'),
+(0, 1, 0.249341, 1, NULL, NULL, '2024-11-30 17:33:47'),
+(0, 1, 0.750659, 3, NULL, NULL, '2024-12-01 13:59:43'),
+(0, 1, 0.249341, 1, NULL, NULL, '2024-12-01 13:59:43'),
+(0, 1, 0.750659, 2, NULL, NULL, '2024-12-01 14:00:02'),
+(0, 1, 0.750659, 3, NULL, NULL, '2024-12-01 14:00:02'),
+(0, 1, 0.750659, 3, NULL, NULL, '2024-12-01 14:01:47'),
+(0, 1, 0.249341, 1, NULL, NULL, '2024-12-01 14:01:47'),
+(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 14:05:24'),
+(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 14:05:24'),
+(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 14:06:09'),
+(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 14:06:09'),
+(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 14:08:45'),
+(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 14:08:45'),
+(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 14:09:03'),
+(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 14:09:03'),
+(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 14:09:40'),
+(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 14:09:40'),
+(0, 2, 0.750659, 2, NULL, NULL, '2024-12-01 14:11:20'),
+(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 14:11:20'),
+(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 14:11:36'),
+(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 14:11:36'),
+(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 14:12:01'),
+(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 14:12:01'),
+(0, 2, 0.750659, 2, NULL, NULL, '2024-12-01 15:14:18'),
+(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 15:14:18'),
+(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 16:41:45'),
+(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 16:41:45'),
+(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 16:45:14'),
+(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 16:45:14'),
+(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 16:46:00'),
+(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 16:46:00'),
+(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 16:46:33'),
+(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 16:46:33'),
+(0, 2, 0.750659, 2, NULL, NULL, '2024-12-01 16:46:53'),
+(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 16:46:53'),
+(0, 2, 0.750659, 2, NULL, NULL, '2024-12-01 16:47:13'),
+(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 16:47:13'),
+(0, 2, 0.750659, 2, NULL, NULL, '2024-12-01 16:47:52'),
+(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 16:47:52'),
+(0, 2, 0.750659, 2, NULL, NULL, '2024-12-01 16:55:04'),
+(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 16:55:04'),
+(0, 2, 0.750659, 2, NULL, NULL, '2024-12-01 17:12:59'),
+(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 17:12:59'),
+(0, 2, 0.750659, 3, '2024-12-01 11:14:00', '2024-12-01 11:14:00', '2024-12-01 17:14:00'),
+(0, 2, 0.249341, 1, '2024-12-01 11:14:00', '2024-12-01 11:14:00', '2024-12-01 17:14:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales`
+--
+
+CREATE TABLE `sales` (
+  `id` int(11) NOT NULL,
+  `sale_date` datetime NOT NULL,
+  `total_amount` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `customer_id` bigint(20) NOT NULL,
+  `payment_method` enum('Cash','Card','Online') DEFAULT NULL,
+  `deleted` enum('No','Yes') NOT NULL DEFAULT 'No',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sales`
+--
+
+INSERT INTO `sales` (`id`, `sale_date`, `total_amount`, `customer_id`, `payment_method`, `deleted`, `created_at`, `updated_at`) VALUES
+(1, '2024-11-19 00:00:00', 0.00, 1, 'Card', 'No', '2024-11-19 11:50:34', '2024-11-19 11:50:34'),
+(2, '2024-11-19 00:00:00', 0.00, 1, 'Card', 'No', '2024-11-19 11:50:47', '2024-11-19 11:50:47'),
+(3, '2024-11-19 00:00:00', 0.00, 1, 'Card', 'No', '2024-11-19 11:50:50', '2024-11-19 11:50:50'),
+(9, '2024-11-20 00:00:00', 0.00, 1, 'Card', 'No', '2024-11-19 20:46:17', '2024-11-19 20:46:17'),
+(10, '2024-11-20 00:00:00', 2400.00, 1, 'Card', 'No', '2024-11-19 21:01:55', '2024-11-19 21:01:55'),
+(11, '2024-11-23 13:24:45', 600.00, 1, 'Card', 'No', '2024-11-23 07:24:45', '2024-11-23 07:24:45');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sale_items`
+--
+
+CREATE TABLE `sale_items` (
+  `id` int(11) NOT NULL,
+  `sales_id` bigint(20) NOT NULL,
+  `product_id` bigint(20) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price_per_unit` decimal(10,2) NOT NULL,
+  `total_price` decimal(10,2) NOT NULL,
+  `deleted` enum('Yes','No') NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sale_items`
+--
+
+INSERT INTO `sale_items` (`id`, `sales_id`, `product_id`, `quantity`, `price_per_unit`, `total_price`, `deleted`, `created_at`, `updated_at`) VALUES
+(1, 9, 1, 1, 1000.00, 1000.00, 'Yes', '2024-11-19 20:46:17', '2024-11-19 20:46:17'),
+(2, 9, 2, 1, 600.00, 600.00, 'Yes', '2024-11-19 20:46:17', '2024-11-19 20:46:17'),
+(3, 10, 1, 2, 900.00, 1800.00, 'Yes', '2024-11-20 03:01:55', '2024-11-20 03:01:55'),
+(4, 10, 2, 1, 600.00, 600.00, 'Yes', '2024-11-20 03:01:55', '2024-11-20 03:01:55'),
+(5, 11, 2, 1, 600.00, 600.00, 'Yes', '2024-11-23 13:24:45', '2024-11-23 13:24:45');
 
 -- --------------------------------------------------------
 
@@ -481,9 +617,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('8IDz5UlhxfxPVCFYw35blyV92cKT8Fynj6DSeUmm', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoibkU1UkN5Q0F6ZUl4cURXWURRRzE5eUVlakkyVzRBRzFJYVRxRW94NCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1729800736),
-('aff80IQ3UmOG9kaOs44N5aWsEuDPQVUAQ0IPXoh4', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiMVFqRnBWdFRZNEEyU3h0bzZZSHc4clo4eDJ0MFhiYXJiVHBnNUhRYiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1729794513),
-('M7VBri4oA3W5EYhcdFlZ1EukfwPhcbst0yVa8bEm', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiSnNzU3g5R25qWWlUTWdpckFtUlhIU2ZyUzR0MEVOTTFKY2NLTXQzOSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9tZW5zIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MDp7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7fQ==', 1729713451);
+('3fP2zaxLWs9Rr5GIlkSiCbiFs8AbQZYZDIpe1Ze4', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiZ0VobWdZMTBXckE2OWJxWmNydEFQNVV0UnpFVGNoaTI1aDJxMU1zdSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hY2NvdW50X2hvbWUiO31zOjU1OiJsb2dpbl9jdXN0b21lcl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mjt9', 1733058622);
 
 -- --------------------------------------------------------
 
@@ -532,7 +666,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'User 1', 'example@gmail.com', NULL, '123456', NULL, NULL, NULL),
-(2, 'admin', 'admin@gmail.com', NULL, '$2y$12$p6yFy6sx4vFcRW9l/gE1v.4.rMl0R2Cqt61fHzf.rx5F3tQwYJbwW', 'wdK1R7hBmZrCwRm15n31ZXkDkNVECE4PEKfmobslmEOpU7BBMJjdKQFLwGfZ', '2024-08-19 10:45:37', '2024-08-19 10:45:37');
+(2, 'admin', 'admin@gmail.com', NULL, '$2y$12$p6yFy6sx4vFcRW9l/gE1v.4.rMl0R2Cqt61fHzf.rx5F3tQwYJbwW', '1BH5NVOfi7sybeLSarZSnbiUkgmSny7VjJweHsZqmh9u59h4DUs5JwDHC5rz', '2024-08-19 10:45:37', '2024-08-19 10:45:37');
 
 --
 -- Indexes for dumped tables
@@ -578,6 +712,12 @@ ALTER TABLE `categories`
 -- Indexes for table `companies`
 --
 ALTER TABLE `companies`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `contacts`
+--
+ALTER TABLE `contacts`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -632,6 +772,30 @@ ALTER TABLE `products`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `ratings`
+--
+ALTER TABLE `ratings`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `recommendations`
+--
+ALTER TABLE `recommendations`
+  ADD KEY `recommendations_user_id_foreign` (`user_id`);
+
+--
+-- Indexes for table `sales`
+--
+ALTER TABLE `sales`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sale_items`
+--
+ALTER TABLE `sale_items`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `sessions`
 --
 ALTER TABLE `sessions`
@@ -660,25 +824,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bands`
 --
 ALTER TABLE `bands`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `banners`
 --
 ALTER TABLE `banners`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `companies`
@@ -687,10 +851,16 @@ ALTER TABLE `companies`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `contacts`
+--
+ALTER TABLE `contacts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -702,7 +872,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `jobs`
@@ -720,7 +890,25 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `ratings`
+--
+ALTER TABLE `ratings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `sales`
+--
+ALTER TABLE `sales`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `sale_items`
+--
+ALTER TABLE `sale_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `sub_categories`
@@ -733,6 +921,16 @@ ALTER TABLE `sub_categories`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `recommendations`
+--
+ALTER TABLE `recommendations`
+  ADD CONSTRAINT `recommendations_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

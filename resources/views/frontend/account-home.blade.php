@@ -715,7 +715,7 @@ color: #a2a6af
                                 <input type="hidden" id="user_id" name="user_id" value="{{$customerInfo->id}}">
                                 <label class="col-md-2 col-sm-3 col-xs-12 control-label">User Name</label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input type="text" class="form-control" value="{{ $customerInfo->user_name}}">
+                                    <input type="text" class="form-control" name="user_name" value="{{ $customerInfo->user_name}}">
                                 </div>
                             </div>
         

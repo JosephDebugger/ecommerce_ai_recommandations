@@ -676,7 +676,20 @@
                     </div>
                     <div class="content-panel">
 
-                        <h2 class="title">Band Sales List<span class="pro-label label label-warning"></span></h2>
+                        <div class="row d-flex">
+                            <div class="col-md-6">
+                                <h2 class="title">Band Sales List<span class="pro-label label label-warning"></span></h2>
+                            </div>
+                            @if($customerInfo->band_id  >0)
+                            <div class="col-md-6">
+
+                                <label for="">Current Balence</label>
+                                <input type="text" class="form-control float-right" placeholder="0.00" disabled>
+                            </div>
+                            @endif
+                        </div>
+                        
+
 
                         <ol class="sales-list alternating-colors">
                             @foreach ($orders as $order)
