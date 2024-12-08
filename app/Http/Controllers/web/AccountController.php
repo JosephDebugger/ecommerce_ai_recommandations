@@ -122,11 +122,21 @@ class AccountController extends Controller
     public function accountCustomerChats(Request $request){
         $userId = Auth::guard('customer')->id();
        
-      
         $customerInfo  = Customer::find($userId);
-        $chats  = Chat::where('user_id' , $userId);
+        $chats  = Chat::where('user_id' , $userId)->get();
+        //dd($userId);
         return view('frontend.account-message', ['customerInfo'=>$customerInfo,'chats'=>$chats]);
     }
+    public function accountSendMsg(Request $request){
+        $userId = Auth::guard('customer')->id();
+        $chat = New Chat();
+        $chat->user_id = $userId;
+        $chat->type = 'user';
+        $chat->message = $request->message;
+        $chat->save();
+        return response()->json('success');
+    }
+    
     
     
 }

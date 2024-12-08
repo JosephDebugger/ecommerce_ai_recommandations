@@ -622,7 +622,7 @@
             z-index: 7
         }
 
-       
+
         .people-list {
             -moz-transition: .5s;
             -o-transition: .5s;
@@ -630,10 +630,10 @@
             transition: .5s
         }
 
-       
 
-        
-        
+
+
+
         .people-list img {
             float: left;
             border-radius: 50%
@@ -815,7 +815,7 @@
         }
 
         @media only screen and (min-width: 768px) and (max-width: 992px) {
-         
+
 
             .chat-app .chat-history {
                 height: 600px;
@@ -824,7 +824,7 @@
         }
 
         @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1) {
-          
+
             .chat-app .chat-history {
                 height: calc(100vh - 350px);
                 overflow-x: auto
@@ -843,7 +843,7 @@
                             <img class="img-profile img-circle img-responsive center-block"
                                 src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
                             <ul class="meta list list-unstyled">
-                                <li class="name">{{ $customerInfo->name}}
+                                <li class="name">{{ $customerInfo->name }}
                                     <label class="label label-info">Silver</label>
                                 </li>
 
@@ -855,7 +855,7 @@
                         <div class="row clearfix">
                             <div class="col-lg-12 col-md-12">
                                 <div class="card chat-app">
-                                   
+
                                     <div class="chat">
                                         <div class="chat-header clearfix">
                                             <div class="row">
@@ -866,8 +866,8 @@
                                                             alt="avatar">
                                                     </a>
                                                     <div class="chat-about">
-                                                        <h6 class="m-b-0">{{ $customerInfo->name}}</h6>
-                                                       
+                                                        <h6 class="m-b-0">{{ $customerInfo->name }}</h6>
+
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 hidden-sm text-right">
@@ -883,35 +883,40 @@
                                             </div>
                                         </div>
                                         <div class="chat-history">
-                                            <ul class="m-b-0">
-                                                @foreach($chats as $chat)
-                                                @if($chat->type =='admin')
-                                                <li class="clearfix">
-                                                    <div class="message-data text-right">
-                                                        <span class="message-data-time">{{$chat->created_at}}</span>
-                                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                                                            alt="avatar">
-                                                    </div>
-                                                    <div class="message other-message float-right">{{$chat->message}}</div>
-                                                </li>
-                                                @else
-                                                <li class="clearfix">
-                                                    <div class="message-data">
-                                                        <span class="message-data-time">{{$chat->created_at}}</span>
-                                                    </div>
-                                                    <div class="message my-message">{{$chat->message}}</div>
-                                                </li>
-                                                @endif
+                                            <ul class="m-b-0" id="messages">
+                                                @foreach ($chats as $chat)
+                                                    @if ($chat->type == 'admin')
+                                                        <li class="clearfix">
+                                                            <div class="message-data text-right">
+                                                                <span
+                                                                    class="message-data-time">{{ $chat->created_at }}</span>
+                                                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                                                                    alt="avatar">
+                                                            </div>
+                                                            <div class="message other-message float-right">
+                                                                {{ $chat->message }}</div>
+                                                        </li>
+                                                    @else
+                                                        <li class="clearfix">
+                                                            <div class="message-data">
+                                                                <span
+                                                                    class="message-data-time">{{ $chat->created_at }}</span>
+                                                            </div>
+                                                            <div class="message my-message">{{ $chat->message }}</div>
+                                                        </li>
+                                                    @endif
                                                 @endforeach
-                                                
+
                                             </ul>
                                         </div>
                                         <div class="chat-message clearfix">
-                                            <div class="input-group mb-0">
-                                                <div class="input-group-prepend" onclick="sendMessage()">
-                                                    <span class="input-group-text"><i class="fa fa-send"></i></span>
+                                            <div class="input-group mb-0 d-flex row">
+                                                <div class="input-group-prepend col-1">
+                                                    <button onclick="sendMessage()"> <span class="input-group-text"><i
+                                                                class="fa fa-send"></i></span></button>
+
                                                 </div>
-                                                <input type="text" class="form-control"
+                                                <input type="text" class="form-control col-6" id="message"
                                                     placeholder="Enter text here...">
                                             </div>
                                         </div>
@@ -924,5 +929,52 @@
                 </div>
             </section>
         </div>
+        <script>
+            function sendMessage() {
+                var message = $('#message').val();
+               
+                //alert(message)
+                var data = {
+                    message: message,
+                    _token: "{{ csrf_token() }}"
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('accountSendMsg') }}",
+                    data: data,
+                    dataType: "json",
+                    success: function(response) {
+                        //alert(JSON.stringify(response));
+                        if(response == 'success'){
+                            $('#message').val('');
+                        
+                        var currentdate = new Date();
+                        var time =  
+                        currentdate.getDate() + "/"
+                                    + (currentdate.getMonth()+1)  + "/" 
+                                    + currentdate.getFullYear();
+                        if (response == 'success') {
+                            $('#messages').append(`<li class="clearfix">
+                                                            <div class="message-data">
+                                                                <span
+                                                                    class="message-data-time">${time}</span>
+                                                            </div>
+                                                            <div class="message my-message">${message}</div>
+                                                        </li>`)
+                        }
+                    }else{
+                        alert(JSON.stringify(response));
+                    }
+
+
+                    },
+                    error: function(error) {
+                        alert(JSON.stringify(error));
+                    }
+                });
+            }
+        </script>
     </div>
+@endsection
+@section('scripts')
 @endsection
