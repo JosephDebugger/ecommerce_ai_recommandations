@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\admin\sale\Sale;
 use App\Models\admin\sale\SaleItems;
 use App\Models\admin\Band;
+use App\Models\Chat;
 
 class AccountController extends Controller
 {
@@ -118,5 +119,14 @@ class AccountController extends Controller
         $customerInfo  = Customer::find($userId);
         return view('frontend.account-bill_info', compact('customerInfo'));
     }
+    public function accountCustomerChats(Request $request){
+        $userId = Auth::guard('customer')->id();
+       
+      
+        $customerInfo  = Customer::find($userId);
+        $chats  = Chat::where('user_id' , $userId);
+        return view('frontend.account-message', ['customerInfo'=>$customerInfo,'chats'=>$chats]);
+    }
+    
     
 }

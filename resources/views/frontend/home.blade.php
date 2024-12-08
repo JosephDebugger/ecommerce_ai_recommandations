@@ -335,50 +335,49 @@
                         $('#recommendations').append(`
                           
                          <div class="col-md-3 product-men single">
-        <div class="men-pro-item simpleCart_shelfItem">
-            <div class="men-thumb-item">
-                <img src="{{ asset('${element.image}') }}" alt="" class="pro-image-front">
-                <img src="{{ asset('${element.image}') }}"  alt="" class="pro-image-back">
-                <div class="men-cart-pro">
-                    <div class="inner-men-cart-pro">
-                        <a href="/product/${element.id}" class="link-product-add-cart">Quick View</a>
-                    </div>
-                </div>
-                <span class="product-new-top">New</span>
+                            <div class="men-pro-item simpleCart_shelfItem">
+                                <div class="men-thumb-item">
+                                    <img src="{{ asset('${element.image}') }}" alt="" class="pro-image-front">
+                                    <img src="{{ asset('${element.image}') }}"  alt="" class="pro-image-back">
+                                    <div class="men-cart-pro">
+                                        <div class="inner-men-cart-pro">
+                                            <a href="/product/${element.id}" class="link-product-add-cart">Quick View</a>
+                                        </div>
+                                    </div>
+                                    <span class="product-new-top">New</span>
+                                </div>
+                                <div class="item-info-product ">
+                                    <h4><a href="single.html">${element.name}</a></h4>
+                                    <div class="info-product-price">
+                                        <span class="item_price">${element.price} Tk</span>
+                                    
+                                    </div>
+                                    <div
+                                        class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
+                                        <form action="#" method="post">
+                                            <fieldset>
+                                            
+                                                <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                                                    <input type="hidden" name="cmd" value="_cart" />
+                                                    <input type="hidden" name="add" value="1" />
+                                                    <input type="hidden" name="business" value="example@minicartjs.com" />
+                                                    <input type="hidden" name="item_name" value="${element.name}" />
+                                                    <input type="hidden" name="quantity" value="1" />
+                                                    <input type="hidden" name="amount" value="${element.price}" />
+                                                    <input type="hidden" name="discount_amount" value="${element.discount}" />
+                                                    <input type="hidden" name="currency_code" value="USD" />
+                                                    <input type="hidden" name="return" value=" " />
+                                                    <input type="hidden" name="cancel_return" value=" " />
+                                                    <input type="submit" name="submit" value="Add to cart"
+                                                        class="button" />
+                                                    </form>
+                                            </fieldset>
+                                        </form>
+                                    </div>
 
-            </div>
-            <div class="item-info-product ">
-                <h4><a href="single.html">${element.name}</a></h4>
-                <div class="info-product-price">
-                    <span class="item_price">${element.price} Tk</span>
-                   
-                </div>
-                <div
-                    class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
-                    <form action="#" method="post">
-                        <fieldset>
-                           
-                            <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-                                <input type="hidden" name="cmd" value="_cart" />
-                                <input type="hidden" name="add" value="1" />
-                                <input type="hidden" name="business" value="example@minicartjs.com" />
-                                <input type="hidden" name="item_name" value="${element.name}" />
-                                <input type="hidden" name="quantity" value="1" />
-                                <input type="hidden" name="amount" value="${element.price}" />
-                                <input type="hidden" name="discount_amount" value="${element.discount}" />
-                                <input type="hidden" name="currency_code" value="USD" />
-                                <input type="hidden" name="return" value=" " />
-                                <input type="hidden" name="cancel_return" value=" " />
-                                <input type="submit" name="submit" value="Add to cart"
-                                    class="button" />
-                                </form>
-                        </fieldset>
-                    </form>
-                </div>
-
-            </div>
-        </div>
-    </div>
+                                </div>
+                            </div>
+                        </div>
                         `)
                     });
                     // Replace the section with new data

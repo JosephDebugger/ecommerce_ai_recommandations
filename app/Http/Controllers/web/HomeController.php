@@ -18,6 +18,7 @@ use App\Models\admin\cms\Banner;
 use App\Models\Contact;
 use App\Models\Customer;
 use App\Models\admin\Band;
+use App\Models\Review;
 
 class HomeController extends Controller
 {
@@ -90,8 +91,9 @@ class HomeController extends Controller
             $userId = Auth::guard('customer')->id();
             ProductInteracted::dispatch($userId, $id, 'view');
         }
+        $reviews = Review::where('product_id', $id)->get();
 
-        return view('frontend.product', ['product' => $product]);
+        return view('frontend.product', ['product' => $product,'reviews' => $reviews]);
     }
     public function checkout($products, $qty)
     {
@@ -202,12 +204,13 @@ class HomeController extends Controller
             $sale->update(['total_amount' => $totalPrice]);
 
             $bandRevenue = ($totalPrice / 10);
-
+            if (Auth::guard('customer')->check()) {
             if ($customer->band_id > 0) {
                 $band = Band::find($customer->band_id);
                 $band->current_balance += $bandRevenue;
                 $band->save();
             }
+        }
 
             DB::commit();
 
@@ -252,18 +255,41 @@ class HomeController extends Controller
         } else {
             $recommendedProducts = Product::leftjoin('images', 'products.id', 'images.product_id')->select('products.id', 'products.cloth_for', 'products.brand_id', 'products.category_id', 'products.sub_category_id', 'products.band_id', 'products.unit', 'products.name', 'products.price', 'images.name as image', 'products.discount')
                 ->join('recommendations', 'recommendations.product_id', 'products.id')
-                ->get();
+                ->distinct()->get();
         }
 
         return response()->json(compact('recommendedProducts'));
     }
 
-    public function setReview(Request $request)
+    public function addReview(Request $request)
     {
+        $userId = '';
+        if (Auth::guard('customer')->check()) {
+            $userId = Auth::guard('customer')->id();
+
+        }
+        $product_id = $request->product_id;
+        $comment = $request->comment;
+        $email = $request->email;
+        $name = $request->name;
+        Review::create([
+            'product_id' => $product_id,
+            'user_id' => $userId,
+            'name' => $name,
+            'email' => $email,
+            'comment' => $comment,
+        ]);
+        $reviews = Review::where('product_id', $product_id)->get();
+        return response()->json(['status' => 'success','reviews'=>$reviews]);
+    }
+
+    public function setRating(Request $request)
+    {
+        $fached ='';
         if (Auth::guard('customer')->check()) {
             $userId = Auth::guard('customer')->id();
             $product_id = $request->product_id;
-            $ratingNum = $request->review;;
+            $ratingNum = $request->rating;
             $rating = Rating::create([
                 'product_id' => $product_id,
                 'user_id' => $userId,

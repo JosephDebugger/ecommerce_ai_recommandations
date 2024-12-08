@@ -40,29 +40,29 @@
                 <p><span class="item_price">$ {{ $product->price }}</span> </p>
                 <div class="rating1">
                     <span class="starRating">
-                        <input id="rating5" type="radio" name="rating" value="5" onclick="getReview(5)">
+                        <input id="rating5" type="radio" name="rating" value="5" onclick="getRating(5)">
                         <label for="rating5">5</label>
-                        <input id="rating4" type="radio" name="rating" value="4" onclick="getReview(4)">
+                        <input id="rating4" type="radio" name="rating" value="4" onclick="getRating(4)">
                         <label for="rating4">4</label>
                         <input id="rating3" type="radio" name="rating" value="3" checked=""
-                            onclick="getReview(3)">
+                            onclick="getRating(3)">
                         <label for="rating3">3</label>
-                        <input id="rating2" type="radio" name="rating" value="2" onclick="getReview(2)">
+                        <input id="rating2" type="radio" name="rating" value="2" onclick="getRating(2)">
                         <label for="rating2">2</label>
-                        <input id="rating1" type="radio" name="rating" value="1" onclick="getReview(1)">
+                        <input id="rating1" type="radio" name="rating" value="1" onclick="getRating(1)">
                         <label for="rating1">1</label>
                     </span>
                 </div>
                 <form action="#" class="description" method="post">
                     {{-- <input type="text" value="Enter pincode" onfocus="this.value = '';"
                         onblur="if (this.value == '') {this.value = 'Enter pincode';}" required=""> --}}
-                    <input type="button" value="Add Rating" onclick="setReview()">
+                    <input type="button" value="Add Rating" onclick="setRating()">
                 </form>
                 <div class="description">
                     <h5>{{ $product->description }}</h5>
 
                 </div>
-              
+
                 <div class="occasion-cart">
                     <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
                         <form action="#" method="post">
@@ -109,8 +109,8 @@
                 <div id="horizontalTab">
                     <ul class="resp-tabs-list">
                         <li>Description</li>
-                        {{-- <li>Reviews</li> --}}
                         <li>Information</li>
+                        <li>Reviews</li>
                     </ul>
                     <div class="resp-tabs-container">
                         <!--/tab_one-->
@@ -133,42 +133,42 @@
                         <div class="tab3">
 
                             <div class="single_page_agile_its_w3ls">
-                                <div class="bootstrap-tab-text-grids">
-                                    <div class="bootstrap-tab-text-grid">
-                                        <div class="bootstrap-tab-text-grid-left">
-                                            <img src="{{asset('uploads/sample-user.webp')}}" style="width: 100px; height:100px;" alt=" " class="img-responsive">
+                                <div class="bootstrap-tab-text-grids" id="reviews">
+                                    @foreach ($reviews as $review)
+                                        <div class="bootstrap-tab-text-grid">
+                                            <div class="bootstrap-tab-text-grid-left">
+                                                <img src="{{ asset('uploads/sample-user.webp') }}"
+                                                    style="width: 100px; height:100px;" alt=" "
+                                                    class="img-responsive">
+                                            </div>
+                                            <div class="bootstrap-tab-text-grid-right">
+                                                <ul>
+                                                    <li><a href="#">{{ $review->name }}</a></li>
+                                                    <li><a href="#"><i class="fa fa-reply-all"
+                                                                aria-hidden="true"></i>
+                                                            Reply</a></li>
+                                                </ul>
+                                                <p>{{ $review->comment }}</p>
+                                            </div>
+
+                                            <div class="clearfix"> </div>
                                         </div>
-                                        <div class="bootstrap-tab-text-grid-right">
-                                            <ul>
-                                                <li><a href="#">Admin</a></li>
-                                                <li><a href="#"><i class="fa fa-reply-all" aria-hidden="true"></i>
-                                                        Reply</a></li>
-                                            </ul>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elPellentesque
-                                                vehicula augue eget.Ut enim ad minima veniam, quis nostrum
-                                                exercitationem ullam corporis
-                                                suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis
-                                                autem
-                                                vel eum iure reprehenderit.</p>
-                                        </div>
-                                        
-                                        <div class="clearfix"> </div>
-                                    </div>
-                                    
+                                    @endforeach
+
                                     <div class="add-review">
-                                        <h4>add a review</h4>
-                                        <form action="#" method="post">
-                                            <input type="text" name="Name" required="Name">
-                                            <input type="email" name="Email" required="Email">
-                                            <textarea name="Message" required=""></textarea>
-                                            <input type="submit" value="SEND">
-                                        </form>
+                                        <h4>Add a review</h4>
+                                        <div>
+                                            <input type="text" name="Name" id="review_name" required>
+                                            <input type="email" name="Email" id="review_email" required>
+                                            <textarea name="message" required id="review_message"></textarea>
+                                            <input type="button" id="rvwBtn" value="SAEND" onclick="addReview()">
+                                        </div>
                                     </div>
                                 </div>
 
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -203,26 +203,78 @@
 
         });
 
-        var review = 0;
+        var rating = 0;
 
-        function getReview(i) {
-            review = i
+        function getRating(i) {
+            rating = i
         }
 
-        function setReview() {
+
+        function addReview() {
+           
             var product_id = $('#product_id').val();
-    
+            var email = $('#review_email').val();
+            var comment = $('#review_message').val();
+            var name = $('#review_name').val();
+
+
             $.ajax({
-                type: "POST",
-                url: "{{ url('setReview') }}",
+                type: "GET",
+                url: "{{ url('addReview') }}",
                 data: {
                     product_id: product_id,
-                    review: review,
+                    email: email,
+                    name: name,
+                    comment: comment,
+
+                },
+                dataType: "json",
+                success: function(response) {
+                    if (response.status == 'success') {
+                        $('#rvwBtn').attr('disabled',true)
+                        console.log(JSON.stringify(response));
+                        $('#reviews').html('');
+                        response.reviews.forEach(element => {
+                            $('#reviews').append(`<div class="bootstrap-tab-text-grid">
+                                        <div class="bootstrap-tab-text-grid-left">
+                                            <img src="{{ asset('uploads/sample-user.webp') }}" style="width: 100px; height:100px;" alt=" " class="img-responsive">
+                                        </div>
+                                        <div class="bootstrap-tab-text-grid-right">
+                                            <ul>
+                                                <li><a href="#">${element.name}</a></li>
+                                                <li><a href="#"><i class="fa fa-reply-all" aria-hidden="true"></i>
+                                                        Reply</a></li>
+                                            </ul>
+                                            <p>${element.comment}</p>
+                                        </div>
+                                        
+                                        <div class="clearfix"> </div>
+                                    </div>`)
+                        });
+
+                    }
+                    console.log(JSON.stringify(response));
+                },
+                error: function(error) {
+                    alert(JSON.stringify(error));
+                }
+            });
+        }
+
+        function setRating() {
+            var product_id = $('#product_id').val();
+
+            $.ajax({
+                type: "POST",
+                url: "{{ url('setRating') }}",
+                data: {
+                    product_id: product_id,
+                    rating: rating,
                     _token: "{{ csrf_token() }}",
                 },
                 dataType: "json",
                 success: function(response) {
-                    if(response.status == 'success'){
+                    if (response.status == 'success') {
                         console.log(JSON.stringify(response));
                     }
                     console.log(JSON.stringify(response));

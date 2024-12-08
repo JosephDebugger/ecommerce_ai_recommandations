@@ -22,7 +22,8 @@ Route::get('/band/{id}', [HomeController::class, 'bandProducts']);
 Route::get('/product/{id}', [HomeController::class, 'product'])->name('product');
 
 Route::get('/recommendations', [HomeController::class, 'recommendations']);
-Route::post('/setReview', [HomeController::class, 'setReview'])->name('setReview');
+Route::post('/setRating', [HomeController::class, 'setRating'])->name('setRating');
+Route::get('/addReview', [HomeController::class, 'addReview'])->name('addReview');
 
 Route::post('/save-user-msg', [HomeController::class, 'saveUserMsg'])->name('save-user-msg');
 
@@ -32,9 +33,10 @@ Route::post('/save-user-msg', [HomeController::class, 'saveUserMsg'])->name('sav
 
 Route::middleware('customer')->group(function () {
     Route::get('/account_home', [AccountController::class, 'accountHome']);
-    Route::get('/account_bill_info', [AccountController::class, 'accountBillInfo']);
+    Route::get(uri: '/account_bill_info', action: [AccountController::class, 'accountBillInfo']);
     Route::get('/account_sales', [AccountController::class, 'accountBandSale']);
     Route::get('/account_orders', [AccountController::class, 'accountCustomerSalesOrder']);
+    Route::get('/account_chats', [AccountController::class, 'accountCustomerChats']);
     Route::get('/account_band_profile', [AccountController::class, 'accountBandProfile']);
     Route::post('/account_update_profile', [AccountController::class, 'accountProfileUpdate'])->name('account_update_profile');
     Route::post('/account_update_bill_info', [AccountController::class, 'accountProfileBillUpdate'])->name('account_update_bill_info');

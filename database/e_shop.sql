@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2024 at 02:13 PM
+-- Generation Time: Dec 06, 2024 at 08:31 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -35,6 +35,7 @@ CREATE TABLE `bands` (
   `contact_phone` varchar(50) DEFAULT NULL,
   `band_logo` varchar(255) DEFAULT NULL,
   `band_cover` varchar(400) DEFAULT NULL,
+  `current_balance` decimal(10,2) DEFAULT NULL,
   `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
@@ -44,9 +45,9 @@ CREATE TABLE `bands` (
 -- Dumping data for table `bands`
 --
 
-INSERT INTO `bands` (`id`, `name`, `details`, `contact_email`, `contact_phone`, `band_logo`, `band_cover`, `status`, `created_at`, `updated_at`) VALUES
-(3, 'test', NULL, NULL, '01829786918', NULL, NULL, 'Active', '2024-08-19 19:07:33', '2024-08-19 19:07:33'),
-(4, 'Warfaze', NULL, NULL, '01829786918', 'uploads/bands/1733058606.png', 'uploads/bands/1733058606.jpg', 'Active', '2024-12-01 13:10:06', '2024-12-01 13:10:06');
+INSERT INTO `bands` (`id`, `name`, `details`, `contact_email`, `contact_phone`, `band_logo`, `band_cover`, `current_balance`, `status`, `created_at`, `updated_at`) VALUES
+(3, 'test1', NULL, NULL, '01829786918', NULL, NULL, 360.00, 'Active', '2024-08-19 19:07:33', '2024-12-06 17:50:25'),
+(4, 'Warfaze', NULL, NULL, '01829786918', 'uploads/bands/1733058606.png', 'uploads/bands/1733058606.jpg', NULL, 'Active', '2024-12-01 13:10:06', '2024-12-01 13:10:06');
 
 -- --------------------------------------------------------
 
@@ -217,10 +218,19 @@ CREATE TABLE `customers` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
   `user_name` varchar(100) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `type` enum('general','band') NOT NULL DEFAULT 'general',
   `band_id` int(20) DEFAULT NULL,
+  `state` varchar(100) DEFAULT NULL,
+  `city` varchar(20) DEFAULT NULL,
+  `name_on_card` varchar(50) DEFAULT NULL,
+  `cc_number` varchar(20) DEFAULT NULL,
+  `exp` varchar(50) DEFAULT NULL,
+  `exp_year` year(4) DEFAULT NULL,
+  `cvv` varchar(50) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -231,9 +241,9 @@ CREATE TABLE `customers` (
 -- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` (`id`, `name`, `user_name`, `email`, `email_verified_at`, `type`, `band_id`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'test', NULL, 'test@gmail.com', NULL, 'general', 3, '$2y$12$V/eFqfIveKY82rCicGM2nug38ep9DipRqUdpuc4u9TiMXI1Z7Wzte', NULL, '2024-10-25 11:09:44', '2024-11-28 01:27:52'),
-(2, 'Md Tousif', 'md-tousif', 'tousif@gmail.com', NULL, 'general', NULL, '$2y$12$.BEXwfhByZnQU.kxXruvuehsKOvtHAb4aLNIQXXU81vSHkgxxQ0w6', NULL, '2024-12-01 01:58:16', '2024-12-01 01:58:16');
+INSERT INTO `customers` (`id`, `name`, `user_name`, `image`, `email`, `email_verified_at`, `type`, `band_id`, `state`, `city`, `name_on_card`, `cc_number`, `exp`, `exp_year`, `cvv`, `address`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'test', 'test1', 'uploads/users/1733510829_logo.jpg', 'test@gmail.com', NULL, 'band', 3, 'chattagram', 'Chittagong', '12123123', NULL, '2024-12', '2024', '123123', 'OR Nizam', '$2y$12$V/eFqfIveKY82rCicGM2nug38ep9DipRqUdpuc4u9TiMXI1Z7Wzte', NULL, '2024-10-25 11:09:44', '2024-12-06 12:47:09'),
+(2, 'Md Tousif', 'md-tousif', NULL, 'tousif@gmail.com', NULL, 'general', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$12$.BEXwfhByZnQU.kxXruvuehsKOvtHAb4aLNIQXXU81vSHkgxxQ0w6', NULL, '2024-12-01 01:58:16', '2024-12-01 01:58:16');
 
 -- --------------------------------------------------------
 
@@ -566,7 +576,8 @@ INSERT INTO `sales` (`id`, `sale_date`, `total_amount`, `customer_id`, `payment_
 (3, '2024-11-19 00:00:00', 0.00, 1, 'Card', 'No', '2024-11-19 11:50:50', '2024-11-19 11:50:50'),
 (9, '2024-11-20 00:00:00', 0.00, 1, 'Card', 'No', '2024-11-19 20:46:17', '2024-11-19 20:46:17'),
 (10, '2024-11-20 00:00:00', 2400.00, 1, 'Card', 'No', '2024-11-19 21:01:55', '2024-11-19 21:01:55'),
-(11, '2024-11-23 13:24:45', 600.00, 1, 'Card', 'No', '2024-11-23 07:24:45', '2024-11-23 07:24:45');
+(11, '2024-11-23 13:24:45', 600.00, 1, 'Card', 'No', '2024-11-23 07:24:45', '2024-11-23 07:24:45'),
+(12, '2024-12-06 17:50:25', 3600.00, 1, 'Card', 'No', '2024-12-06 11:50:25', '2024-12-06 11:50:25');
 
 -- --------------------------------------------------------
 
@@ -595,7 +606,8 @@ INSERT INTO `sale_items` (`id`, `sales_id`, `product_id`, `quantity`, `price_per
 (2, 9, 2, 1, 600.00, 600.00, 'Yes', '2024-11-19 20:46:17', '2024-11-19 20:46:17'),
 (3, 10, 1, 2, 900.00, 1800.00, 'Yes', '2024-11-20 03:01:55', '2024-11-20 03:01:55'),
 (4, 10, 2, 1, 600.00, 600.00, 'Yes', '2024-11-20 03:01:55', '2024-11-20 03:01:55'),
-(5, 11, 2, 1, 600.00, 600.00, 'Yes', '2024-11-23 13:24:45', '2024-11-23 13:24:45');
+(5, 11, 2, 1, 600.00, 600.00, 'Yes', '2024-11-23 13:24:45', '2024-11-23 13:24:45'),
+(6, 12, 1, 4, 900.00, 3600.00, 'Yes', '2024-12-06 17:50:25', '2024-12-06 17:50:25');
 
 -- --------------------------------------------------------
 
@@ -617,7 +629,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('3fP2zaxLWs9Rr5GIlkSiCbiFs8AbQZYZDIpe1Ze4', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiZ0VobWdZMTBXckE2OWJxWmNydEFQNVV0UnpFVGNoaTI1aDJxMU1zdSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hY2NvdW50X2hvbWUiO31zOjU1OiJsb2dpbl9jdXN0b21lcl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mjt9', 1733058622);
+('ooSTjND15YAzSPxElJnleBSbWjICDJbxcSALsZPR', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoicUt5am9lbFRLaVlIUWVzYkJoaEl0YjZXaThxS1paQWY4MEt4Q083VyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9kdWN0LzIiO319', 1733513450);
 
 -- --------------------------------------------------------
 
@@ -902,13 +914,13 @@ ALTER TABLE `ratings`
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `sale_items`
 --
 ALTER TABLE `sale_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `sub_categories`

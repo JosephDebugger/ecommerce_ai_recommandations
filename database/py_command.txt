@@ -1,0 +1,3 @@
+python -m pip install --upgrade pip
+pip install catboost==1.1
+pip install sqlalchemy
