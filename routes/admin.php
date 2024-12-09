@@ -17,6 +17,7 @@ use App\Http\Controllers\admin\SalesController;
 Route::middleware(['auth:web'])->group(function () {
 
     Route::get('/dashboard', [DashController::class, 'index'])->name('dashboard');
+    Route::get('/viewChats', [DashController::class, 'viewChats'])->name('viewChats');
 
     Route::post('/storeProduct', [ProductController::class, 'storeProduct'])->name('storeProduct');
     Route::get('/view-editProduct/{id}', [ProductController::class, 'getProduct'])->name('getProduct');

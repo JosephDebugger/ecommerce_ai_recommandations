@@ -10,4 +10,7 @@ class DashController extends Controller
     public function index(){
         return view('admin.dashboard');
     }
+    public function viewChats(){
+        return view('admin.chats.conversations');
+    }
 }

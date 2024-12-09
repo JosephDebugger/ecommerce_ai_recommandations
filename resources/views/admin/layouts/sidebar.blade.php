@@ -191,6 +191,27 @@
 
 
 
+                          <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-search"></i>
+                                <p>
+                                    Suppoprts
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('viewChats') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Chats</p>
+                                    </a>
+                                </li>
+                             
+                            
+                            </ul>
+                        </li>
+
+
                       </ul>
                   </nav>
                   <!-- /.sidebar-menu -->
