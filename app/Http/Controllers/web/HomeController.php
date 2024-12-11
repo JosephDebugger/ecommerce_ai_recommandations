@@ -196,6 +196,7 @@ class HomeController extends Controller
                     'price_per_unit' => $unitPrice,
                     'total_price' => $itemTotalPrice,
                 ];
+                ProductInteracted::dispatch($userId, $productId, 'purchase');
             }
             
             // Bulk insert SaleItems
@@ -214,10 +215,10 @@ class HomeController extends Controller
 
             DB::commit();
 
-            if (Auth::guard('customer')->check()) {
-                $userId = Auth::guard('customer')->id();
-                ProductInteracted::dispatch($userId, $productId, 'purchase');
-            }
+            // if (Auth::guard('customer')->check()) {
+            //     $userId = Auth::guard('customer')->id();
+              
+            // }
 
 
             return response()->json(['message' => 'success'], 200);
