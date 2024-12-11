@@ -613,6 +613,17 @@
             }
         }
 
+        .card {
+            background: #fff;
+            transition: .5s;
+            border: 0;
+            margin-bottom: 30px;
+            border-radius: .55rem;
+            position: relative;
+            width: 100%;
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);
+        }
+
         .chat-app .people-list {
             width: 100%;
             position: absolute;
@@ -841,7 +852,8 @@
                     <div class="side-bar">
                         <div class="user-info">
                             <img class="img-profile img-circle img-responsive center-block"
-                                src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                                src="@if ($customerInfo->image) {{ asset($customerInfo->image) }}@else{{ asset('uploads/avatar1.png') }} @endif"
+                                alt="">
                             <ul class="meta list list-unstyled">
                                 <li class="name">{{ $customerInfo->name }}
                                     <label class="label label-info">Silver</label>
@@ -849,7 +861,7 @@
 
                             </ul>
                         </div>
-                        <x-frontend.accNavbar type="billing" user="{{ $customerInfo->type }}" />
+                        <x-frontend.accNavbar type="message" user="{{ $customerInfo->type }}" />
                     </div>
                     <div class="content-panel">
                         <div class="row clearfix">
@@ -871,10 +883,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 hidden-sm text-right">
-                                                    <a href="javascript:void(0);" class="btn btn-outline-secondary"><i
-                                                            class="fa fa-camera"></i></a>
-                                                    <a href="javascript:void(0);" class="btn btn-outline-primary"><i
-                                                            class="fa fa-image"></i></a>
+
                                                     <a href="javascript:void(0);" class="btn btn-outline-info"><i
                                                             class="fa fa-cogs"></i></a>
                                                     <a href="javascript:void(0);" class="btn btn-outline-warning"><i
@@ -887,20 +896,20 @@
                                                 @foreach ($chats as $chat)
                                                     @if ($chat->type == 'admin')
                                                         <li class="clearfix">
-                                                            <div class="message-data text-right">
+                                                            <div class="message-data">
                                                                 <span
                                                                     class="message-data-time">{{ $chat->created_at }}</span>
-                                                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                                                                    alt="avatar">
+
                                                             </div>
                                                             <div class="message other-message float-right">
                                                                 {{ $chat->message }}</div>
                                                         </li>
                                                     @else
                                                         <li class="clearfix">
-                                                            <div class="message-data">
+                                                            <div class="message-data text-right">
                                                                 <span
                                                                     class="message-data-time">{{ $chat->created_at }}</span>
+
                                                             </div>
                                                             <div class="message my-message">{{ $chat->message }}</div>
                                                         </li>
@@ -932,7 +941,7 @@
         <script>
             function sendMessage() {
                 var message = $('#message').val();
-               
+
                 //alert(message)
                 var data = {
                     message: message,
@@ -945,28 +954,26 @@
                     dataType: "json",
                     success: function(response) {
                         //alert(JSON.stringify(response));
-                        if(response == 'success'){
-                            $('#message').val('');
-                        
-                        var currentdate = new Date();
-                        var time =  
-                        currentdate.getDate() + "/"
-                                    + (currentdate.getHours())  + ":" 
-                                    + currentdate.getMinutes();
                         if (response == 'success') {
-                            $('#messages').append(`<li class="clearfix">
+                            $('#message').val('');
+
+                            var currentdate = new Date();
+                            var time =
+                                currentdate.getDate() + "/" +
+                                (currentdate.getHours()) + ":" +
+                                currentdate.getMinutes();
+                            if (response == 'success') {
+                                $('#messages').append(`<li class="clearfix">
                                                             <div class="message-data">
                                                                 <span
                                                                     class="message-data-time">${time}</span>
                                                             </div>
                                                             <div class="message my-message">${message}</div>
                                                         </li>`)
+                            }
+                        } else {
+                            alert(JSON.stringify(response));
                         }
-                    }else{
-                        alert(JSON.stringify(response));
-                    }
-
-
                     },
                     error: function(error) {
                         alert(JSON.stringify(error));
@@ -977,4 +984,6 @@
     </div>
 @endsection
 @section('scripts')
+
+
 @endsection

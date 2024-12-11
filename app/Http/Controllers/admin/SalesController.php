@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\admin\sale\Sale;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Carbon;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 
 class SalesController extends Controller
@@ -16,7 +16,7 @@ class SalesController extends Controller
     {
 
         if ($request->ajax()) {
-            $query = Sale::select('sales.id', 'sales.total_amount', 'sales.sale_date', 'customers.name', 'customers.email')
+            $query = Sale::select('sales.id', 'sales.total_amount', 'sales.sale_date','sales.status', 'customers.name', 'customers.email')
                 ->leftJoin('customers', 'customers.id', '=', 'sales.customer_id');
 
             if ($request->filled('from_date') && $request->filled('to_date')) {
@@ -28,14 +28,18 @@ class SalesController extends Controller
 
             return DataTables::of($sales)->addIndexColumn()->make(true);
         }
-        $sales = Sale::select('sales.id', 'sales.total_amount', 'sales.sale_date', 'customers.name', 'customers.email')
+        $sales = Sale::select('sales.id', 'sales.total_amount', 'sales.status','sales.sale_date', 'customers.name', 'customers.email')
             ->leftJoin('customers', 'customers.id', '=', 'sales.customer_id');
 
         return view('admin.sales.sales', ['sales' => $sales]);
     }
-    function saleInvoice(Request $request)
+    function sendProduct(Request $request)
     {
 
+        $sales =  Sale::find($request->salesId);
+        $sales->status = $request->status;
+        $sales->save();
+        return response()->json('success');
     }
     public function getSalesData()
     {

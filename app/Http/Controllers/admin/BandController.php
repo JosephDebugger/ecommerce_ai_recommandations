@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\admin\Band;
 use App\Models\Customer;
+use App\Models\admin\sale\Sale;
+use Yajra\DataTables\DataTables;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class BandController extends Controller
 {
@@ -108,7 +112,7 @@ class BandController extends Controller
     public function show(string $id)
     {
         $band = Band::find($id);
-        return view('admin.inventory.band.view-band', compact('band'));
+        return view('admin.band.view-band', compact('band'));
     }
 
     /**
@@ -253,5 +257,29 @@ class BandController extends Controller
         $customer->save();
         return redirect()->route('bandAssign')
             ->with('success', 'Band member successfully Edited.');
+    }
+
+
+    function getBandSales(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $query = Sale::select('sales.id', 'sales.total_amount', 'sales.sale_date', 'sales.status','customers.name', 'customers.email')
+                ->leftJoin('customers', 'customers.id', '=', 'sales.customer_id');
+
+            if ($request->filled('from_date') && $request->filled('to_date')) {
+                $fromDate = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
+                $toDate = Carbon::createFromFormat('Y-m-d', $request->to_date)->endOfDay();
+                $query->whereBetween('sales.sale_date', [$fromDate, $toDate]);
+            }
+            $query->where('customers.band_id','>',0);
+            $sales = $query->get();
+
+            return DataTables::of($sales)->addIndexColumn()->make(true);
+        }
+        $sales = Sale::select('sales.id', 'sales.total_amount','sales.status', 'sales.sale_date', 'customers.name', 'customers.email')
+            ->leftJoin('customers', 'customers.id', '=', 'sales.customer_id')->where('customers.band_id','>',0)->get();
+
+        return view('admin.band.bandSales', ['sales' => $sales]);
     }
 }

@@ -18,18 +18,11 @@ Route::get('/about', [HomeController::class, 'about']);
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::get('/category/{gender}/{category}', [HomeController::class, 'categorized'])->name('category');
 Route::get('/band/{id}', [HomeController::class, 'bandProducts']);
-
 Route::get('/product/{id}', [HomeController::class, 'product'])->name('product');
-
 Route::get('/recommendations', [HomeController::class, 'recommendations']);
 Route::post('/setRating', [HomeController::class, 'setRating'])->name('setRating');
 Route::get('/addReview', [HomeController::class, 'addReview'])->name('addReview');
-
 Route::post('/save-user-msg', [HomeController::class, 'saveUserMsg'])->name('save-user-msg');
-
-
-
-
 
 Route::middleware('customer')->group(function () {
     Route::get('/account_home', [AccountController::class, 'accountHome']);
@@ -41,14 +34,17 @@ Route::middleware('customer')->group(function () {
     Route::get('/account_band_profile', [AccountController::class, 'accountBandProfile']);
     Route::post('/account_update_profile', [AccountController::class, 'accountProfileUpdate'])->name('account_update_profile');
     Route::post('/account_update_bill_info', [AccountController::class, 'accountProfileBillUpdate'])->name('account_update_bill_info');
-});
 
+    Route::name('cart.')->prefix('cart')->group(function () {
+        Route::get('/checkout/{name}/{qty}', [HomeController::class, 'checkout'])->name('checkout'); 
+        Route::post('checkoutProducts', [HomeController::class, 'checkoutProducts'])->name('checkoutProducts'); 
+    });
+});
 
 
 // Route::middleware('auth:web')->group(function () {
  
 // });
-
 // Route::middleware('auth:customer')->group(function () {
 //     Route::name('cart.')->prefix('cart')->group(function () {
 //         Route::get('/checkout/{name}/{qty}', [HomeController::class, 'checkout'])->name('checkout'); 
@@ -59,10 +55,7 @@ Route::middleware('customer')->group(function () {
 //         Route::get('/checkout/{name}/{qty}', [HomeController::class, 'checkout'])->name('checkout'); 
 // });
 
-Route::name('cart.')->prefix('cart')->group(function () {
-    Route::get('/checkout/{name}/{qty}', [HomeController::class, 'checkout'])->name('checkout'); 
-    Route::post('checkoutProducts', [HomeController::class, 'checkoutProducts'])->name('checkoutProducts'); 
-});
+
 require __DIR__ . '/customer-auth.php';
 require __DIR__ . '/auth.php';
 

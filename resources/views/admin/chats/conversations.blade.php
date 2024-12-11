@@ -142,7 +142,7 @@
 
         .chat .chat-history .message {
             color: #444;
-            padding: 18px 20px;
+            padding: 10px 20px;
             line-height: 26px;
             font-size: 16px;
             border-radius: 7px;
@@ -290,16 +290,16 @@
             <div class="row clearfix">
                 <div class="col-lg-12">
                     <div class="card chat-app">
-                     
+
 
 
                         {{-- people list --}}
-                        <x-admin.chats-navbar/>
+                        <x-admin.chats-navbar user="{{ $customer_id }}" />
 
 
 
                         <div class="chat">
-                          
+
                             <div class="chat-header clearfix">
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -307,12 +307,12 @@
                                             <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
                                         </a>
                                         <div class="chat-about">
-                                            <h6 class="m-b-0">Aiden Chavez</h6>
+                                            <h6 class="m-b-0">{{ $messages[0]->name }}</h6>
                                             <small>Last seen: 2 hours ago</small>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 hidden-sm text-right">
-                                    
+
                                         <a href="javascript:void(0);" class="btn btn-outline-info"><i
                                                 class="fa fa-cogs"></i></a>
                                         <a href="javascript:void(0);" class="btn btn-outline-warning"><i
@@ -320,38 +320,43 @@
                                     </div>
                                 </div>
                             </div>
-                          
+
                             <div class="chat-history">
-                                <ul class="m-b-0">
-                                    <li class="clearfix">
-                                        <div class="message-data text-right">
-                                            <span class="message-data-time">10:10 AM, Today</span>
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-                                        </div>
-                                        <div class="message other-message float-right"> Hi Aiden, how are you? How is the
-                                            project coming along? </div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <div class="message-data">
-                                            <span class="message-data-time">10:12 AM, Today</span>
-                                        </div>
-                                        <div class="message my-message">Are we meeting today?</div>
-                                    </li>
-                                    <li class="clearfix">
-                                        <div class="message-data">
-                                            <span class="message-data-time">10:15 AM, Today</span>
-                                        </div>
-                                        <div class="message my-message">Project has been already finished and I have
-                                            results to show you.</div>
-                                    </li>
+                                <ul class="m-b-0" id="messages">
+
+                                    @foreach ($messages as $message)
+                                        @if ($message->type == 'admin')
+                                            <li class="clearfix">
+                                                <div class="message-data">
+                                                    <span
+                                                        class="message-data-time  text-right">{{ $message->created_at }}</span>
+                                                  
+                                                </div>
+                                                <div class="message other-message float-right">
+                                                    {{ $message->message }}</div>
+                                            </li>
+                                        @else
+                                            <li class="clearfix">
+                                                <div class="message-data">
+                                                    <span class="message-data-time">{{ $message->created_at }}</span>
+                                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                                                    alt="avatar">
+                                                </div>
+                                                <div class="message my-message">{{ $message->message }}</div>
+                                            </li>
+                                        @endif
+                                    @endforeach
                                 </ul>
                             </div>
                             <div class="chat-message clearfix">
                                 <div class="input-group mb-0">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-send"></i></span>
+                                        <span class="input-group-text" onclick="sendMessage()"><i class="fas fa-send"></i>
+                                            Send</span>
                                     </div>
-                                    <input type="text" class="form-control" placeholder="Enter text here...">
+
+                                    <input type="text" id="message" class="form-control"
+                                        placeholder="Enter text here...">
                                 </div>
                             </div>
                         </div>
@@ -359,5 +364,56 @@
                 </div>
             </div>
         </div>
-            <!-- /.content -->
-        @endsection
+        <!-- /.content -->
+        <script>
+            function sendMessage() {
+                var message = $('#message').val();
+                var userId = {{ $customer_id }};
+                // alert(userId);
+                // return
+
+                if (message != '') {
+                    var data = {
+                        userId: userId,
+                        message: message,
+                        _token: "{{ csrf_token() }}"
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('adminSendMsg') }}",
+                        data: data,
+                        dataType: "json",
+                        success: function(response) {
+                            //alert(JSON.stringify(response));
+                            if (response == 'success') {
+                                $('#message').val('');
+
+                                var currentdate = new Date();
+                                var time =
+                                    currentdate.getDate() + "/" +
+                                    (currentdate.getHours()) + ":" +
+                                    currentdate.getMinutes();
+                                if (response == 'success') {
+                                    $('#messages').append(`<li class="clearfix">
+                                                            <div class="message-data">
+                                                                <span
+                                                                    class="message-data-time">${time}</span>
+                                                            </div>
+                                                            <div class="message my-message">${message}</div>
+                                                        </li>`)
+                                }
+                            } else {
+                                alert(JSON.stringify(response));
+                            }
+
+
+                        },
+                        error: function(error) {
+                            alert(JSON.stringify(error));
+                        }
+                    });
+                }
+
+            }
+        </script>
+    @endsection

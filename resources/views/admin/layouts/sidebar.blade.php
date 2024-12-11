@@ -101,7 +101,7 @@
                               </a>
                           </li>
                           <li class="nav-item">
-                              <a href="#" class="nav-link">
+                              <a href="{{ route('getBandSales') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
                                   <p>Bands Sales</p>
                               </a>
@@ -201,7 +201,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ route('viewChats') }}" class="nav-link">
+                                    <a href="{{ route('viewChats',['id'=>'all']) }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Chats</p>
                                     </a>

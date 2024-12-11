@@ -678,7 +678,7 @@
 
                         <div class="row d-flex">
                             <div class="col-md-6">
-                                <h2 class="title">Band Sales List<span class="pro-label label label-warning"></span></h2>
+                                <h2 class="title">Order List<span class="pro-label label label-warning"></span></h2>
                             </div>
                             @if($customerInfo && $customerInfo->band_id && $customerInfo->band_id  >0 && $customerInfo->band_id !='')
                             <div class="col-md-6">
@@ -694,8 +694,8 @@
                         <ol class="sales-list alternating-colors">
                             @foreach ($orders as $order)
                                 <li>
-                                    <strong> Date: {{ $order->sale_date }}</strong>
-                                    <p> Price: {{ $order->total_amount }}</p>
+                                    <strong> Date: {{ $order->sale_date }}</strong> <span class="badge">  {{ $order->status }}</span>
+                                    <p> Price: {{ $order->total_amount }}</p> 
                                 </li>
                             @endforeach
 

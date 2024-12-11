@@ -11,7 +11,7 @@
         <li class="@if($type == 'sales'){{'active'}}@else{{''}}@endif"><a  href="{{url('/account_sales')}}"><span class="fa fa-clock-o"></span> Band Sales</a></li>
         @endif
        
-        <li class="@if($type == 'sales'){{'active'}}@else{{''}}@endif"><a  href="{{url('/account_chats')}}"><span class="fa fa-clock-o"></span> Customer Support</a></li>
+        <li class="@if($type == 'message'){{'active'}}@else{{''}}@endif"><a  href="{{url('/account_chats')}}"><span class="fa fa-clock-o"></span> Customer Support</a></li>
         
     </ul>
 </nav>

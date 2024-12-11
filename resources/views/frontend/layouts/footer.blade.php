@@ -34,6 +34,7 @@
                             <li><a href="{{ url('/about') }}">About</a></li>
                             <li><a href="{{ url('/band/0') }}">Band</a></li>
                             <li><a href="{{ url('/contacts') }}">Contact</a></li>
+                            <li><a href="{{ url('/login') }}">Admin Portal</a></li>
                         </ul>
                     </div>
 

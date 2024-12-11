@@ -17,7 +17,8 @@ use App\Http\Controllers\admin\SalesController;
 Route::middleware(['auth:web'])->group(function () {
 
     Route::get('/dashboard', [DashController::class, 'index'])->name('dashboard');
-    Route::get('/viewChats', [DashController::class, 'viewChats'])->name('viewChats');
+    Route::get('/viewChats/{id}', [DashController::class, 'viewChats'])->name('viewChats');
+    Route::post('/admin_send_msg', [DashController::class, 'adminSendMsg'])->name('adminSendMsg');
 
     Route::post('/storeProduct', [ProductController::class, 'storeProduct'])->name('storeProduct');
     Route::get('/view-editProduct/{id}', [ProductController::class, 'getProduct'])->name('getProduct');
@@ -33,10 +34,13 @@ Route::middleware(['auth:web'])->group(function () {
     });
     Route::name('sales.')->prefix('sales')->group(function () {
         Route::get('/getSales', [SalesController::class, 'getSales'])->name('getSales');
+        Route::post('/sendProduct', [SalesController::class, 'sendProduct'])->name('sendProduct');
         Route::get('/saleInvoice/{id}', [SalesController::class, 'saleInvoice'])->name('saleInvoice');
+        
     });
 
     Route::get('bands/bandAssign', [BandController::class, 'bandAssign'])->name('bandAssign');
+    Route::get('bands/getBandSales', [BandController::class, 'getBandSales'])->name('getBandSales');
     Route::post('bands/bandAssignStore', [BandController::class, 'bandAssignStore'])->name('bandAssignStore');
     Route::get('bands/editAssignedCustomer/{id}', [BandController::class, 'editAssignedCustomer'])->name('editAssignedCustomer');
     Route::post('bands/UpdateAssignedCustomer', [BandController::class, 'UpdateAssignedCustomer'])->name('UpdateAssignedCustomer');

@@ -59,7 +59,7 @@ class AccountController extends Controller
 
             $customerInfo  = Customer::find($userId);
 
-            $query = Sale::select('sales.id', 'sales.total_amount', 'sales.sale_date', 'customers.name', 'customers.email')
+            $query = Sale::select('sales.id', 'sales.total_amount','sales.status', 'sales.sale_date', 'customers.name', 'customers.email')
             ->leftJoin('customers', 'customers.id', '=', 'sales.customer_id')
             ->where('customers.id', $userId);
             $orders = $query->get();

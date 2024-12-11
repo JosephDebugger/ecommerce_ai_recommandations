@@ -623,7 +623,7 @@ strong { color: #292929; }
             <div class="module-inner">
                 <div class="side-bar">
                     <div class="user-info">
-                        <img class="img-profile img-circle img-responsive center-block" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                        <img class="img-profile img-circle img-responsive center-block" src="@if ($customerInfo->image) {{ asset($customerInfo->image) }}@else{{ asset('uploads/avatar1.png') }} @endif" alt="">
                         <ul class="meta list list-unstyled">
                             <li class="name">{{ $customerInfo->name}}
                                 <label class="label label-info">Silver</label>

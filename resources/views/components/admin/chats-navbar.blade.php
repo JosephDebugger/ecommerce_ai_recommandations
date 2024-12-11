@@ -7,15 +7,21 @@
           @endphp                 
     <ul class="list-unstyled chat-list mt-2 mb-0">
         @foreach($chats as $key => $chat)
-
-        <li class="clearfix {{ $key == 0 ? 'active' : ''}} "> 
-            <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
-            <div class="about">
-                <div class="name">{{$chat->name}}</div>
-                <div class="status"> <i class="fa fa-circle {{$chat->userId == $userId ? 'online' : ''}}"></i> online </div>
-            </div>
-        </li>
+      
+        <a href="{{ route('viewChats',['id'=>$chat->userId]) }}">
+            <li class="clearfix {{ $chat->userId == $user ? 'active' : ''}} "> 
+                <img src="{{ $chat->image !=''? asset($chat->image):'https://bootdey.com/img/Content/avatar/avatar2.png'}}" alt="avatar">
+                <div class="about">
+                    <div class="name">{{$chat->name}}</div>
+                    @if($chat->userId == $userId)
+                    <div class="status"> <i class="fa fa-circle online"></i> online </div>
+                  @else
+                  <div class="status"> <i class="fa fa-circle offline"></i> offline </div>
+                  @endif
+                </div>
+            </li>
+        </a>
+      
         @endforeach
-       
     </ul>
 </div>

@@ -109,12 +109,12 @@
                 table.draw(); // Trigger the table redraw when date range is applied
             });
 
-             table = $('#daterange_table').DataTable({
+            table = $('#daterange_table').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('sales.getSales') }}",
+                    url: "{{ route('getBandSales') }}",
                     data: function(data) {
                         data.from_date = $('#daterange').data('daterangepicker').startDate.format(
                             'YYYY-MM-DD');
@@ -142,7 +142,7 @@
                     {
                         data: 'email',
                         name: 'email'
-                    }, 
+                    },
                     {
                         data: 'status',
                         name: 'status'
@@ -164,7 +164,7 @@
                     <ul class="dropdown-menu">
                         <li>
                             <a class="dropdown-item" onclick="changeStatus(${data})">Send for delivery</a>
-                        <a class="dropdown-item" onclick="changeStatusReceived(${data})">Product Received</a>
+                               <a class="dropdown-item" onclick="changeStatusReceived(${data})">Product Received</a>
                         </li>
                        
                     </ul>
@@ -192,14 +192,13 @@
                     if (response == 'success') {
                         table.draw(); 
                         }
-                 
+                   
                 },
                 error: function(error) {
                     alert(JSON.stringify(error));
                 }
             });
         }
-        
         function changeStatusReceived(id) {
             var status = 'Received';
 
