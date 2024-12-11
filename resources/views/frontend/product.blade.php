@@ -203,7 +203,7 @@
 
         });
 
-        var rating = 0;
+        var rating = 3;
 
         function getRating(i) {
             rating = i
