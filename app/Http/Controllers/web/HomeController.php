@@ -93,7 +93,7 @@ class HomeController extends Controller
         }
         $reviews = Review::where('product_id', $id)->get();
 
-        return view('frontend.product', ['product' => $product,'reviews' => $reviews]);
+        return view('frontend.product', ['product' => $product, 'reviews' => $reviews]);
     }
     public function checkout($products, $qty)
     {
@@ -198,7 +198,7 @@ class HomeController extends Controller
                 ];
                 ProductInteracted::dispatch($userId, $productId, 'purchase');
             }
-            
+
             // Bulk insert SaleItems
             SaleItems::insert($saleItemsData);
             // Update total amount in Sale
@@ -206,18 +206,18 @@ class HomeController extends Controller
 
             $bandRevenue = ($totalPrice / 10);
             if (Auth::guard('customer')->check()) {
-            if ($customer->band_id > 0) {
-                $band = Band::find($customer->band_id);
-                $band->current_balance += $bandRevenue;
-                $band->save();
+                if ($customer->band_id > 0) {
+                    $band = Band::find($customer->band_id);
+                    $band->current_balance += $bandRevenue;
+                    $band->save();
+                }
             }
-        }
 
             DB::commit();
 
             // if (Auth::guard('customer')->check()) {
             //     $userId = Auth::guard('customer')->id();
-              
+
             // }
 
 
@@ -267,7 +267,6 @@ class HomeController extends Controller
         $userId = '';
         if (Auth::guard('customer')->check()) {
             $userId = Auth::guard('customer')->id();
-
         }
         $product_id = $request->product_id;
         $comment = $request->comment;
@@ -281,12 +280,12 @@ class HomeController extends Controller
             'comment' => $comment,
         ]);
         $reviews = Review::where('product_id', $product_id)->get();
-        return response()->json(['status' => 'success','reviews'=>$reviews]);
+        return response()->json(['status' => 'success', 'reviews' => $reviews]);
     }
 
     public function setRating(Request $request)
     {
-        $fached ='';
+        $fached = '';
         if (Auth::guard('customer')->check()) {
             $userId = Auth::guard('customer')->id();
             $product_id = $request->product_id;
@@ -309,5 +308,15 @@ class HomeController extends Controller
         $messages->message = $request->message;
         $messages->save();
         return redirect()->route('contact');
+    }
+    public function searchProducts($name =0)
+    {
+        if($name!=0){
+            $product = trim($name);
+            $searchedProducts = Product::leftjoin('images', 'products.id', 'images.product_id')->select('products.id', 'products.cloth_for', 'products.brand_id', 'products.category_id', 'products.sub_category_id', 'products.band_id', 'products.unit', 'products.name', 'products.price', 'images.name as image', 'products.discount')
+                ->where('products.name', 'LIKE', "%{$product}%")->get();
+        }
+       
+        return response()->json(compact('searchedProducts'));
     }
 }

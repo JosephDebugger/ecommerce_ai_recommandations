@@ -54,9 +54,8 @@
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input type="text" class="form-control"
-                                        name="description" name="email" id="email" placeholder="email">{{ old('email', $user->email) }}</textarea>
-                                    @error('description')
-                                        <div class="form-text text-danger">{{ $message }}</div>
+                                        name="description" name="email" id="email" placeholder="email" value="{{ old('email', $user->email) }}">
+                                        @error('email')<div class="form-text text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                              

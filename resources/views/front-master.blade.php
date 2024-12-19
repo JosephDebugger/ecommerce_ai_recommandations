@@ -139,8 +139,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
     <!-- banner -->
 
+    <div class="main_container">
+        @yield('content')
+    </div>
 
-    @yield('content')
 
 
     @include('frontend.layouts.footer')
@@ -229,7 +231,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- cart-js -->
     <script src="{{ asset('web/js/minicart.js') }}"></script>
 
-    <script src="{{asset('web/js/imagezoom.js')}}"></script>
+    <script src="{{ asset('web/js/imagezoom.js') }}"></script>
 
     <!-- custom js -->
     @yield('scripts')
@@ -264,29 +266,28 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- //cart-js -->
     <!-- script for responsive tabs -->
     <script src="{{ asset('web/js/easy-responsive-tabs.js') }}""></script>
-  
+
     <script>
-     
-     $(document).ready(function () {
-			$('#horizontalTab').easyResponsiveTabs({
-				type: 'default', //Types: default, vertical, accordion           
-				width: 'auto', //auto or any width like 600px
-				fit: true,   // 100% fit in a container
-				closed: 'accordion', // Start closed if in accordion view
-				activate: function (event) { // Callback function if tab is switched
-					var $tab = $(this);
-					var $info = $('#tabInfo');
-					var $name = $('span', $info);
-					$name.text($tab.text());
-					$info.show();
-				}
-			});
-			$('#verticalTab').easyResponsiveTabs({
-				type: 'vertical',
-				width: 'auto',
-				fit: true
-			});
-		});
+        $(document).ready(function() {
+            $('#horizontalTab').easyResponsiveTabs({
+                type: 'default', //Types: default, vertical, accordion           
+                width: 'auto', //auto or any width like 600px
+                fit: true, // 100% fit in a container
+                closed: 'accordion', // Start closed if in accordion view
+                activate: function(event) { // Callback function if tab is switched
+                    var $tab = $(this);
+                    var $info = $('#tabInfo');
+                    var $name = $('span', $info);
+                    $name.text($tab.text());
+                    $info.show();
+                }
+            });
+            $('#verticalTab').easyResponsiveTabs({
+                type: 'vertical',
+                width: 'auto',
+                fit: true
+            });
+        });
 
         function chekoutCart() {
             //alert('checked')
@@ -302,19 +303,93 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             var data2 = [];
             data.push(nameArray);
             data.push(quentityArray);
-           // location.href = "cart/checkout/"+data[0]+"/"+data[1];
-            window.location.replace("http://127.0.0.1:8000/cart/checkout/"+data[0]+"/"+data[1])
+            // location.href = "cart/checkout/"+data[0]+"/"+data[1];
+            window.location.replace("http://127.0.0.1:8000/cart/checkout/" + data[0] + "/" + data[1])
+        }
+
+        function searchProducts() {
+
+            var product_str = $('#product_search_str').val();
+            if (product_str == '') {
+                product_str = '0';
+                window.location.replace("http://127.0.0.1:8000/")
+            }
+            $.ajax({
+                url: `/searchProducts/${product_str}`,
+                method: 'GET',
+                success: function(data) {
+                    console.log(data)
+                    $('.main_container').html(`<div class="w3_agile_latest_arrivals">`);
+                    data.searchedProducts.forEach(element => {
+
+                        $('.main_container').append(`
+                          
+                         <div class="col-md-3 product-men single">
+                            <div class="men-pro-item simpleCart_shelfItem">
+                                <div class="men-thumb-item">
+                                    <img src="{{ asset('${element.image}') }}" alt="" class="pro-image-front">
+                                    <img src="{{ asset('${element.image}') }}"  alt="" class="pro-image-back">
+                                    <div class="men-cart-pro">
+                                        <div class="inner-men-cart-pro">
+                                            <a href="/product/${element.id}" class="link-product-add-cart">Quick View</a>
+                                        </div>
+                                    </div>
+                                    <span class="product-new-top">New</span>
+                                </div>
+                                <div class="item-info-product ">
+                                    <h4><a href="single.html">${element.name}</a></h4>
+                                    <div class="info-product-price">
+                                        <span class="item_price">${element.price} Tk</span>
+                                    
+                                    </div>
+                                    <div
+                                        class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
+                                        <form action="#" method="post">
+                                            <fieldset>
+                                            
+                                                <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                                                    <input type="hidden" name="cmd" value="_cart" />
+                                                    <input type="hidden" name="add" value="1" />
+                                                    <input type="hidden" name="business" value="example@minicartjs.com" />
+                                                    <input type="hidden" name="item_name" value="${element.name}" />
+                                                    <input type="hidden" name="quantity" value="1" />
+                                                    <input type="hidden" name="amount" value="${element.price}" />
+                                                    <input type="hidden" name="discount_amount" value="${element.discount}" />
+                                                    <input type="hidden" name="currency_code" value="USD" />
+                                                    <input type="hidden" name="return" value=" " />
+                                                    <input type="hidden" name="cancel_return" value=" " />
+                                                    <input type="submit" name="submit" value="Add to cart"
+                                                        class="button" />
+                                                    </form>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        `)
+
+                        
+                    });
+                    $('.main_container').append(
+                            `<div class="clearfix"> </div><a href="{{ url('/') }}"><button class="btn btn-sm btn-default" ><i class="fa-solid fa-backward"></i> Back to Home</button></a> </div>`
+                        );
+                    // Replace the section with new data
+                }
+            });
+
         }
     </script>
-      <script type="text/javascript" src="{{asset('web/js/jquery.flexslider.js')}}"></script>
-      <script>
-           $(window).load(function () {
-			$('.flexslider').flexslider({
-				animation: "slide",
-				controlNav: "thumbnails"
-			});
-		});
-      </script>
+    <script type="text/javascript" src="{{ asset('web/js/jquery.flexslider.js') }}"></script>
+    <script>
+        $(window).load(function() {
+            $('.flexslider').flexslider({
+                animation: "slide",
+                controlNav: "thumbnails"
+            });
+        });
+    </script>
     <!-- //script for responsive tabs -->
     <!-- stats -->
     <script src="{{ asset('web/js/jquery.waypoints.min.js') }}"></script>

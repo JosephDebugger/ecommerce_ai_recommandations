@@ -20,6 +20,7 @@ Route::get('/category/{gender}/{category}', [HomeController::class, 'categorized
 Route::get('/band/{id}', [HomeController::class, 'bandProducts']);
 Route::get('/product/{id}', [HomeController::class, 'product'])->name('product');
 Route::get('/recommendations', [HomeController::class, 'recommendations']);
+Route::get('/searchProducts/{name}', [HomeController::class, 'searchProducts'])->name('searchProducts');
 Route::post('/setRating', [HomeController::class, 'setRating'])->name('setRating');
 Route::get('/addReview', [HomeController::class, 'addReview'])->name('addReview');
 Route::post('/save-user-msg', [HomeController::class, 'saveUserMsg'])->name('save-user-msg');

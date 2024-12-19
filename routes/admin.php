@@ -36,7 +36,6 @@ Route::middleware(['auth:web'])->group(function () {
         Route::get('/getSales', [SalesController::class, 'getSales'])->name('getSales');
         Route::post('/sendProduct', [SalesController::class, 'sendProduct'])->name('sendProduct');
         Route::get('/saleInvoice/{id}', [SalesController::class, 'saleInvoice'])->name('saleInvoice');
-        
     });
 
     Route::get('bands/bandAssign', [BandController::class, 'bandAssign'])->name('bandAssign');
@@ -44,6 +43,8 @@ Route::middleware(['auth:web'])->group(function () {
     Route::post('bands/bandAssignStore', [BandController::class, 'bandAssignStore'])->name('bandAssignStore');
     Route::get('bands/editAssignedCustomer/{id}', [BandController::class, 'editAssignedCustomer'])->name('editAssignedCustomer');
     Route::post('bands/UpdateAssignedCustomer', [BandController::class, 'UpdateAssignedCustomer'])->name('UpdateAssignedCustomer');
+    Route::get('crm/customer_list', [UserController::class, 'getCustomers'])->name('getCustomers');
+    Route::post('crm/costomer/{id}', [UserController::class, 'costomerDestroy'])->name('costomerDestroy');
 
     Route::resource('brands', BrandController::class);
     Route::resource('categories', CategoryController::class);

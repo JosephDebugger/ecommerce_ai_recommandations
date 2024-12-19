@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Contact;
+use App\Models\Customer;
 
 class UserController extends Controller
 {
@@ -112,6 +113,18 @@ class UserController extends Controller
     {
         $messages = Contact::latest()->get();
         return view('admin.settings.user.messages', compact('messages'));
+    }
+    public function getCustomers()
+    {
+        $customers = Customer::latest()->get();
+        return view('admin.settings.user.customers', compact('customers'));
+    }
+    public function costomerDestroy($id)
+    {
+        Customer::find($id)->delete();
+
+        return redirect()->url('crm/customer_list')
+            ->with('success', 'Customer deleted successfully.');
     }
 
     

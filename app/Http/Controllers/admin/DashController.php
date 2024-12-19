@@ -7,11 +7,19 @@ use Illuminate\Http\Request;
 use App\Models\Chat;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Customer;
+use App\Models\admin\sale\Sale;
+use App\Models\admin\Band;
 
 class DashController extends Controller
 {
     public function index(){
-        return view('admin.dashboard');
+        $customers = Customer::count();
+        $bands = Band::count();
+        $sales = Sale::count();
+        $bounced = ($sales /100)* Sale::where('status','cancel')->count();
+
+        return view('admin.dashboard',['customers'=>$customers,'bands'=>$bands,'orders'=>$sales,'bounced'=>$bounced]);
     }
     public function viewChats($id){
         if($id == 'all'){

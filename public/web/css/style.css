@@ -264,7 +264,7 @@ i.fa.fa-shopping-bag.top_logo_agile_bag {
     border: 1px solid #ddd;
 	letter-spacing:1px;
 }
-.header-middle form input[type="submit"]{
+.header-middle form input[type="button"]{
     background: url(../images/search.png) no-repeat 4px 0px #2fdab8;
     width: 11%;
     height: 50px;

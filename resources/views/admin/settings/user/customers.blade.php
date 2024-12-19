@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Users</h1>
+                    <h1 class="m-0">Customer</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Users</li>
+                        <li class="breadcrumb-item active">Customers</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -25,14 +25,12 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <a href="{{ url('users/create') }}"><button class="btn btn-primary">
-                    Add User
-                </button></a>
+          
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Users List</h3>
+                            <h3 class="card-title">Customers List</h3>
                         </div>
 
                         <!-- /.card-header -->
@@ -54,34 +52,31 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($users as $user)
+                                    @foreach ($customers as $key => $customer)
                                         <tr>
-                                            <td>1</td>
-                                            <td>{{ $user->name }}</td>
-                                            <td>{{ $user->email }}</td>
+                                            <td>{{ $key+1 }}</td>
+                                            <td>{{ $customer->name }}</td>
+                                            <td>{{ $customer->email }}</td>
                                          
                                             <td>
-                                             
-
-
+                                              
+                                                
                                                 <div class="dropdown">
                                                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
                                                     <ul class="dropdown-menu">
+                                                       
                                                         <li>
-                                                            <a class="dropdown-item"
-                                                            href="{{ route('users.edit', $user->id) }}">Edit</a>
-                                                        </li>
-                                                        <li>
-                                                            <form action="{{ route('users.destroy', $user->id) }}"
+                                                            <form action="{{ route('costomerDestroy', $customer->id) }}"
                                                                 method="post">
                                                                 @csrf
-                                                                @method('DELETE')
+                                                                @method('POST')
                                                                 <button type="submit"
-                                                                    class="btn btn-light btn-sm">Delete</button>
+                                                                    class="btn btn-danger btn-sm">Delete</button>
                                                             </form>
                                                         </li>
                                                     </ul>
                                                 </div>
+
                                             </td>
                                         </tr>
                                     @endforeach
