@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 06, 2024 at 08:31 PM
+-- Generation Time: Dec 19, 2024 at 07:42 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -114,6 +114,14 @@ CREATE TABLE `cache` (
   `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `cache`
+--
+
+INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
+('admin@gmail.com|127.0.0.1', 'i:1;', 1734627340),
+('admin@gmail.com|127.0.0.1:timer', 'i:1734627340;', 1734627340);
+
 -- --------------------------------------------------------
 
 --
@@ -157,6 +165,40 @@ INSERT INTO `categories` (`id`, `name`, `type`, `description`, `status`, `create
 (10, 'category 7', 'male', NULL, 'Active', '2024-10-23 13:56:40', '2024-10-23 13:56:40'),
 (11, 'category 8', 'male', NULL, 'Active', '2024-10-23 13:57:12', '2024-10-23 13:57:12'),
 (12, 'female category 1', 'female', NULL, 'Active', '2024-12-01 07:07:14', '2024-12-01 07:07:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `chats`
+--
+
+CREATE TABLE `chats` (
+  `id` int(11) NOT NULL,
+  `message` varchar(255) DEFAULT NULL,
+  `user_id` int(20) NOT NULL,
+  `admin_id` int(20) DEFAULT NULL,
+  `type` enum('admin','user') DEFAULT NULL,
+  `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `chats`
+--
+
+INSERT INTO `chats` (`id`, `message`, `user_id`, `admin_id`, `type`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'test', 1, NULL, 'user', 'Active', '2024-12-08 12:02:28', '2024-12-08 12:02:28'),
+(2, 'hello', 1, NULL, 'user', 'Active', '2024-12-08 12:09:32', '2024-12-08 12:09:32'),
+(3, 'hi', 1, NULL, 'user', 'Active', '2024-12-08 12:10:52', '2024-12-08 12:10:52'),
+(4, 'hi', 1, NULL, 'user', 'Active', '2024-12-08 12:11:34', '2024-12-08 12:11:34'),
+(5, 'how are you?', 1, NULL, 'user', 'Active', '2024-12-08 12:14:25', '2024-12-08 12:14:25'),
+(6, 'Need A help. about updating my profile', 2, NULL, 'user', 'Active', '2024-12-10 11:59:39', '2024-12-10 11:59:39'),
+(7, 'What can I do for you about your profile?', 2, 2, 'admin', 'Active', '2024-12-10 13:13:26', '2024-12-10 13:13:26'),
+(9, 'What About You?', 1, 2, 'admin', 'Active', '2024-12-10 13:45:36', '2024-12-10 13:45:36'),
+(10, 'I didn\'t Received my product', 1, NULL, 'user', 'Active', '2024-12-11 11:25:55', '2024-12-11 11:25:55'),
+(11, 'I already delevered Your product', 1, 2, 'admin', 'Active', '2024-12-11 11:28:08', '2024-12-11 11:28:08'),
+(12, 'Please receive your product from given location', 1, 2, 'admin', 'Active', '2024-12-11 11:29:24', '2024-12-11 11:29:24');
 
 -- --------------------------------------------------------
 
@@ -206,7 +248,8 @@ CREATE TABLE `contacts` (
 --
 
 INSERT INTO `contacts` (`id`, `full_name`, `email`, `subject`, `message`, `created_at`, `updated_at`) VALUES
-(1, 'Joseph dias', 'name@gmail.com', 'subject', 'Mail goes to spam', '2024-12-01 06:02:20', '2024-12-01 06:02:20');
+(1, 'Joseph dias', 'name@gmail.com', 'subject', 'Mail goes to spam', '2024-12-01 06:02:20', '2024-12-01 06:02:20'),
+(2, 'test', 'alitech@gmail.com', 'suject', 'hdhg', '2024-12-09 14:02:21', '2024-12-09 14:02:21');
 
 -- --------------------------------------------------------
 
@@ -458,6 +501,19 @@ INSERT INTO `products` (`id`, `cloth_for`, `brand_id`, `band_id`, `category_id`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `purchase_log`
+--
+
+CREATE TABLE `purchase_log` (
+  `id` int(11) NOT NULL,
+  `user_id` int(20) DEFAULT NULL,
+  `product_id` int(20) DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `ratings`
 --
 
@@ -476,7 +532,8 @@ CREATE TABLE `ratings` (
 
 INSERT INTO `ratings` (`id`, `product_id`, `user_id`, `rating`, `created_at`, `updated_at`) VALUES
 (1, 2, 1, '4', '2024-11-26 05:07:10', '2024-11-26 05:07:10'),
-(2, 1, 1, '3', '2024-11-26 05:54:28', '2024-11-26 05:54:28');
+(2, 1, 1, '3', '2024-11-26 05:54:28', '2024-11-26 05:54:28'),
+(3, 1, 1, '4', '2024-12-11 12:01:59', '2024-12-11 12:01:59');
 
 -- --------------------------------------------------------
 
@@ -494,60 +551,29 @@ CREATE TABLE `recommendations` (
   `timestamp` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `recommendations`
+-- Table structure for table `reviews`
 --
 
-INSERT INTO `recommendations` (`id`, `user_id`, `predicted_score`, `product_id`, `created_at`, `updated_at`, `timestamp`) VALUES
-(0, 1, 0.750659, 2, NULL, NULL, '2024-11-30 17:20:18'),
-(0, 1, 0.750659, 3, NULL, NULL, '2024-11-30 17:20:18'),
-(0, 1, 0.249341, 1, NULL, NULL, '2024-11-30 17:20:18'),
-(0, 1, 0.750659, 3, NULL, NULL, '2024-11-30 17:33:47'),
-(0, 1, 0.249341, 1, NULL, NULL, '2024-11-30 17:33:47'),
-(0, 1, 0.750659, 3, NULL, NULL, '2024-12-01 13:59:43'),
-(0, 1, 0.249341, 1, NULL, NULL, '2024-12-01 13:59:43'),
-(0, 1, 0.750659, 2, NULL, NULL, '2024-12-01 14:00:02'),
-(0, 1, 0.750659, 3, NULL, NULL, '2024-12-01 14:00:02'),
-(0, 1, 0.750659, 3, NULL, NULL, '2024-12-01 14:01:47'),
-(0, 1, 0.249341, 1, NULL, NULL, '2024-12-01 14:01:47'),
-(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 14:05:24'),
-(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 14:05:24'),
-(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 14:06:09'),
-(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 14:06:09'),
-(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 14:08:45'),
-(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 14:08:45'),
-(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 14:09:03'),
-(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 14:09:03'),
-(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 14:09:40'),
-(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 14:09:40'),
-(0, 2, 0.750659, 2, NULL, NULL, '2024-12-01 14:11:20'),
-(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 14:11:20'),
-(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 14:11:36'),
-(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 14:11:36'),
-(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 14:12:01'),
-(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 14:12:01'),
-(0, 2, 0.750659, 2, NULL, NULL, '2024-12-01 15:14:18'),
-(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 15:14:18'),
-(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 16:41:45'),
-(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 16:41:45'),
-(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 16:45:14'),
-(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 16:45:14'),
-(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 16:46:00'),
-(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 16:46:00'),
-(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 16:46:33'),
-(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 16:46:33'),
-(0, 2, 0.750659, 2, NULL, NULL, '2024-12-01 16:46:53'),
-(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 16:46:53'),
-(0, 2, 0.750659, 2, NULL, NULL, '2024-12-01 16:47:13'),
-(0, 2, 0.249341, 1, NULL, NULL, '2024-12-01 16:47:13'),
-(0, 2, 0.750659, 2, NULL, NULL, '2024-12-01 16:47:52'),
-(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 16:47:52'),
-(0, 2, 0.750659, 2, NULL, NULL, '2024-12-01 16:55:04'),
-(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 16:55:04'),
-(0, 2, 0.750659, 2, NULL, NULL, '2024-12-01 17:12:59'),
-(0, 2, 0.750659, 3, NULL, NULL, '2024-12-01 17:12:59'),
-(0, 2, 0.750659, 3, '2024-12-01 11:14:00', '2024-12-01 11:14:00', '2024-12-01 17:14:00'),
-(0, 2, 0.249341, 1, '2024-12-01 11:14:00', '2024-12-01 11:14:00', '2024-12-01 17:14:00');
+CREATE TABLE `reviews` (
+  `id` int(11) NOT NULL,
+  `user_id` int(20) DEFAULT NULL,
+  `product_id` int(20) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `comment` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `user_id`, `product_id`, `name`, `email`, `comment`, `created_at`, `updated_at`) VALUES
+(1, NULL, 3, 'Joseph', 'josephdias@gmail.com', 'testing review', '2024-12-07 00:52:05', '2024-12-07 00:52:05');
 
 -- --------------------------------------------------------
 
@@ -561,6 +587,7 @@ CREATE TABLE `sales` (
   `total_amount` decimal(10,2) NOT NULL DEFAULT 0.00,
   `customer_id` bigint(20) NOT NULL,
   `payment_method` enum('Cash','Card','Online') DEFAULT NULL,
+  `status` varchar(100) NOT NULL DEFAULT 'Pending',
   `deleted` enum('No','Yes') NOT NULL DEFAULT 'No',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -570,14 +597,15 @@ CREATE TABLE `sales` (
 -- Dumping data for table `sales`
 --
 
-INSERT INTO `sales` (`id`, `sale_date`, `total_amount`, `customer_id`, `payment_method`, `deleted`, `created_at`, `updated_at`) VALUES
-(1, '2024-11-19 00:00:00', 0.00, 1, 'Card', 'No', '2024-11-19 11:50:34', '2024-11-19 11:50:34'),
-(2, '2024-11-19 00:00:00', 0.00, 1, 'Card', 'No', '2024-11-19 11:50:47', '2024-11-19 11:50:47'),
-(3, '2024-11-19 00:00:00', 0.00, 1, 'Card', 'No', '2024-11-19 11:50:50', '2024-11-19 11:50:50'),
-(9, '2024-11-20 00:00:00', 0.00, 1, 'Card', 'No', '2024-11-19 20:46:17', '2024-11-19 20:46:17'),
-(10, '2024-11-20 00:00:00', 2400.00, 1, 'Card', 'No', '2024-11-19 21:01:55', '2024-11-19 21:01:55'),
-(11, '2024-11-23 13:24:45', 600.00, 1, 'Card', 'No', '2024-11-23 07:24:45', '2024-11-23 07:24:45'),
-(12, '2024-12-06 17:50:25', 3600.00, 1, 'Card', 'No', '2024-12-06 11:50:25', '2024-12-06 11:50:25');
+INSERT INTO `sales` (`id`, `sale_date`, `total_amount`, `customer_id`, `payment_method`, `status`, `deleted`, `created_at`, `updated_at`) VALUES
+(1, '2024-11-19 00:00:00', 0.00, 1, 'Card', 'Received', 'No', '2024-11-19 11:50:34', '2024-12-11 11:23:16'),
+(2, '2024-11-19 00:00:00', 0.00, 1, 'Card', 'Delivered', 'No', '2024-11-19 11:50:47', '2024-12-11 11:19:36'),
+(3, '2024-11-19 00:00:00', 0.00, 1, 'Card', 'Received', 'No', '2024-11-19 11:50:50', '2024-12-11 11:21:10'),
+(9, '2024-11-20 00:00:00', 0.00, 1, 'Card', 'Received', 'No', '2024-11-19 20:46:17', '2024-12-11 11:22:06'),
+(10, '2024-11-20 00:00:00', 2400.00, 1, 'Card', 'Pending', 'No', '2024-11-19 21:01:55', '2024-11-19 21:01:55'),
+(11, '2024-11-23 13:24:45', 600.00, 1, 'Card', 'Pending', 'No', '2024-11-23 07:24:45', '2024-11-23 07:24:45'),
+(12, '2024-12-06 17:50:25', 3600.00, 1, 'Card', 'Pending', 'No', '2024-12-06 11:50:25', '2024-12-06 11:50:25'),
+(13, '2024-12-09 19:51:36', 1700.00, 1, 'Card', 'Delivered', 'No', '2024-12-09 13:51:36', '2024-12-11 11:24:38');
 
 -- --------------------------------------------------------
 
@@ -607,7 +635,9 @@ INSERT INTO `sale_items` (`id`, `sales_id`, `product_id`, `quantity`, `price_per
 (3, 10, 1, 2, 900.00, 1800.00, 'Yes', '2024-11-20 03:01:55', '2024-11-20 03:01:55'),
 (4, 10, 2, 1, 600.00, 600.00, 'Yes', '2024-11-20 03:01:55', '2024-11-20 03:01:55'),
 (5, 11, 2, 1, 600.00, 600.00, 'Yes', '2024-11-23 13:24:45', '2024-11-23 13:24:45'),
-(6, 12, 1, 4, 900.00, 3600.00, 'Yes', '2024-12-06 17:50:25', '2024-12-06 17:50:25');
+(6, 12, 1, 4, 900.00, 3600.00, 'Yes', '2024-12-06 17:50:25', '2024-12-06 17:50:25'),
+(7, 13, 2, 1, 600.00, 600.00, 'Yes', '2024-12-09 19:51:36', '2024-12-09 19:51:36'),
+(8, 13, 3, 1, 1100.00, 1100.00, 'Yes', '2024-12-09 19:51:36', '2024-12-09 19:51:36');
 
 -- --------------------------------------------------------
 
@@ -629,7 +659,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('ooSTjND15YAzSPxElJnleBSbWjICDJbxcSALsZPR', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoicUt5am9lbFRLaVlIUWVzYkJoaEl0YjZXaThxS1paQWY4MEt4Q083VyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9kdWN0LzIiO319', 1733513450);
+('9vrjsA1PdclbMHzkNELty9HT9G59BcM6lneXKv9d', 3, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiYW5CQ3NiUWZPbVQxRGFSN1E5bTJBWEN0RVR0MUUwUkRWYU45UFNzRiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYXNoYm9hcmQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTozO3M6NTU6ImxvZ2luX2N1c3RvbWVyXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mzt9', 1734627915);
 
 -- --------------------------------------------------------
 
@@ -677,8 +707,20 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'User 1', 'example@gmail.com', NULL, '123456', NULL, NULL, NULL),
-(2, 'admin', 'admin@gmail.com', NULL, '$2y$12$p6yFy6sx4vFcRW9l/gE1v.4.rMl0R2Cqt61fHzf.rx5F3tQwYJbwW', '1BH5NVOfi7sybeLSarZSnbiUkgmSny7VjJweHsZqmh9u59h4DUs5JwDHC5rz', '2024-08-19 10:45:37', '2024-08-19 10:45:37');
+(3, 'admin', 'admin@gmail.com', NULL, '$2y$12$FXifwjRJq4TBWei8Z7ZT1.6psItE9G6RuVcNcfAPKBVSxyXIYCbJu', NULL, '2024-12-19 11:01:19', '2024-12-19 11:01:19');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `views`
+--
+
+CREATE TABLE `views` (
+  `id` int(11) NOT NULL,
+  `user_id` int(20) DEFAULT NULL,
+  `product_id` int(20) DEFAULT NULL,
+  `timestamp` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -718,6 +760,12 @@ ALTER TABLE `cache_locks`
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `chats`
+--
+ALTER TABLE `chats`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -784,6 +832,12 @@ ALTER TABLE `products`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `purchase_log`
+--
+ALTER TABLE `purchase_log`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `ratings`
 --
 ALTER TABLE `ratings`
@@ -793,6 +847,7 @@ ALTER TABLE `ratings`
 -- Indexes for table `recommendations`
 --
 ALTER TABLE `recommendations`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `recommendations_user_id_foreign` (`user_id`);
 
 --
@@ -829,6 +884,12 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
+-- Indexes for table `views`
+--
+ALTER TABLE `views`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -857,6 +918,12 @@ ALTER TABLE `categories`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
+-- AUTO_INCREMENT for table `chats`
+--
+ALTER TABLE `chats`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
 -- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
@@ -866,13 +933,13 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT for table `contacts`
 --
 ALTER TABLE `contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -905,22 +972,34 @@ ALTER TABLE `products`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `purchase_log`
+--
+ALTER TABLE `purchase_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `ratings`
 --
 ALTER TABLE `ratings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `recommendations`
+--
+ALTER TABLE `recommendations`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `sale_items`
 --
 ALTER TABLE `sale_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `sub_categories`
@@ -932,7 +1011,13 @@ ALTER TABLE `sub_categories`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `views`
+--
+ALTER TABLE `views`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
