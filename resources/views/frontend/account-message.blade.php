@@ -2,6 +2,7 @@
 
 @section('content')
     <style>
+    
         .view-account {
             background: #FFFFFF;
             margin-top: 20px;

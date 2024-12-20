@@ -379,8 +379,11 @@
                             </div>
                         </div>
                         `)
+
+                       
                     });
                     // Replace the section with new data
+                    $('#recommendations').append(`<div class="clearfix"></div>`);
                 }
             });
         }

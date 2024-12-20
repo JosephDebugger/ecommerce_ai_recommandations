@@ -62,16 +62,15 @@
                                             <td>{{ $brand->description }}</td>
                                             <td>{{ $brand->status }}</td>
                                             <td>
+                                                
                                                 <div class="dropdown">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
-                                                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item"
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <a class="dropdown-item"
                                                             href="{{ route('brands.edit', $brand->id) }}">Edit</a>
-                                                        <a class="dropdown-item">
+                                                        </li>
+                                                        <li>
                                                             <form action="{{ route('brands.destroy', $brand->id) }}"
                                                                 method="post">
                                                                 @csrf
@@ -79,12 +78,9 @@
                                                                 <button type="submit"
                                                                     class="btn btn-danger btn-sm">Delete</button>
                                                             </form>
-                                                        </a>
-
-                                                    </div>
+                                                        </li>
+                                                    </ul>
                                                 </div>
-
-
                                             </td>
                                         </tr>
                                     @endforeach

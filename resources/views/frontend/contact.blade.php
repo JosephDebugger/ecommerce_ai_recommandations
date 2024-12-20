@@ -43,7 +43,7 @@
                          <div class="mail-agileits-w3layouts">
                              <i class="fa fa-volume-control-phone" aria-hidden="true"></i>
                              <div class="contact-right">
-                                 <p>Phne </p><span>+8801829151173</span>
+                                 <p>Phone </p><span>+8801829151173</span>
                              </div>
                              <div class="clearfix"> </div>
                          </div>

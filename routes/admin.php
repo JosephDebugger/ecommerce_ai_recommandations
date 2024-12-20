@@ -51,8 +51,10 @@ Route::middleware(['auth:web'])->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('bands', BandController::class);
     Route::resource('banners', BannerController::class);
-
+    Route::post('/subCategoryStore', [CategoryController::class, 'subCategoryStore'])->name('subcategories.store');
+    Route::delete('/subcategoryDestroy/{id}', [CategoryController::class, 'subcategoryDestroy'])->name('subcategories.destroy');
     
+   
     Route::get('getUserMessages', [UserController::class, 'getUserMessages'])->name('getUserMessages');
 
     Route::get('/company-setting', [CompanyController::class, 'getSettings'])->name('getSettings');

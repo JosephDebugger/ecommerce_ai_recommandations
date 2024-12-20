@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\admin\settings\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\admin\settings\SubCategory;
 
 class CategoryController extends Controller
 {
@@ -13,9 +14,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::latest()->get();
+        $categories = Category::with('subCategories')->get();
         return view('admin.inventory.category.categories', compact('categories'));
-
     }
 
     /**
@@ -33,8 +33,8 @@ class CategoryController extends Controller
                 'required',
                 'string',
                 'max:255',
-                'regex:/^[a-zA-Z0-9\s]+$/', 
-                'unique:categories,name', 
+                'regex:/^[a-zA-Z0-9\s]+$/',
+                'unique:categories,name',
             ],
             'type' => [
                 'required'
@@ -43,7 +43,7 @@ class CategoryController extends Controller
                 'nullable',
                 'string',
                 'max:1000',
-                'regex:/^[a-zA-Z0-9\s]+$/', 
+                'regex:/^[a-zA-Z0-9\s]+$/',
             ],
         ]);
 
@@ -59,7 +59,6 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         return view('admin.inventory.category.view-brand', compact('category'));
-        
     }
 
     /**
@@ -81,7 +80,7 @@ class CategoryController extends Controller
                 'string',
                 'min:2',
                 'max:100',
-                'regex:/^[a-zA-Z0-9\s]+$/', 
+                'regex:/^[a-zA-Z0-9\s]+$/',
                 'unique:categories,name,' . $category->id, // Unique validation, ignoring the current record
             ],
             'type' => [
@@ -91,7 +90,7 @@ class CategoryController extends Controller
                 'nullable',
                 'string',
                 'max:255',
-                'regex:/^[a-zA-Z0-9\s]+$/', 
+                'regex:/^[a-zA-Z0-9\s]+$/',
             ],
         ]);
         $category->update($validatedData);
@@ -109,5 +108,34 @@ class CategoryController extends Controller
 
         return redirect()->route('categories.index')
             ->with('success', 'Category deleted successfully.');
+    }
+
+    public function subCategoryStore(Request $request)
+    {
+        $validated = $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'subcategories.*.name' => 'required|string|max:255',
+            'subcategories.*.description' => 'nullable|string',
+        ]);
+
+        foreach ($validated['subcategories'] as $sub) {
+            SubCategory::create([
+                'category_id' => $validated['category_id'],
+                'sub_cetegory_name' => $sub['name'],
+                'description' => $sub['description'] ?? null,
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Subcategories added successfully.');
+    }
+    public function subcategoryDestroy($id)
+    {
+
+        $subCategory = SubCategory::find($id);
+        if (!$subCategory) {
+            return redirect()->back()->with('error', 'Subcategory not found.');
+        }
+        $subCategory->delete();
+        return redirect()->back()->with('success', 'Subcategories Deleted successfully.');
     }
 }

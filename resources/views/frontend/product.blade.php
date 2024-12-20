@@ -161,7 +161,7 @@
                                             <input type="text" name="Name" id="review_name" required>
                                             <input type="email" name="Email" id="review_email" required>
                                             <textarea name="message" required id="review_message"></textarea>
-                                            <input type="button" id="rvwBtn" value="SAEND" onclick="addReview()">
+                                            <input type="button" id="rvwBtn" value="SEND" onclick="addReview()">
                                         </div>
                                     </div>
                                 </div>
