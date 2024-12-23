@@ -11,24 +11,14 @@
                     <div class="flexslider">
 
                         <ul class="slides">
-                            <li
-                                data-thumb="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif">
-                                <div class="thumb-image"> <img
-                                        src="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
-                                        data-imagezoom="true" class="img-responsive"> </div>
+                        @foreach ($images as $image)
+                            <li data-thumb="@if ($image->name != '') {{ asset($image->name) }}@else{{ asset('uploads/images.png') }} @endif">
+                                <div class="thumb-image">
+                                    <img src="@if ($image->name != '') {{ asset($image->name) }}@else{{ asset('uploads/images.png') }} @endif" data-imagezoom="true" class="img-responsive">
+                                </div>
                             </li>
-                            <li
-                                data-thumb="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif">
-                                <div class="thumb-image"> <img
-                                        src="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
-                                        data-imagezoom="true" class="img-responsive"> </div>
-                            </li>
-                            <li
-                                data-thumb="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif">
-                                <div class="thumb-image"> <img
-                                        src="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
-                                        data-imagezoom="true" class="img-responsive"> </div>
-                            </li>
+                        @endforeach
+   
                         </ul>
                         <div class="clearfix"></div>
                     </div>
@@ -230,7 +220,6 @@
                     email: email,
                     name: name,
                     comment: comment,
-
                 },
                 dataType: "json",
                 success: function(response) {
@@ -251,7 +240,6 @@
                                             </ul>
                                             <p>${element.comment}</p>
                                         </div>
-                                        
                                         <div class="clearfix"> </div>
                                     </div>`)
                         });

@@ -145,7 +145,7 @@
             const inputGroup = document.createElement('div');
             inputGroup.className = 'input-group mb-3';
             inputGroup.innerHTML = `
-                <input type="text" name="images[${index}][id]" class="form-control" hidden value="-1" hidden>
+                <input type="number" name="images[${index}][id]" class="form-control" value="-1" hidden>
                 <input type="file" name="images[${index}][image_file]" class="form-control" required>
                  <input type="text" name="images[${index}][old_image]" class="form-control" hidden value="">
                 <input type="text" name="images[${index}][description]" class="form-control" placeholder="Description">
@@ -165,7 +165,7 @@
 
 
 
-
+        var table = '' ;
 
         $(function() {
 
@@ -183,7 +183,7 @@
                 table.draw(); // Trigger the table redraw when date range is applied
             });
 
-            var table = $('#daterange_table').DataTable({
+            table = $('#daterange_table').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
@@ -273,7 +273,7 @@
             $.ajax({
                 url: `/inventory/images/${id}`,
                 success: function(data) {
-                    alert(JSON.stringify(data));
+                    //alert(JSON.stringify(data));
                     const imageInputs = document.getElementById('imageInputs');
                     imageInputs.innerHTML = '';
                     data.forEach((image, index) => {
@@ -304,7 +304,22 @@
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    alert(JSON.stringify(response));
+                    //alert(JSON.stringify(response));
+                    table.draw();
+                    Swal.fire({
+                            title: "Success!",
+                            text: response.message,
+                            confirmButtonText: "Ok",
+                            icon: "success"
+                        }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                Swal.fire("Done!", "", "success");
+                                
+                            } else if (result.isDenied) {
+                               
+                            }
+                        });
                     $('#addImagesModal').modal('hide');
                 }
             });

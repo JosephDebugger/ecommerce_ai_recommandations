@@ -126,7 +126,7 @@ class ProductController extends Controller
        // return $validated;
         $product_id = $request->input('product_id');
         foreach ($validated['images'] as $key => $img) {
-            // return $img['image_file'];
+            // return $img['id'];
             if (isset($img['image_file']) && $img['image_file'] != null) {
                 $imageName = time() . '.' . $img['image_file']->extension();
                 $img['image_file']->move(public_path('uploads/products/'), $imageName);
@@ -139,7 +139,7 @@ class ProductController extends Controller
                 }
             }
 
-            if(isset($img['id']) && $img['id'] > 0){
+            if($img['id'] > 0){
                 $image = Image::find($img['id']);
                 $image->name = $imagePath;
                 $image->details = $img['description'] ?? null;
@@ -150,6 +150,7 @@ class ProductController extends Controller
                 $image->product_id = $product_id;
                 $image->details = $img['description'] ?? null;
                 $image->type = 'Other';
+                $image->save();
             }
           
         }

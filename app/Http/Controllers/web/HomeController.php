@@ -18,6 +18,7 @@ use App\Models\admin\cms\Banner;
 use App\Models\Contact;
 use App\Models\Customer;
 use App\Models\admin\Band;
+use App\Models\admin\Image;
 use App\Models\Review;
 
 class HomeController extends Controller
@@ -94,7 +95,9 @@ class HomeController extends Controller
         }
         $reviews = Review::where('product_id', $id)->get();
 
-        return view('frontend.product', ['product' => $product, 'reviews' => $reviews]);
+        $images = Image::where('product_id', $id)->get();
+        
+        return view('frontend.product', ['product' => $product,'images' => $images, 'reviews' => $reviews]);
     }
     public function checkout($products, $qty)
     {

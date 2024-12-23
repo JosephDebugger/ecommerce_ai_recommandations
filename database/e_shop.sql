@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 19, 2024 at 07:42 PM
+-- Generation Time: Dec 23, 2024 at 05:08 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -46,7 +46,7 @@ CREATE TABLE `bands` (
 --
 
 INSERT INTO `bands` (`id`, `name`, `details`, `contact_email`, `contact_phone`, `band_logo`, `band_cover`, `current_balance`, `status`, `created_at`, `updated_at`) VALUES
-(3, 'test1', NULL, NULL, '01829786918', NULL, NULL, 360.00, 'Active', '2024-08-19 19:07:33', '2024-12-06 17:50:25'),
+(3, 'test1', NULL, NULL, '01829786918', NULL, NULL, 3660.00, 'Active', '2024-08-19 19:07:33', '2024-12-22 20:36:30'),
 (4, 'Warfaze', NULL, NULL, '01829786918', 'uploads/bands/1733058606.png', 'uploads/bands/1733058606.jpg', NULL, 'Active', '2024-12-01 13:10:06', '2024-12-01 13:10:06');
 
 -- --------------------------------------------------------
@@ -114,14 +114,6 @@ CREATE TABLE `cache` (
   `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `cache`
---
-
-INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('admin@gmail.com|127.0.0.1', 'i:1;', 1734627340),
-('admin@gmail.com|127.0.0.1:timer', 'i:1734627340;', 1734627340);
-
 -- --------------------------------------------------------
 
 --
@@ -164,7 +156,8 @@ INSERT INTO `categories` (`id`, `name`, `type`, `description`, `status`, `create
 (9, 'category 6', 'male', NULL, 'Active', '2024-10-23 13:56:31', '2024-10-23 13:56:31'),
 (10, 'category 7', 'male', NULL, 'Active', '2024-10-23 13:56:40', '2024-10-23 13:56:40'),
 (11, 'category 8', 'male', NULL, 'Active', '2024-10-23 13:57:12', '2024-10-23 13:57:12'),
-(12, 'female category 1', 'female', NULL, 'Active', '2024-12-01 07:07:14', '2024-12-01 07:07:14');
+(12, 'female category 1', 'female', NULL, 'Active', '2024-12-01 07:07:14', '2024-12-01 07:07:14'),
+(13, 'category 2', 'female', NULL, 'Active', '2024-12-22 11:59:10', '2024-12-22 11:59:10');
 
 -- --------------------------------------------------------
 
@@ -285,7 +278,7 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `name`, `user_name`, `image`, `email`, `email_verified_at`, `type`, `band_id`, `state`, `city`, `name_on_card`, `cc_number`, `exp`, `exp_year`, `cvv`, `address`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'test', 'test1', 'uploads/users/1733510829_logo.jpg', 'test@gmail.com', NULL, 'band', 3, 'chattagram', 'Chittagong', '12123123', NULL, '2024-12', '2024', '123123', 'OR Nizam', '$2y$12$V/eFqfIveKY82rCicGM2nug38ep9DipRqUdpuc4u9TiMXI1Z7Wzte', NULL, '2024-10-25 11:09:44', '2024-12-06 12:47:09'),
+(1, 'test', 'test1', 'uploads/avatar1.png', 'test@gmail.com', NULL, 'band', 3, 'chattagram', 'Chittagong', '12123123', NULL, '2024-12', '2024', '123123', 'OR Nizam', '$2y$12$V/eFqfIveKY82rCicGM2nug38ep9DipRqUdpuc4u9TiMXI1Z7Wzte', NULL, '2024-10-25 11:09:44', '2024-12-21 10:55:41'),
 (2, 'Md Tousif', 'md-tousif', NULL, 'tousif@gmail.com', NULL, 'general', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '$2y$12$.BEXwfhByZnQU.kxXruvuehsKOvtHAb4aLNIQXXU81vSHkgxxQ0w6', NULL, '2024-12-01 01:58:16', '2024-12-01 01:58:16');
 
 -- --------------------------------------------------------
@@ -390,7 +383,13 @@ INSERT INTO `images` (`id`, `product_id`, `name`, `details`, `status`, `type`, `
 (62, 75, 'uploads/images.png', NULL, 'Active', NULL, '2024-10-22 16:34:30', '2024-10-22 16:34:30'),
 (63, 1, 'uploads/products/1733050966.jpg', NULL, 'Active', NULL, '2024-11-14 16:51:52', '2024-12-01 11:02:46'),
 (64, 2, 'uploads/products/1731721471.jpg', NULL, 'Active', NULL, '2024-11-16 01:44:31', '2024-11-16 01:44:31'),
-(65, 3, 'uploads/products/1731776537.jpg', NULL, 'Active', NULL, '2024-11-16 17:02:17', '2024-11-16 17:02:17');
+(65, 3, 'uploads/products/1731776537.jpg', NULL, 'Active', NULL, '2024-11-16 17:02:17', '2024-11-16 17:02:17'),
+(66, 4, 'uploads/products/1734900768.jpg', NULL, 'Active', 'Default', '2024-12-22 19:28:27', '2024-12-22 20:53:00'),
+(73, 4, 'uploads/products/1734926583.jpg', 'any', 'Active', 'Other', '2024-12-23 03:41:32', '2024-12-23 04:03:03'),
+(74, 4, 'uploads/products/1734926184.jpg', 'null', 'Active', 'Other', '2024-12-23 03:56:24', '2024-12-23 04:03:03'),
+(75, 4, 'uploads/products/1734926184.jpg', 'null', 'Active', 'Other', '2024-12-23 03:56:24', '2024-12-23 04:03:03'),
+(77, 4, 'uploads/products/1734926583.jpg', 'null', 'Active', 'Other', '2024-12-23 04:03:03', '2024-12-23 04:05:07'),
+(78, 4, 'uploads/products/1734926707.jpg', NULL, 'Active', 'Other', '2024-12-23 04:05:07', '2024-12-23 04:05:07');
 
 -- --------------------------------------------------------
 
@@ -480,6 +479,7 @@ CREATE TABLE `products` (
   `Tranding` enum('Yes','No') NOT NULL DEFAULT 'No',
   `name` varchar(100) NOT NULL,
   `price` int(20) DEFAULT NULL,
+  `stock` float DEFAULT NULL,
   `status` enum('Active','Inactive') DEFAULT NULL,
   `image` varchar(1000) DEFAULT NULL,
   `discount` decimal(10,2) DEFAULT 0.00,
@@ -493,10 +493,11 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `cloth_for`, `brand_id`, `band_id`, `category_id`, `sub_category_id`, `unit`, `featured`, `Tranding`, `name`, `price`, `status`, `image`, `discount`, `description`, `additional_info`, `created_at`, `updated_at`) VALUES
-(1, 'male', 1, 3, 4, NULL, NULL, 'No', 'Yes', 'Polo Tshirt', 1000, 'Active', NULL, 100.00, NULL, NULL, '2024-11-14 10:51:52', '2024-12-01 11:02:46'),
-(2, 'male', 1, NULL, 10, NULL, NULL, 'Yes', 'No', 'Cargo Pants Mens', 600, 'Active', NULL, NULL, NULL, NULL, '2024-11-15 19:44:31', '2024-12-01 10:41:04'),
-(3, 'female', 2, NULL, 4, NULL, NULL, 'Yes', 'No', 'Black And Red Embroidered Linen Kurti', 1100, 'Active', NULL, NULL, NULL, 'Embrace the elegance and enhance your style with Women\'s Screen Printed with Hand Embroidered Linen Kurti by Grameen Check.', '2024-11-16 11:02:17', '2024-11-16 17:02:17');
+INSERT INTO `products` (`id`, `cloth_for`, `brand_id`, `band_id`, `category_id`, `sub_category_id`, `unit`, `featured`, `Tranding`, `name`, `price`, `stock`, `status`, `image`, `discount`, `description`, `additional_info`, `created_at`, `updated_at`) VALUES
+(1, 'male', 1, 3, 4, NULL, NULL, 'No', 'Yes', 'Polo Tshirt', 1000, NULL, 'Active', NULL, 100.00, NULL, NULL, '2024-11-14 10:51:52', '2024-12-01 11:02:46'),
+(2, 'male', 1, NULL, 10, NULL, NULL, 'Yes', 'No', 'Cargo Pants Mens', 600, NULL, 'Active', NULL, NULL, NULL, NULL, '2024-11-15 19:44:31', '2024-12-01 10:41:04'),
+(3, 'female', 2, NULL, 4, NULL, NULL, 'Yes', 'No', 'Black And Red Embroidered Linen Kurti', 1100, NULL, 'Active', NULL, NULL, NULL, 'Embrace the elegance and enhance your style with Women\'s Screen Printed with Hand Embroidered Linen Kurti by Grameen Check.', '2024-11-16 11:02:17', '2024-11-16 17:02:17'),
+(4, 'male', 2, NULL, 4, NULL, NULL, 'No', 'Yes', 'Polo Tshirt - 2', 1000, 20, 'Active', NULL, 100.00, NULL, NULL, '2024-12-22 13:28:27', '2024-12-22 20:52:59');
 
 -- --------------------------------------------------------
 
@@ -533,7 +534,14 @@ CREATE TABLE `ratings` (
 INSERT INTO `ratings` (`id`, `product_id`, `user_id`, `rating`, `created_at`, `updated_at`) VALUES
 (1, 2, 1, '4', '2024-11-26 05:07:10', '2024-11-26 05:07:10'),
 (2, 1, 1, '3', '2024-11-26 05:54:28', '2024-11-26 05:54:28'),
-(3, 1, 1, '4', '2024-12-11 12:01:59', '2024-12-11 12:01:59');
+(3, 1, 1, '4', '2024-12-11 12:01:59', '2024-12-11 12:01:59'),
+(4, 2, 1, '2', '2024-12-22 12:54:49', '2024-12-22 12:54:49'),
+(5, 2, 1, '3', '2024-12-22 12:55:09', '2024-12-22 12:55:09'),
+(6, 2, 1, '2', '2024-12-22 12:56:41', '2024-12-22 12:56:41'),
+(7, 2, 1, '4', '2024-12-22 12:56:46', '2024-12-22 12:56:46'),
+(8, 2, 1, '2', '2024-12-22 12:57:01', '2024-12-22 12:57:01'),
+(9, 2, 1, '3', '2024-12-22 12:58:24', '2024-12-22 12:58:24'),
+(10, 2, 1, '2', '2024-12-22 12:59:15', '2024-12-22 12:59:15');
 
 -- --------------------------------------------------------
 
@@ -550,6 +558,106 @@ CREATE TABLE `recommendations` (
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `timestamp` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `recommendations`
+--
+
+INSERT INTO `recommendations` (`id`, `user_id`, `predicted_score`, `product_id`, `created_at`, `updated_at`, `timestamp`) VALUES
+(58, 1, 0.750659, 2, '2024-12-20 16:23:50', '2024-12-20 16:23:50', '2024-12-20 22:23:50'),
+(59, 1, 0.750659, 3, '2024-12-20 16:23:50', '2024-12-20 16:23:50', '2024-12-20 22:23:50'),
+(60, 1, 0.750659, 2, '2024-12-20 16:25:06', '2024-12-20 16:25:06', '2024-12-20 22:25:06'),
+(61, 1, 0.5, 1, '2024-12-20 16:25:06', '2024-12-20 16:25:06', '2024-12-20 22:25:06'),
+(62, 1, 0.750659, 3, '2024-12-21 16:38:57', '2024-12-21 16:38:57', '2024-12-21 22:38:57'),
+(63, 1, 0.5, 1, '2024-12-21 16:38:57', '2024-12-21 16:38:57', '2024-12-21 22:38:57'),
+(64, 1, 0.750659, 3, '2024-12-21 16:39:12', '2024-12-21 16:39:12', '2024-12-21 22:39:12'),
+(65, 1, 0.5, 1, '2024-12-21 16:39:12', '2024-12-21 16:39:12', '2024-12-21 22:39:12'),
+(66, 1, 0.750659, 3, '2024-12-21 16:40:00', '2024-12-21 16:40:00', '2024-12-21 22:40:00'),
+(67, 1, 0.5, 1, '2024-12-21 16:40:00', '2024-12-21 16:40:00', '2024-12-21 22:40:00'),
+(68, 1, 0.750659, 3, '2024-12-21 16:43:21', '2024-12-21 16:43:21', '2024-12-21 22:43:21'),
+(69, 1, 0.5, 1, '2024-12-21 16:43:21', '2024-12-21 16:43:21', '2024-12-21 22:43:21'),
+(70, 1, 0.750659, 3, '2024-12-21 16:47:03', '2024-12-21 16:47:03', '2024-12-21 22:47:03'),
+(71, 1, 0.5, 1, '2024-12-21 16:47:03', '2024-12-21 16:47:03', '2024-12-21 22:47:03'),
+(72, 1, 0.750659, 2, '2024-12-21 16:48:29', '2024-12-21 16:48:29', '2024-12-21 22:48:29'),
+(73, 1, 0.750659, 3, '2024-12-21 16:48:29', '2024-12-21 16:48:29', '2024-12-21 22:48:29'),
+(74, 1, 0.750659, 3, '2024-12-21 16:49:12', '2024-12-21 16:49:12', '2024-12-21 22:49:12'),
+(75, 1, 0.5, 1, '2024-12-21 16:49:12', '2024-12-21 16:49:12', '2024-12-21 22:49:12'),
+(76, 1, 0.750659, 3, '2024-12-21 16:50:47', '2024-12-21 16:50:47', '2024-12-21 22:50:47'),
+(77, 1, 0.5, 1, '2024-12-21 16:50:47', '2024-12-21 16:50:47', '2024-12-21 22:50:47'),
+(78, 1, 0.750659, 2, '2024-12-21 16:50:54', '2024-12-21 16:50:54', '2024-12-21 22:50:54'),
+(79, 1, 0.5, 1, '2024-12-21 16:50:54', '2024-12-21 16:50:54', '2024-12-21 22:50:54'),
+(80, 1, 0.750659, 2, '2024-12-21 16:52:28', '2024-12-21 16:52:28', '2024-12-21 22:52:28'),
+(81, 1, 0.5, 1, '2024-12-21 16:52:28', '2024-12-21 16:52:28', '2024-12-21 22:52:28'),
+(82, 1, 0.750659, 3, '2024-12-21 16:56:18', '2024-12-21 16:56:18', '2024-12-21 22:56:18'),
+(83, 1, 0.5, 1, '2024-12-21 16:56:18', '2024-12-21 16:56:18', '2024-12-21 22:56:18'),
+(84, 1, 0.750659, 2, '2024-12-21 16:56:22', '2024-12-21 16:56:22', '2024-12-21 22:56:22'),
+(85, 1, 0.5, 1, '2024-12-21 16:56:22', '2024-12-21 16:56:22', '2024-12-21 22:56:22'),
+(86, 1, 0.750659, 3, '2024-12-21 17:06:22', '2024-12-21 17:06:22', '2024-12-21 23:06:22'),
+(87, 1, 0.5, 1, '2024-12-21 17:06:22', '2024-12-21 17:06:22', '2024-12-21 23:06:22'),
+(88, 1, 0.750659, 2, '2024-12-21 17:06:25', '2024-12-21 17:06:25', '2024-12-21 23:06:25'),
+(89, 1, 0.5, 1, '2024-12-21 17:06:25', '2024-12-21 17:06:25', '2024-12-21 23:06:25'),
+(90, 1, 0.750659, 3, '2024-12-21 17:18:42', '2024-12-21 17:18:42', '2024-12-21 23:18:42'),
+(91, 1, 0.5, 1, '2024-12-21 17:18:42', '2024-12-21 17:18:42', '2024-12-21 23:18:42'),
+(92, 1, 0.750659, 2, '2024-12-21 17:18:45', '2024-12-21 17:18:45', '2024-12-21 23:18:45'),
+(93, 1, 0.5, 1, '2024-12-21 17:18:45', '2024-12-21 17:18:45', '2024-12-21 23:18:45'),
+(94, 1, 0.750659, 3, '2024-12-21 17:20:06', '2024-12-21 17:20:06', '2024-12-21 23:20:06'),
+(95, 1, 0.5, 1, '2024-12-21 17:20:06', '2024-12-21 17:20:06', '2024-12-21 23:20:06'),
+(96, 1, 0.750659, 3, '2024-12-22 18:54:43', '2024-12-22 18:54:43', '2024-12-23 00:54:43'),
+(97, 1, 0.5, 1, '2024-12-22 18:54:43', '2024-12-22 18:54:43', '2024-12-23 00:54:43'),
+(98, 1, 0.4514, 1, '2024-12-22 18:54:51', '2024-12-22 18:54:51', '2024-12-23 00:54:51'),
+(99, 1, 0.0972003, 3, '2024-12-22 18:54:51', '2024-12-22 18:54:51', '2024-12-23 00:54:51'),
+(100, 1, 0.4514, 1, '2024-12-22 18:55:12', '2024-12-22 18:55:12', '2024-12-23 00:55:12'),
+(101, 1, 0.333333, 3, '2024-12-22 18:55:12', '2024-12-22 18:55:12', '2024-12-23 00:55:12'),
+(102, 1, 0.4514, 1, '2024-12-22 18:56:44', '2024-12-22 18:56:44', '2024-12-23 00:56:44'),
+(103, 1, 0.252921, 3, '2024-12-22 18:56:44', '2024-12-22 18:56:44', '2024-12-23 00:56:44'),
+(104, 1, 0.4514, 1, '2024-12-22 18:56:49', '2024-12-22 18:56:49', '2024-12-23 00:56:49'),
+(105, 1, 0.205703, 3, '2024-12-22 18:56:49', '2024-12-22 18:56:49', '2024-12-23 00:56:49'),
+(106, 1, 0.4514, 1, '2024-12-22 18:56:53', '2024-12-22 18:56:53', '2024-12-23 00:56:53'),
+(107, 1, 0.205703, 3, '2024-12-22 18:56:53', '2024-12-22 18:56:53', '2024-12-23 00:56:53'),
+(108, 1, 0.4514, 1, '2024-12-22 18:57:04', '2024-12-22 18:57:04', '2024-12-23 00:57:04'),
+(109, 1, 0.172252, 3, '2024-12-22 18:57:04', '2024-12-22 18:57:04', '2024-12-23 00:57:04'),
+(110, 1, 0.4514, 1, '2024-12-22 18:58:27', '2024-12-22 18:58:27', '2024-12-23 00:58:27'),
+(111, 1, 0.286154, 3, '2024-12-22 18:58:27', '2024-12-22 18:58:27', '2024-12-23 00:58:27'),
+(112, 1, 0.4514, 1, '2024-12-22 18:59:07', '2024-12-22 18:59:07', '2024-12-23 00:59:07'),
+(113, 1, 0.286154, 3, '2024-12-22 18:59:07', '2024-12-22 18:59:07', '2024-12-23 00:59:07'),
+(114, 1, 0.4514, 1, '2024-12-22 18:59:18', '2024-12-22 18:59:18', '2024-12-23 00:59:18'),
+(115, 1, 0.250508, 3, '2024-12-22 18:59:18', '2024-12-22 18:59:18', '2024-12-23 00:59:18'),
+(116, 1, 0.4514, 1, '2024-12-22 20:07:12', '2024-12-22 20:07:12', '2024-12-23 02:07:12'),
+(117, 1, 0.250508, 3, '2024-12-22 20:07:12', '2024-12-22 20:07:12', '2024-12-23 02:07:12'),
+(118, 1, 0.250508, 4, '2024-12-22 20:07:12', '2024-12-22 20:07:12', '2024-12-23 02:07:12'),
+(119, 1, 0.4514, 1, '2024-12-22 20:10:09', '2024-12-22 20:10:09', '2024-12-23 02:10:09'),
+(120, 1, 0.250508, 3, '2024-12-22 20:10:09', '2024-12-22 20:10:09', '2024-12-23 02:10:09'),
+(121, 1, 0.250508, 4, '2024-12-22 20:10:09', '2024-12-22 20:10:09', '2024-12-23 02:10:09'),
+(122, 1, 0.4514, 1, '2024-12-22 20:22:45', '2024-12-22 20:22:45', '2024-12-23 02:22:45'),
+(123, 1, 0.250508, 3, '2024-12-22 20:22:45', '2024-12-22 20:22:45', '2024-12-23 02:22:45'),
+(124, 1, 0.250508, 4, '2024-12-22 20:22:45', '2024-12-22 20:22:45', '2024-12-23 02:22:45'),
+(125, 1, 0.4514, 1, '2024-12-22 20:23:35', '2024-12-22 20:23:35', '2024-12-23 02:23:35'),
+(126, 1, 0.250508, 2, '2024-12-22 20:23:35', '2024-12-22 20:23:35', '2024-12-23 02:23:35'),
+(127, 1, 0.250508, 3, '2024-12-22 20:23:35', '2024-12-22 20:23:35', '2024-12-23 02:23:35'),
+(128, 1, 0.4514, 1, '2024-12-22 20:32:50', '2024-12-22 20:32:50', '2024-12-23 02:32:50'),
+(129, 1, 0.250508, 2, '2024-12-22 20:32:50', '2024-12-22 20:32:50', '2024-12-23 02:32:50'),
+(130, 1, 0.250508, 3, '2024-12-22 20:32:50', '2024-12-22 20:32:50', '2024-12-23 02:32:50'),
+(131, 1, 0.4514, 1, '2024-12-22 20:33:47', '2024-12-22 20:33:47', '2024-12-23 02:33:47'),
+(132, 1, 0.250508, 2, '2024-12-22 20:33:47', '2024-12-22 20:33:47', '2024-12-23 02:33:47'),
+(133, 1, 0.250508, 3, '2024-12-22 20:33:47', '2024-12-22 20:33:47', '2024-12-23 02:33:47'),
+(134, 1, 0.4514, 1, '2024-12-22 20:35:55', '2024-12-22 20:35:55', '2024-12-23 02:35:55'),
+(135, 1, 0.250508, 2, '2024-12-22 20:35:55', '2024-12-22 20:35:55', '2024-12-23 02:35:55'),
+(136, 1, 0.250508, 3, '2024-12-22 20:35:55', '2024-12-22 20:35:55', '2024-12-23 02:35:55'),
+(137, 1, 0.4514, 1, '2024-12-22 20:36:30', '2024-12-22 20:36:30', '2024-12-23 02:36:30'),
+(138, 1, 0.250508, 2, '2024-12-22 20:36:30', '2024-12-22 20:36:30', '2024-12-23 02:36:30'),
+(139, 1, 0.250508, 3, '2024-12-22 20:36:30', '2024-12-22 20:36:30', '2024-12-23 02:36:30'),
+(140, 1, 0.4514, 1, '2024-12-22 20:36:43', '2024-12-22 20:36:43', '2024-12-23 02:36:43'),
+(141, 1, 0.250508, 2, '2024-12-22 20:36:43', '2024-12-22 20:36:43', '2024-12-23 02:36:43'),
+(142, 1, 0.250508, 3, '2024-12-22 20:36:43', '2024-12-22 20:36:43', '2024-12-23 02:36:43'),
+(143, 1, 0.4514, 1, '2024-12-22 20:45:17', '2024-12-22 20:45:17', '2024-12-23 02:45:17'),
+(144, 1, 0.250508, 3, '2024-12-22 20:45:17', '2024-12-22 20:45:17', '2024-12-23 02:45:17'),
+(145, 1, 0.250508, 4, '2024-12-22 20:45:17', '2024-12-22 20:45:17', '2024-12-23 02:45:17'),
+(146, 1, 0.4514, 1, '2024-12-22 20:46:07', '2024-12-22 20:46:07', '2024-12-23 02:46:07'),
+(147, 1, 0.250508, 2, '2024-12-22 20:46:07', '2024-12-22 20:46:07', '2024-12-23 02:46:07'),
+(148, 1, 0.250508, 3, '2024-12-22 20:46:07', '2024-12-22 20:46:07', '2024-12-23 02:46:07'),
+(149, 1, 0.4514, 1, '2024-12-22 20:48:32', '2024-12-22 20:48:32', '2024-12-23 02:48:32'),
+(150, 1, 0.250508, 2, '2024-12-22 20:48:32', '2024-12-22 20:48:32', '2024-12-23 02:48:32'),
+(151, 1, 0.250508, 3, '2024-12-22 20:48:32', '2024-12-22 20:48:32', '2024-12-23 02:48:32');
 
 -- --------------------------------------------------------
 
@@ -573,7 +681,8 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`id`, `user_id`, `product_id`, `name`, `email`, `comment`, `created_at`, `updated_at`) VALUES
-(1, NULL, 3, 'Joseph', 'josephdias@gmail.com', 'testing review', '2024-12-07 00:52:05', '2024-12-07 00:52:05');
+(1, NULL, 3, 'Joseph', 'josephdias@gmail.com', 'testing review', '2024-12-07 00:52:05', '2024-12-07 00:52:05'),
+(2, NULL, 4, 'Joseph', 'josephdias@gmail.com', 'testing', '2024-12-22 14:48:43', '2024-12-22 14:48:43');
 
 -- --------------------------------------------------------
 
@@ -605,7 +714,18 @@ INSERT INTO `sales` (`id`, `sale_date`, `total_amount`, `customer_id`, `payment_
 (10, '2024-11-20 00:00:00', 2400.00, 1, 'Card', 'Pending', 'No', '2024-11-19 21:01:55', '2024-11-19 21:01:55'),
 (11, '2024-11-23 13:24:45', 600.00, 1, 'Card', 'Pending', 'No', '2024-11-23 07:24:45', '2024-11-23 07:24:45'),
 (12, '2024-12-06 17:50:25', 3600.00, 1, 'Card', 'Pending', 'No', '2024-12-06 11:50:25', '2024-12-06 11:50:25'),
-(13, '2024-12-09 19:51:36', 1700.00, 1, 'Card', 'Delivered', 'No', '2024-12-09 13:51:36', '2024-12-11 11:24:38');
+(13, '2024-12-09 19:51:36', 1700.00, 1, 'Card', 'Delivered', 'No', '2024-12-09 13:51:36', '2024-12-11 11:24:38'),
+(14, '2024-12-21 16:38:45', 600.00, 1, 'Card', 'Pending', 'No', '2024-12-21 10:38:45', '2024-12-21 10:38:57'),
+(15, '2024-12-21 16:39:09', 600.00, 1, 'Card', 'Pending', 'No', '2024-12-21 10:39:09', '2024-12-21 10:39:13'),
+(16, '2024-12-21 16:39:58', 600.00, 1, 'Card', 'Pending', 'No', '2024-12-21 10:39:58', '2024-12-21 10:40:01'),
+(17, '2024-12-21 16:43:17', 600.00, 1, 'Card', 'Pending', 'No', '2024-12-21 10:43:17', '2024-12-21 10:43:22'),
+(18, '2024-12-21 16:47:00', 600.00, 1, 'Card', 'Pending', 'No', '2024-12-21 10:47:00', '2024-12-21 10:47:03'),
+(19, '2024-12-21 16:56:15', 1700.00, 1, 'Card', 'Pending', 'No', '2024-12-21 10:56:15', '2024-12-21 10:56:23'),
+(20, '2024-12-21 17:06:19', 1700.00, 1, 'Card', 'Pending', 'No', '2024-12-21 11:06:19', '2024-12-21 11:06:26'),
+(21, '2024-12-21 17:18:37', 1700.00, 1, 'Card', 'Pending', 'No', '2024-12-21 11:18:37', '2024-12-21 11:18:46'),
+(22, '2024-12-21 17:20:02', 600.00, 1, 'Card', 'Pending', 'No', '2024-12-21 11:20:02', '2024-12-21 11:20:06'),
+(23, '2024-12-22 20:23:32', 900.00, 1, 'Card', 'Pending', 'No', '2024-12-22 14:23:32', '2024-12-22 14:23:36'),
+(24, '2024-12-22 20:36:27', 23400.00, 1, 'Card', 'Pending', 'No', '2024-12-22 14:36:27', '2024-12-22 14:36:30');
 
 -- --------------------------------------------------------
 
@@ -637,7 +757,21 @@ INSERT INTO `sale_items` (`id`, `sales_id`, `product_id`, `quantity`, `price_per
 (5, 11, 2, 1, 600.00, 600.00, 'Yes', '2024-11-23 13:24:45', '2024-11-23 13:24:45'),
 (6, 12, 1, 4, 900.00, 3600.00, 'Yes', '2024-12-06 17:50:25', '2024-12-06 17:50:25'),
 (7, 13, 2, 1, 600.00, 600.00, 'Yes', '2024-12-09 19:51:36', '2024-12-09 19:51:36'),
-(8, 13, 3, 1, 1100.00, 1100.00, 'Yes', '2024-12-09 19:51:36', '2024-12-09 19:51:36');
+(8, 13, 3, 1, 1100.00, 1100.00, 'Yes', '2024-12-09 19:51:36', '2024-12-09 19:51:36'),
+(9, 14, 2, 1, 600.00, 600.00, 'Yes', '2024-12-21 16:38:57', '2024-12-21 16:38:57'),
+(10, 15, 2, 1, 600.00, 600.00, 'Yes', '2024-12-21 16:39:13', '2024-12-21 16:39:13'),
+(11, 16, 2, 1, 600.00, 600.00, 'Yes', '2024-12-21 16:40:01', '2024-12-21 16:40:01'),
+(12, 17, 2, 1, 600.00, 600.00, 'Yes', '2024-12-21 16:43:22', '2024-12-21 16:43:22'),
+(13, 18, 2, 1, 600.00, 600.00, 'Yes', '2024-12-21 16:47:03', '2024-12-21 16:47:03'),
+(14, 19, 2, 1, 600.00, 600.00, 'Yes', '2024-12-21 16:56:23', '2024-12-21 16:56:23'),
+(15, 19, 3, 1, 1100.00, 1100.00, 'Yes', '2024-12-21 16:56:23', '2024-12-21 16:56:23'),
+(16, 20, 2, 1, 600.00, 600.00, 'Yes', '2024-12-21 17:06:26', '2024-12-21 17:06:26'),
+(17, 20, 3, 1, 1100.00, 1100.00, 'Yes', '2024-12-21 17:06:26', '2024-12-21 17:06:26'),
+(18, 21, 2, 1, 600.00, 600.00, 'Yes', '2024-12-21 17:18:46', '2024-12-21 17:18:46'),
+(19, 21, 3, 1, 1100.00, 1100.00, 'Yes', '2024-12-21 17:18:46', '2024-12-21 17:18:46'),
+(20, 22, 2, 1, 600.00, 600.00, 'Yes', '2024-12-21 17:20:06', '2024-12-21 17:20:06'),
+(21, 23, 4, 1, 900.00, 900.00, 'Yes', '2024-12-22 20:23:36', '2024-12-22 20:23:36'),
+(22, 24, 4, 26, 900.00, 23400.00, 'Yes', '2024-12-22 20:36:30', '2024-12-22 20:36:30');
 
 -- --------------------------------------------------------
 
@@ -659,7 +793,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('9vrjsA1PdclbMHzkNELty9HT9G59BcM6lneXKv9d', 3, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiYW5CQ3NiUWZPbVQxRGFSN1E5bTJBWEN0RVR0MUUwUkRWYU45UFNzRiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kYXNoYm9hcmQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTozO3M6NTU6ImxvZ2luX2N1c3RvbWVyXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mzt9', 1734627915);
+('acyhgUqJ9lmsQwkzH87q1UalbvFRktFGlVBaCbyb', 3, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiZzN2MFlXZzM5bWpPcGpWSklOTkJkWld1SU5RSGJjN0pHSGx2WHhjSSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9pbnZlbnRvcnkvcHJvZHVjdHMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjM6InVybCI7YTowOnt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MztzOjU1OiJsb2dpbl9jdXN0b21lcl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1734904643),
+('lCQ0C5xHWOxjO2ZDqF94Ytj4RFP0y3yVdFF10qFe', 3, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiYVNzbVZ1ZjZXOFZvWXFrODRTSm9EaG5JU3hLMGg4WXI1aEROMEFCNCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9kdWN0LzQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTozO30=', 1734926720);
 
 -- --------------------------------------------------------
 
@@ -670,6 +805,7 @@ INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, 
 CREATE TABLE `sub_categories` (
   `id` int(11) NOT NULL,
   `sub_cetegory_name` varchar(100) NOT NULL,
+  `description` varchar(250) DEFAULT NULL,
   `category_id` bigint(20) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp()
@@ -679,11 +815,8 @@ CREATE TABLE `sub_categories` (
 -- Dumping data for table `sub_categories`
 --
 
-INSERT INTO `sub_categories` (`id`, `sub_cetegory_name`, `category_id`, `created_at`, `updated_at`) VALUES
-(1, 'sub_category_1', 2, '2024-10-22 22:57:36', '2024-10-22 22:57:36'),
-(2, 'sub_category_2', 1, '2024-10-22 22:57:36', '2024-10-22 22:57:36'),
-(3, 'sub_category_3', 2, '2024-10-22 22:57:52', '2024-10-22 22:57:52'),
-(4, 'sub_category_4', 1, '2024-10-22 22:57:52', '2024-10-22 22:57:52');
+INSERT INTO `sub_categories` (`id`, `sub_cetegory_name`, `description`, `category_id`, `created_at`, `updated_at`) VALUES
+(1, 'test sub category', 'testing', 1, '2024-12-20 18:28:36', '2024-12-20 18:28:36');
 
 -- --------------------------------------------------------
 
@@ -851,6 +984,12 @@ ALTER TABLE `recommendations`
   ADD KEY `recommendations_user_id_foreign` (`user_id`);
 
 --
+-- Indexes for table `reviews`
+--
+ALTER TABLE `reviews`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `sales`
 --
 ALTER TABLE `sales`
@@ -915,7 +1054,7 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `chats`
@@ -951,7 +1090,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `jobs`
@@ -969,7 +1108,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `purchase_log`
@@ -981,31 +1120,37 @@ ALTER TABLE `purchase_log`
 -- AUTO_INCREMENT for table `ratings`
 --
 ALTER TABLE `ratings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `recommendations`
 --
 ALTER TABLE `recommendations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
+
+--
+-- AUTO_INCREMENT for table `reviews`
+--
+ALTER TABLE `reviews`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `sale_items`
 --
 ALTER TABLE `sale_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `sub_categories`
 --
 ALTER TABLE `sub_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -1018,16 +1163,6 @@ ALTER TABLE `users`
 --
 ALTER TABLE `views`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `recommendations`
---
-ALTER TABLE `recommendations`
-  ADD CONSTRAINT `recommendations_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
