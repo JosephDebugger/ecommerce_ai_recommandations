@@ -80,6 +80,9 @@
                                             </div>
                                             <div
                                                 class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
+                                                @if($product->stock <1)
+                                            <h4 style="color:red">Out of Stock</h4>
+                                            @else
                                                 <form action="#" method="post">
                                                     <fieldset>
                                                         <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
@@ -102,6 +105,7 @@
                                                         </form>
                                                     </fieldset>
                                                 </form>
+                                                @endif
                                             </div>
 
                                         </div>
@@ -217,6 +221,10 @@
                                         </div>
                                         <div
                                             class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
+                                            @if($product->stock <1)
+                                            <h4 style="color:red">Out of Stock</h4>
+                                            @else
+                                           
                                             <form action="#" method="post">
                                                 <fieldset>
                                                     <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
@@ -239,6 +247,7 @@
                                                     </form>
                                                 </fieldset>
                                             </form>
+                                            @endif
                                         </div>
 
                                     </div>
@@ -347,7 +356,7 @@
                                     <span class="product-new-top">New</span>
                                 </div>
                                 <div class="item-info-product ">
-                                    <h4><a href="single.html">${element.name}</a></h4>
+                                    <h4><a href="/product/${element.id}">${element.name}</a></h4>
                                     <div class="info-product-price">
                                         <span class="item_price">${element.price} Tk</span>
                                     

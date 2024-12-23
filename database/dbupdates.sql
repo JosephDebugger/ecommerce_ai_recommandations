@@ -1,0 +1,2 @@
+ALTER TABLE `products` ADD `stock` FLOAT NULL DEFAULT NULL AFTER `price`;
+ALTER TABLE `reviews` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT, add PRIMARY KEY (`id`);

@@ -435,6 +435,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
     <!-- for bootstrap working -->
     <script type="text/javascript" src="{{ asset('web/js/bootstrap.js') }}"></script>
+    <script src="{{asset('admin/dist/js/sweetalert2.all.min.js')}}"></script>
 </body>
 
 </html>

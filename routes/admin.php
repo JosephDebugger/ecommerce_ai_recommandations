@@ -31,6 +31,10 @@ Route::middleware(['auth:web'])->group(function () {
         Route::get('/view-addProduct', [ProductController::class, 'viewAddProduct'])->name('viewAddProduct');
         Route::get('/get_sub_cat/{id}', [ProductController::class, 'getGetSubCategory'])->name('getGetSubCategory');
         Route::get('/get_categories/{gender}', [ProductController::class, 'getCategory'])->name('getGetSubCategory');
+        Route::post('/imagesStore', [ProductController::class, 'imagesStore'])->name('images.store');
+        Route::get('/images/{id}', [ProductController::class, 'getImages'])->name('images');
+        Route::delete('/images/delete/{id}', [ProductController::class, 'imagesDestroy'])->name('deleteImage');
+        
     });
     Route::name('sales.')->prefix('sales')->group(function () {
         Route::get('/getSales', [SalesController::class, 'getSales'])->name('getSales');
@@ -53,7 +57,7 @@ Route::middleware(['auth:web'])->group(function () {
     Route::resource('banners', BannerController::class);
     Route::post('/subCategoryStore', [CategoryController::class, 'subCategoryStore'])->name('subcategories.store');
     Route::delete('/subcategoryDestroy/{id}', [CategoryController::class, 'subcategoryDestroy'])->name('subcategories.destroy');
-    
+  
    
     Route::get('getUserMessages', [UserController::class, 'getUserMessages'])->name('getUserMessages');
 

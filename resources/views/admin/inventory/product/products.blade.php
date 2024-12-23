@@ -25,21 +25,21 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-          
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <div class="row d-flex">
                                 <a href="{{ url('inventory/view-addProduct') }}"><button class="btn btn-primary">
-                                    Add Product
-                                </button></a>
+                                        Add Product
+                                    </button></a>
                                 <div class="">
                                     <div id="daterange" class="float-end"
                                         style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; text-align: center;">
-                                       <i class="fa fa-calendar" aria-hidden="true"></i>
-                                            <span></span>
-                                            <i class="fa fa-caret-down" aria-hidden="true" style="font-size:20px;"></i>
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        <span></span>
+                                        <i class="fa fa-caret-down" aria-hidden="true" style="font-size:20px;"></i>
                                     </div>
                                 </div>
                             </div>
@@ -62,6 +62,7 @@
                                             <th>Name</th>
                                             <th>Image</th>
                                             <th>Price</th>
+                                            <th>Current Stock</th>
                                             <th>Discount amount</th>
                                             <th>Status</th>
                                             <th style="width: 40px">Action</th>
@@ -96,6 +97,41 @@
 
             <!-- /.row -->
         </div><!-- /.container-fluid -->
+
+        <div class="modal fade" id="addImagesModal" tabindex="-1" aria-labelledby="addImagesLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addImagesLabel">Add Images</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="addImagesForm" method="POST" action="{{ route('inventory.images.store') }}">
+                        @csrf
+                        @method('POST')
+                        <div class="modal-body">
+                            <input type="text" name="product_id" id="product_id" hidden>
+                            <div id="imageInputs">
+                                <div class="input-group mb-3">
+                                    <input type="text" name="images[0][id]" class="form-control" hidden value="-1"
+                                        hidden>
+                                    <input type="file" name="images[0][image_file]" class="form-control"
+                                        placeholder="file Name" required>
+                                    <input type="text" name="images[0][old_image]" class="form-control" hidden
+                                        value="">
+                                    <input type="text" name="images[0][description]" class="form-control"
+                                        placeholder="Description">
+                                    <button type="button" class="btn btn-danger remove-input">X</button>
+                                </div>
+                            </div>
+                            <button type="button" id="addSImagesInput" class="btn btn-secondary">Add More</button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </section>
     <!-- /.content -->
 @endsection
@@ -103,7 +139,33 @@
 
 @section('scripts')
     <script>
-     
+        document.getElementById('addSImagesInput').addEventListener('click', function() {
+            const imageInputs = document.getElementById('imageInputs');
+            const index = imageInputs.children.length;
+            const inputGroup = document.createElement('div');
+            inputGroup.className = 'input-group mb-3';
+            inputGroup.innerHTML = `
+                <input type="text" name="images[${index}][id]" class="form-control" hidden value="-1" hidden>
+                <input type="file" name="images[${index}][image_file]" class="form-control" required>
+                 <input type="text" name="images[${index}][old_image]" class="form-control" hidden value="">
+                <input type="text" name="images[${index}][description]" class="form-control" placeholder="Description">
+                <button type="button" class="btn btn-danger remove-input">X</button>
+            `;
+            imageInputs.appendChild(inputGroup);
+        });
+
+        document.getElementById('imageInputs').addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-input')) {
+                e.target.parentElement.remove();
+            }
+        });
+
+
+
+
+
+
+
 
         $(function() {
 
@@ -153,6 +215,10 @@
                         name: 'price'
                     },
                     {
+                        data: 'stock',
+                        name: 'stock'
+                    },
+                    {
                         data: 'discount',
                         name: 'discount'
                     },
@@ -185,13 +251,84 @@
                                 <button type="submit" class="btn">Delete</button>
                             </form>
                         </li>
+                        <li>
+                            <div class="dropdown-divider"></div>
+                        </li>
+                         <li>
+                            <a class="dropdown-item" onclick="addImages(${id})">Add New Image</a>
+                        </li>
                     </ul>
                 </div>
             `;
         }
 
         function renderImage(data, width = '70px', altText = '') {
-            return `<img src="{{asset('${data}')}}" width="${width}" alt="${altText}">`;
+            return `<img src="{{ asset('${data}') }}" width="${width}" alt="${altText}">`;
+        }
+
+        function addImages(id) {
+            $('#addImagesModal').modal('show');
+            $('#product_id').val(id);
+            // $('#addImagesForm').attr('action', `/inventory/images/store/${id}`);
+            $.ajax({
+                url: `/inventory/images/${id}`,
+                success: function(data) {
+                    alert(JSON.stringify(data));
+                    const imageInputs = document.getElementById('imageInputs');
+                    imageInputs.innerHTML = '';
+                    data.forEach((image, index) => {
+                        const inputGroup = document.createElement('div');
+                        inputGroup.className = 'input-group mb-3';
+                        inputGroup.innerHTML = `
+                           <input type="text" name="images[${index}][id]" class="form-control" hidden value="${image.id}" hidden>
+                            <input type="file" name="images[${index}][image_file]" class="form-control" value="${image.name}" >
+                            <input type="text" name="images[${index}][old_image]" class="form-control" hidden value="${image.name}">
+                            <input type="text" name="images[${index}][description]" class="form-control" value="${image.details}">
+                           
+                        <button type="button" class="btn btn-danger remove-input" onclick="deleteImage(${image.id}, this)">X</button>
+                        `;
+                        imageInputs.appendChild(inputGroup);
+                    });
+                }
+            }); // End of $.ajex
+        }
+        $('#addImagesForm').submit(function(e) {
+            e.preventDefault();
+            const form = $(this);
+            const url = form.attr('action');
+            const formData = new FormData(this);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    alert(JSON.stringify(response));
+                    $('#addImagesModal').modal('hide');
+                }
+            });
+        });
+
+
+        function deleteImage(id, button) {
+            $.ajax({
+                url: `/inventory/images/delete/${id}`,
+                type: 'DELETE',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.success) { 
+                        $(button).closest('.input-group').remove();
+                    } else {
+                        alert('Failed to delete image');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('An error occurred: ' + xhr.responseText);
+                }
+            });
         }
     </script>
 @endsection

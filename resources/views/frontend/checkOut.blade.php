@@ -109,136 +109,158 @@
 
 @section('content')
     <br><br>
-    <h1> Checkout </h1>
-    <div class="row">
-        <div class="col-25">
-            <div class="container">
+    <div class="card">
 
-                <div class="table-responsive">
-                    <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i>
-                            <b>{{ count($products) }} </b></span></h4>
-                    <table class="table activitites">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="text-uppercase header">item</th>
-                                <th scope="col" class="text-uppercase">Quantity</th>
-                                <th scope="col" class="text-uppercase">price each</th>
-                                <th scope="col" class="text-uppercase">total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $total = 0;
-                            @endphp
-                            @foreach ($products as $key => $item)
-                                @php
-                                    $price = $item->price - $item->discount;
-                                    $total += $quantity[$key] * $price;
-                                   
-                                @endphp
-                                <tr id="rowNo_{{ $key }}">
-                                    <td class="item">
-                                        <input type="hidden" id="productId_{{ $key }}" value="{{ $item->id }}"
-                                            class="d-none">
-                                        <div class="d-flex">
 
-                                            <div class="pl-2">
-                                                {{ $item->name }}
+        <h1> Checkout </h1>
+        <div class="row">
+            <div class="col-25">
+                <div class="container">
 
-                                            </div>
-                                    </td>
-                                    <td id="quantity_{{ $key }}">{{ $quantity[$key] }}</td>
-                                    <td class="d-flex flex-column"><input type="hidden" id="unitPrice_{{ $key }}"
-                                            value="{{ $price }}"><span class="red">Tk {{ $price }}</span>
-                                        {{-- <del class="cross">Tk {{$item->price}}</del> --}}
-                                    </td>
-                                    <td class="font-weight-bold">
-                                        {{ $quantity[$key] * $price }}
-                                        <div class="close" onclick="delRow({{ $key }})">&times;</div>
-
-                                    </td>
+                    <div class="table-responsive">
+                        <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i>
+                                <b>{{ count($products) }} </b></span></h4>
+                        <table class="table activitites">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-uppercase header">item</th>
+                                    <th scope="col" class="text-uppercase">Quantity</th>
+                                    <th scope="col" class="text-uppercase">price each</th>
+                                    <th scope="col" class="text-uppercase">total</th>
                                 </tr>
-                            @endforeach
+                            </thead>
+                            <tbody>
+                                @php
+                                    $total = 0;
+                                @endphp
+                                @foreach ($products as $key => $item)
+                                    @php
+                                        $price = $item->price - $item->discount;
+                                        $total += $quantity[$key] * $price;
 
-                        </tbody>
-                    </table>
-                </div>
-                {{-- <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b>{{ count($products)}}  </b></span></h4>
+                                    @endphp
+                                    <tr id="rowNo_{{ $key }}">
+                                        <td class="item">
+                                            <input type="hidden" id="productId_{{ $key }}"
+                                                value="{{ $item->id }}" class="d-none">
+                                            <div class="d-flex">
+
+                                                <div class="pl-2">
+                                                    {{ $item->name }}
+
+                                                </div>
+                                        </td>
+                                        <td id="quantity_{{ $key }}">{{ $quantity[$key] }}</td>
+                                        <td class="d-flex flex-column"><input type="hidden"
+                                                id="unitPrice_{{ $key }}" value="{{ $price }}"><span
+                                                class="red">Tk {{ $price }}</span>
+                                            {{-- <del class="cross">Tk {{$item->price}}</del> --}}
+                                        </td>
+                                        <td class="font-weight-bold">
+                                            {{ $quantity[$key] * $price }}
+                                            <div class="close" onclick="delRow({{ $key }})">&times;</div>
+
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+                            </tbody>
+                        </table>
+                    </div>
+                    {{-- <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b>{{ count($products)}}  </b></span></h4>
           @foreach ($products as $key => $item)
           <p><a href="#">{{$item->name}}</a> <span class="price">{{$quantity[$key]*$item->price}}</span></p>
           @endforeach --}}
 
 
-                <hr>
-                <p>Total <span class="price" style="color:black"><b id="total_price">{{ $total }}</b></span></p>
-                <br>
+                    <hr>
+                    <p>Total <span class="price" style="color:black"><b id="total_price">{{ $total }}</b></span>
+                    </p>
+                    <br>
+                </div>
             </div>
-        </div>
-        <div class="col-75">
-            <div class="container main-box">
-                <form id="checkOutInfoForm" action="#">
+            <div class="col-75">
+                <div class="container main-box">
+                    <form id="checkOutInfoForm" action="#">
 
-                    @csrf
-                    <div class="row">
-                        <div class="col-50">
-                            <h3>Billing Address</h3>
-                            <label for="fname"><i class="fa fa-user"></i> Full Name</label>
-                            <input type="text" id="fname" name="firstname" placeholder="Enter Name" value="{{ $customerInfo?  $customerInfo->name: ''}}" required>
-                            <label for="email"><i class="fa fa-envelope"></i> Email</label>
-                            <input type="text" id="email" name="email" placeholder="Enter Email" value="{{ $customerInfo?  $customerInfo->email: ''}}">
-                            <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
-                            <input type="text" id="adr" name="address" placeholder="Write Address" value="{{ $customerInfo?  $customerInfo->address: ''}}">
-                            <label for="city"><i class="fa fa-institution"></i> City</label>
-                            <input type="text" id="city" name="city" placeholder="Enter City name" value="{{ $customerInfo?  $customerInfo->city: ''}}">
+                        @csrf
+                        <div class="row">
+                            <div class="col-50">
+                                <h3>Billing Address</h3>
+                                <label for="fname"><i class="fa fa-user"></i> Full Name</label>
+                                <input type="text" id="fname" name="firstname" placeholder="Enter Name"
+                                    value="{{ $customerInfo ? $customerInfo->name : '' }}" required>
+                                <label for="email"><i class="fa fa-envelope"></i> Email</label>
+                                <input type="text" id="email" name="email" placeholder="Enter Email"
+                                    value="{{ $customerInfo ? $customerInfo->email : '' }}">
+                                <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
+                                <input type="text" id="adr" name="address" placeholder="Write Address"
+                                    value="{{ $customerInfo ? $customerInfo->address : '' }}">
+                                <label for="city"><i class="fa fa-institution"></i> City</label>
+                                <input type="text" id="city" name="city" placeholder="Enter City name"
+                                    value="{{ $customerInfo ? $customerInfo->city : '' }}">
 
-                            <div class="row">
-                                <div class="col-50">
-                                    <label for="state">State</label>
-                                    <input type="text" id="state" name="state" placeholder="NY" value="{{ $customerInfo?  $customerInfo->state: ''}}">
-                                </div>
-                                <div class="col-50">
-                                    <label for="zip">Zip</label>
-                                    <input type="text" id="zip" name="zip" placeholder="10001" value="{{ $customerInfo?  $customerInfo->zip: ''}}">
+                                <div class="row">
+                                    <div class="col-50">
+                                        <label for="state">State</label>
+                                        <input type="text" id="state" name="state" placeholder="NY"
+                                            value="{{ $customerInfo ? $customerInfo->state : '' }}">
+                                    </div>
+                                    <div class="col-50">
+                                        <label for="zip">Zip</label>
+                                        <input type="text" id="zip" name="zip" placeholder="10001"
+                                            value="{{ $customerInfo ? $customerInfo->zip : '' }}">
+                                    </div>
                                 </div>
                             </div>
+
+                            <div class="col-50">
+                                <h3>Payment</h3>
+                                <label for="fname">Accepted Cards</label>
+                                <div class="icon-container">
+                                    <i class="fa fa-cc-visa" style="color:navy;"></i>
+                                    <i class="fa fa-cc-amex" style="color:blue;"></i>
+                                    <i class="fa fa-cc-mastercard" style="color:red;"></i>
+                                    <i class="fa fa-cc-discover" style="color:orange;"></i>
+                                </div>
+                                <label for="cname">Name on Card</label>
+                                <input type="text" id="cname" name="cardname" placeholder="John More Doe"
+                                    value="{{ $customerInfo ? $customerInfo->name_on_card : '' }}">
+                                <label for="ccnum">Credit card number</label>
+                                <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444"
+                                    value="{{ $customerInfo ? $customerInfo->cc_number : '' }}">
+                                <label for="expmonth">Exp Month</label>
+                                <input type="text" id="expmonth" name="expmonth" placeholder="September"
+                                    value="{{ $customerInfo ? $customerInfo->exp : '' }}">
+                                <div class="row">
+                                    <div class="col-50">
+                                        <label for="expyear">Exp Year</label>
+                                        <input type="text" id="expyear" name="expyear" placeholder="2018"
+                                            value="{{ $customerInfo ? $customerInfo->exp_year : '' }}">
+                                    </div>
+                                    <div class="col-50">
+                                        <label for="cvv">CVV</label>
+                                        <input type="text" id="cvv" name="cvv" placeholder="352"
+                                            value="{{ $customerInfo ? $customerInfo->cvv : '' }}">
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
-
-                        <div class="col-50">
-                            <h3>Payment</h3>
-                            <label for="fname">Accepted Cards</label>
-                            <div class="icon-container">
-                                <i class="fa fa-cc-visa" style="color:navy;"></i>
-                                <i class="fa fa-cc-amex" style="color:blue;"></i>
-                                <i class="fa fa-cc-mastercard" style="color:red;"></i>
-                                <i class="fa fa-cc-discover" style="color:orange;"></i>
-                            </div>
-                            <label for="cname">Name on Card</label>
-                            <input type="text" id="cname" name="cardname" placeholder="John More Doe" value="{{ $customerInfo?  $customerInfo->name_on_card: ''}}">
-                            <label for="ccnum">Credit card number</label>
-                            <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444" value="{{ $customerInfo?  $customerInfo->cc_number: ''}}">
-                            <label for="expmonth">Exp Month</label>
-                            <input type="text" id="expmonth" name="expmonth" placeholder="September" value="{{ $customerInfo?  $customerInfo->exp: ''}}">
-                            <div class="row">
-                                <div class="col-50">
-                                    <label for="expyear">Exp Year</label>
-                                    <input type="text" id="expyear" name="expyear" placeholder="2018" value="{{ $customerInfo?  $customerInfo->exp_year: ''}}">
-                                </div>
-                                <div class="col-50">
-                                    <label for="cvv">CVV</label>
-                                    <input type="text" id="cvv" name="cvv" placeholder="352" value="{{ $customerInfo?  $customerInfo->cvv: ''}}">
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <label>
-                        <input type="checkbox" checked="checked" name="sameadr" id="sameadr"> Shipping address same as
-                        billing
-                    </label>
-                    <input type="submit" value="Continue to checkout" class="btn">
-                </form>
-                <br>
+                        <label>
+                            <input type="checkbox" checked="checked" name="sameadr" id="sameadr"> Shipping address
+                            same as
+                            billing
+                        </label>
+                        <button type="submit" value="Continue to checkout"
+                            class="btn btn-lg btn-success ld-ext-right hovering mr-4 running" id='checkoutBtn'> <i id='checkoutBtnSpinner' class="fa"></i>
+                            Continue to checkout</button>
+                    </form>
+                    <br>
+                </div>
             </div>
+
+
         </div>
     </div>
     <br>
@@ -274,7 +296,7 @@
                 var expyear = $('#expyear').val();
                 var cvv = $('#cvv').val();
                 var sameadr = $('#sameadr').val();
-             
+
 
                 var productIds = [];
                 $('input[id^="productId_"]').each(function() {
@@ -305,20 +327,37 @@
                     unitPrice: unitPrice,
                     _token: "{{ csrf_token() }}",
                 }
-                console.log(data)
-  
-
+                //console.log(data)
+                 
+                $('#checkoutBtnSpinner').addClass('fa-spinner fa-spin');
+              
+               
                 $.ajax({
                     type: "POST",
-                    url:  "{{ route('cart.checkoutProducts') }}",
+                    url: "{{ route('cart.checkoutProducts') }}",
                     data: data,
                     dataType: "json",
                     success: function(response) {
-                       //alert(JSON.stringify(response));
+                        //alert(JSON.stringify(response));
                         paypal.minicart.reset();
-                        window.location.href = "{{ url('/') }}";
+                        $('#checkoutBtnSpinner').removeClass('fa-spinner fa-spin');
+                        Swal.fire({
+                            title: "Order Received",
+                            text: "Your Order Successfully placed",
+                            confirmButtonText: "Ok",
+                            icon: "success"
+                        }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                Swal.fire("Done!", "", "success");
+                                window.location.href = "{{ url('/') }}";
+                            } else if (result.isDenied) {
+                                window.location.href = "{{ url('/') }}";
+                            }
+                        });
+
                     },
-                    error: function (error) {
+                    error: function(error) {
                         alert(JSON.stringify(error));
                     }
                 });

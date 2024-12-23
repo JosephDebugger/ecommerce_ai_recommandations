@@ -50,7 +50,12 @@ class BannerController extends Controller
             $imagePath = 'uploads/banners/' . $imageName;
             $validatedData['file_name'] = $imagePath;
         } else {
-            $imagePath = 'uploads/images.png';
+            if ($request->old_file_name != null) {
+                $validatedData['file_name'] = $request->old_file_name;
+            }else{
+                $validatedData['file_name'] = 'uploads/images.png';
+            }
+           
         }
 
         Banner::create($validatedData);

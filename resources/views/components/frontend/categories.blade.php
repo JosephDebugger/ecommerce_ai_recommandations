@@ -17,7 +17,6 @@
                             </li>
                         @endif
                     @endforeach
-
                 </ul>
             </div>
             <div class="col-sm-3 multi-gd-img">
@@ -59,7 +58,6 @@
                 <ul class="multi-column-dropdown">
                     @foreach ($categories as $key => $category)
                         @if ($category->type == 'female' && ($key < 15 && $key > 7))
-                            {
                             <li><a
                                     href="{{ route('category', [$category->type, $category->id]) }}">{{ $category->name }}</a>
                             </li>
@@ -67,7 +65,6 @@
                     @endforeach
                 </ul>
             </div>
-
             <div class="clearfix"></div>
         </div>
     </ul>
@@ -104,7 +101,6 @@
                     @endphp
                 </ul>
             </div>
-
             <div class="clearfix"></div>
         </div>
     </ul>

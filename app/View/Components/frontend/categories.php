@@ -5,7 +5,7 @@ namespace App\View\Components\frontend;
 use Closure;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
-use App\Models\Category;
+use App\Models\admin\settings\Category;
 use App\Models\admin\settings\Brand;
 use App\Models\admin\Band;
 

@@ -55,9 +55,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($brands as $brand)
+                                    @foreach ($brands as $key => $brand)
                                         <tr>
-                                            <td>1</td>
+                                            <td>{{$key+1}}</td>
                                             <td>{{ $brand->name }}</td>
                                             <td>{{ $brand->description }}</td>
                                             <td>{{ $brand->status }}</td>

@@ -20,7 +20,7 @@
 
             </div>
             <div class="item-info-product ">
-                <h4><a href="single.html">{{$product->name}}</a></h4>
+                <h4><a href="{{ route('product', ['id' => $product->id]) }}">{{$product->name}}</a></h4>
                 <div class="info-product-price">
                     <span class="item_price">$ {{$product->price}}</span>
                    

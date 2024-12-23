@@ -34,7 +34,7 @@ class CategoryController extends Controller
                 'string',
                 'max:255',
                 'regex:/^[a-zA-Z0-9\s]+$/',
-                'unique:categories,name',
+                'unique:categories,name,NULL,id,type,' . $request->type,
             ],
             'type' => [
                 'required'

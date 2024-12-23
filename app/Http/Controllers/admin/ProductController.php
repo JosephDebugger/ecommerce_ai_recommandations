@@ -22,8 +22,8 @@ class ProductController extends Controller
     public function products(Request $request)
     {
         if ($request->ajax()) {
-            $query = Product::select('products.id', 'products.price', 'products.name', 'products.discount', 'products.status', 'images.name as image')
-                ->leftJoin('images', 'products.id', '=', 'images.product_id');
+            $query = Product::select('products.id', 'products.price', 'products.name','products.stock', 'products.discount', 'products.status', 'images.name as image')
+                ->leftJoin('images', 'products.id', '=', 'images.product_id')->where('images.type','Default');
 
             if ($request->filled('from_date') && $request->filled('to_date')) {
                 $fromDate = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
@@ -31,16 +31,16 @@ class ProductController extends Controller
                 $query->whereBetween('products.created_at', [$fromDate, $toDate]);
             }
             $products = $query->get();
-            Storage::disk('public')->put('file.json', '');
-            Storage::disk('public')->put('file.json', json_encode($products, JSON_PRETTY_PRINT));
+            // Storage::disk('public')->put('file.json', '');
+            // Storage::disk('public')->put('file.json', json_encode($products, JSON_PRETTY_PRINT));
             return DataTables::of($products)->addIndexColumn()->make(true);
         }
-        $products = Product::select('products.id', 'products.price', 'products.name', 'products.discount', 'products.status', 'images.name as image')
-            ->leftJoin('images', 'products.id', 'images.product_id')
+        $products = Product::select('products.id', 'products.price', 'products.name','products.stock',  'products.discount', 'products.status', 'images.name as image')
+            ->leftJoin('images', 'products.id', 'images.product_id')->where('images.type','Default')
             ->get();
 
-        Storage::disk('public')->put('file.json', '');
-        Storage::disk('public')->put('file.json', json_encode($products, JSON_PRETTY_PRINT));
+        // Storage::disk('public')->put('file.json', '');
+        // Storage::disk('public')->put('file.json', json_encode($products, JSON_PRETTY_PRINT));
 
         return view('admin.inventory.product.products', ['products' => $products]);
     }
@@ -92,6 +92,7 @@ class ProductController extends Controller
         $Product = new Product;
         $Product->name = $request->input('name');
         $Product->price = $request->input('price');
+        $Product->stock = $request->input('stock');
         $Product->band_id = $request->input('band');
         $Product->brand_id = $request->input('brand');
         $Product->category_id = $request->input('category');
@@ -107,14 +108,73 @@ class ProductController extends Controller
         $image = new Image;
         $image->name = $imagePath;
         $image->product_id = $Product->id;
+        $image->type = 'Default';
         $image->save();
         return redirect()->route('inventory.products')
             ->with('success', 'Product created successfully.');
     }
+
+    public function imagesStore(Request $request)
+    {
+       
+        $validated = $request->validate([
+            'images.*.id' => 'nullable|integer',
+            'images.*.image_file' => 'mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*.description' => 'nullable|string',
+            'images.*.old_image' => 'nullable|string'
+        ]);
+       // return $validated;
+        $product_id = $request->input('product_id');
+        foreach ($validated['images'] as $key => $img) {
+            // return $img['image_file'];
+            if (isset($img['image_file']) && $img['image_file'] != null) {
+                $imageName = time() . '.' . $img['image_file']->extension();
+                $img['image_file']->move(public_path('uploads/products/'), $imageName);
+                $imagePath = 'uploads/products/' . $imageName;
+            } else {
+                if($img['old_image'] != null){
+                    $imagePath = $img['old_image'];
+                }else{
+                    $imagePath = 'uploads/images.png';
+                }
+            }
+
+            if(isset($img['id']) && $img['id'] > 0){
+                $image = Image::find($img['id']);
+                $image->name = $imagePath;
+                $image->details = $img['description'] ?? null;
+                $image->save();
+            }else{
+                $image = new Image;
+                $image->name = $imagePath;
+                $image->product_id = $product_id;
+                $image->details = $img['description'] ?? null;
+                $image->type = 'Other';
+            }
+          
+        }
+
+        
+        return response()->json(['message' => 'Image created successfully.'], 200);
+    } 
+    public function imagesDestroy($id)
+    {
+        $image = Image::find($id);
+        $image->delete();
+        return response()->json(['message' => 'Image Deleted.'], 200);
+    }
+    public function getImages($id)
+    {
+        $images = Image::where('product_id', $id)->where('type', 'Other')->get();
+        return response()->json($images);
+    }  
     public function getProduct($id)
     {
         $data  = [];
-        $data['product'] = Product::find($id);
+        $data['product'] = Product::leftJoin('images', 'products.id', '=', 'images.product_id')
+               ->where('images.type','Default')
+               ->where('products.id',$id)
+               ->select('products.id', 'products.price', 'products.Tranding','products.stock','products.cloth_for','products.name','products.brand_id','products.category_id','products.sub_category_id', 'products.discount', 'products.status', 'images.name as image')->first();
         $data['bands'] = Band::select('name', 'id')->where('status', 'Active')->get();
         $data['brands'] = Brand::select('name', 'id')->where('status', 'Active')->get();
         $data['categories'] = Category::select('name', 'id')->where('status', 'Active')->get();
@@ -152,7 +212,8 @@ class ProductController extends Controller
             $request->image->move(public_path('uploads/products/'), $imageName);
             $imagePath = 'uploads/products/' . $imageName;
         } else {
-            $imagePath = 'uploads/images.png';
+            $image = $request->old_image;
+            $imagePath =  $image;
         }
 
         if ($request->has('checkRadio')) {
@@ -180,11 +241,12 @@ class ProductController extends Controller
         $Product->cloth_for = $gender;
         $Product->Tranding = $tranding;
         $Product->featured = $featured;
+        $Product->stock = $Product->stock + $request->input('newQuantity');
         $Product->additional_info = $request->input('add_info');
         $Product->status = $request->input('status');
         $Product->save();
-        Image::where('product_id', $Product->id)
-       ->update([
+        Image::where('product_id', $Product->id)->where('type' , 'Default')
+        ->update([
            'name' =>$imagePath
         ]);
         // $image = new Image;
@@ -196,9 +258,8 @@ class ProductController extends Controller
     }
     public function productDestroy($id)
     {
-
         $product = Product::find($id);
         $product->delete();
-        return redirect('inventory/products')->with('success', 'Product Deleted');
+        return response()->json('success', 'Product Deleted');
     }
 }

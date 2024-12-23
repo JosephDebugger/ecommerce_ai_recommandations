@@ -33,10 +33,10 @@ class HandleProductInteraction
         if ($output === null) {
             $errorMessage = "Python script failed to execute. No output received.";
             Log::error($errorMessage);
-            echo $errorMessage;
+            //echo $errorMessage;
         } else {
             Log::info("Python script executed. Output/Error: " . $output);
-            echo $output;
+            //echo $output;
         }
     }
 }

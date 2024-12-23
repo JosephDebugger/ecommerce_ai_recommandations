@@ -60,7 +60,15 @@
                                     @enderror
                                 </div>
                              
-                              
+                                <div class="form-group">
+                                    <label for="file_name">Banner Image</label>
+                                    <input type="file" class="form-control" name="file_name"
+                                        id="file_name"   placeholder="file_name">
+                                        <input type="text" class="form-control" name="old_file_name" value="{{ $banner->file_name }}" id="file_name"   placeholder="file_name">
+                                    @error('file_name')
+                                        <div class="form-text text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
                                     <div class="form-group">
                                         <label for="status">Status</label>
                                         <select id="status" name="status" class="form-control">

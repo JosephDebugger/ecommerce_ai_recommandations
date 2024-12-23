@@ -42,7 +42,7 @@
                                     <div class="form-group col-md-12">
                                         <div class="form-check">
                                             @php
-                                                if ($product->type == 'male') {
+                                                if ($product->cloth_for == 'male') {
                                                     $maleChecked = 'checked';
                                                     $femaleChecked = '';
                                                 } else {
@@ -160,6 +160,22 @@
                                         <div class="form-text text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="current_stock">Current Stock</label>
+                                        <input type="number" class="form-control"
+                                            name="current_stock" value="{{ $product->stock }}" id="current_stock" readonly>
+                                      
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="newQuantity">Add Quantity</label>
+                                        <input type="number" id="newQuantity" name="newQuantity" class="form-control">
+                                    </div>
+
+                                </div>
+
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="discount">Discount Price</label>
@@ -188,6 +204,10 @@
                                     </div>
 
                                 </div>
+
+                              
+
+
                                 <div class="form-group">
                                     <div class="form-check">
                                         <label class="form-label" for="image">
@@ -195,6 +215,7 @@
                                         </label>
                                         <input class="form-input" type="file" value="{{ $product->image }}"
                                             name="image" id="image">
+                                            <input type="text" value="{{ $product->image }}" name="old_image" hidden>
                                         @error('image')
                                             <div class="form-text text-danger">{{ $message }}</div>
                                         @enderror

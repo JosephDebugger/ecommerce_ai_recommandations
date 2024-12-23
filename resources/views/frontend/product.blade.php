@@ -65,6 +65,9 @@
 
                 <div class="occasion-cart">
                     <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
+                        @if($product->stock < 1)
+                        <button class="btn btn-danger" disabled>Out of Stock</button>
+                        @else
                         <form action="#" method="post">
                             <fieldset>
                                 <input type="hidden" name="cmd" value="_cart">
@@ -79,6 +82,7 @@
                                 <input type="submit" name="submit" value="Add to cart" class="button">
                             </fieldset>
                         </form>
+                        @endif
                     </div>
 
                 </div>
@@ -211,7 +215,7 @@
 
 
         function addReview() {
-           
+
             var product_id = $('#product_id').val();
             var email = $('#review_email').val();
             var comment = $('#review_message').val();
@@ -231,7 +235,7 @@
                 dataType: "json",
                 success: function(response) {
                     if (response.status == 'success') {
-                        $('#rvwBtn').attr('disabled',true)
+                        $('#rvwBtn').attr('disabled', true)
                         console.log(JSON.stringify(response));
                         $('#reviews').html('');
                         response.reviews.forEach(element => {
@@ -276,6 +280,11 @@
                 success: function(response) {
                     if (response.status == 'success') {
                         console.log(JSON.stringify(response));
+                        Swal.fire({
+                            title: "Good job!",
+                            text: "Product Rated!",
+                            icon: "success"
+                        });
                     }
                     console.log(JSON.stringify(response));
                 },
