@@ -1,3 +1,4 @@
+
 @extends('front-master')
 
 @section('content')
@@ -664,62 +665,57 @@
                     <div class="side-bar">
                         <div class="user-info">
                             <img class="img-profile img-circle img-responsive center-block"
-                                src="@if ($customerInfo->image) {{ asset($customerInfo->image) }}@else{{ asset('uploads/avatar1.png') }} @endif"
-                                alt="">
+                                src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
                             <ul class="meta list list-unstyled">
-                                <li class="name">{{ $customerInfo->name }}
+                                <li class="name">{{ $customerInfo->name}}
                                     <label class="label label-info">Silver</label>
                                 </li>
 
                             </ul>
                         </div>
-                        <x-frontend.accNavbar type="sales" user="{{ $customerInfo->type }}" />
+                        <x-frontend.accNavbar type="orders" user="{{ $customerInfo->type }}" />
                     </div>
                     <div class="content-panel">
+
+                        <div class="back-btn">
+                            <a href="{{ url('account_sales') }}" class="btn btn-default"> Back</a>
+                        </div>
                         <div class="row">
-                            <div class="col-md-6">
-                                <h2 class="title">Band Sales List of ({{ $band->name }})</h2>
+                            <div class="col-md-12">
+                                <h2 class="title">Withdraw History</h2>
                             </div>
-
-                            @if ($customerInfo && $customerInfo->band_id && $customerInfo->band_id > 0 && $customerInfo->band_id != '')
-                                <div class="col-md-4">
-
-                                    <label for="">Current Balence</label>
-                                    <input type="text" class="form-control float-right" placeholder="0.00"
-                                        value="{{ $band->current_balance }}" readonly>
-                                </div>
-                                <div class="col-md-2">
-
-                                    <div class="dropdown" style="margin-top: 20px;">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button"
-                                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M7 10L12 15L17 10" stroke="#000000" stroke-width="1.5"
-                                                    stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg>
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item btn btn-light"
-                                                href="{{ route('accountBandBillWithraw') }}">Withdraw</a>
-                                                <a class="dropdown-item btn btn-light"
-                                                href="{{ route('withdrawHistory') }}">Withdraw History</a>
-                                        </div>
+                           
+                            <div class="card col-md-12">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" width="5%">ID</th>
+                                                    <th scope="col">Amount</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($withdraws as $withdraw)
+                                                    <tr>
+                                                        <td>{{ $withdraw->id }}</td>
+                                                        <td>{{ $withdraw->amount }}</td>
+                                                        <td><span class="badge badge-primary">{{ $withdraw->status }}</span></td>
+                                                        <td>{{ $withdraw->withdraw_date }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                            @endif
+                            </div>
                         </div>
+                        
 
-                        <ol class="sales-list alternating-colors">
-                            @foreach ($sales as $sale)
-                                <li>
-                                    <strong>{{ $sale->product_name }}, Date: {{ $sale->sale_date }}</strong>
-                                    <p>Quantity: {{ $sale->quantity }}, Price: {{ $sale->total_price }}</p>
-                                </li>
-                            @endforeach
 
-                        </ol>
+                       
                     </div>
                 </div>
             </section>

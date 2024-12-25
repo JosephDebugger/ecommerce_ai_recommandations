@@ -10,6 +10,7 @@ use App\Models\admin\sale\Sale;
 use App\Models\admin\sale\SaleItems;
 use App\Models\admin\Band;
 use App\Models\Chat;
+use App\Models\Withdraw;
 
 class AccountController extends Controller
 {
@@ -51,6 +52,46 @@ class AccountController extends Controller
         } else {
             return  redirect()->route('customer.login');
         }
+    }
+    public function accountBandBillWithrawView(Request $request)
+    {
+        $userId = Auth::guard('customer')->id();
+        $customerInfo  = Customer::find($userId);
+        $band  = Band::find($customerInfo->band_id);
+        $balance  = $customerInfo->balance;
+        return view('frontend.account-band_withraw_view', ['customerInfo'=>$customerInfo,'band'=>$band,'balance'=>$balance]);
+    }
+    public function accountBandBillWithrawStore(Request $request)
+    {
+        $userId = Auth::guard('customer')->id();
+        $balance  = $request->current_balance;
+        $amount = $request->withdraw_amount;
+        if($amount > $balance){
+            return response()->json('error');
+        }
+        $customerInfo  = Customer::find($userId);
+        $band  = Band::find($customerInfo->band_id);
+        $band->current_balance = $balance - $amount;
+        $band->save();
+
+        //insert in withdraw table
+        $withdraw = new Withdraw();
+        $withdraw->band_id = $customerInfo->band_id;
+        $withdraw->amount = $amount;
+        $withdraw->status = 'Success';
+        $withdraw->withdraw_date = date('Y-m-d');
+        $withdraw->save();
+
+        return response()->json('success');
+    }
+
+    public function withdrawHistory()
+    {
+        $userId = Auth::guard('customer')->id();
+        $customerInfo  = Customer::find($userId);
+        $band  = Band::find($customerInfo->band_id);
+        $withdraws  = Withdraw::where('band_id',$customerInfo->band_id)->get();
+        return view('frontend.account-withdraw_history', ['customerInfo'=>$customerInfo,'band'=>$band,'withdraws'=>$withdraws]);
     }
     public function accountCustomerSalesOrder()
     {

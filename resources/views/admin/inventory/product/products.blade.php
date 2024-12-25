@@ -337,7 +337,7 @@
                     if (response.success) { 
                         $(button).closest('.input-group').remove();
                     } else {
-                        alert('Failed to delete image');
+                        console.log('Failed to delete image');
                     }
                 },
                 error: function(xhr, status, error) {

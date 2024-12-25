@@ -120,6 +120,7 @@
 
 
                         <div class="clearfix"></div>
+                        
                     </div>
                     <!--//tab_one-->
                     <!--/tab_two-->
@@ -268,7 +269,9 @@
 
                         <div class="clearfix"></div>
                     </div>
+                    
                 </div>
+                {{ $products->links() }}
             </div>
             <x-frontend.trendyProducts />
             <x-frontend.featuredProducts />

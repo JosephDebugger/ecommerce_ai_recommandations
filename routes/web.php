@@ -35,7 +35,11 @@ Route::middleware('customer')->group(function () {
     Route::get('/account_band_profile', [AccountController::class, 'accountBandProfile']);
     Route::post('/account_update_profile', [AccountController::class, 'accountProfileUpdate'])->name('account_update_profile');
     Route::post('/account_update_bill_info', [AccountController::class, 'accountProfileBillUpdate'])->name('account_update_bill_info');
+    Route::get('/account_band_bill_withraw_view', [AccountController::class, 'accountBandBillWithrawView'])->name('accountBandBillWithraw');
+    Route::post('/account_band_bill_withraw', [AccountController::class, 'accountBandBillWithrawStore'])->name('accountBandBillWithrawStore');
+    Route::get('/account_band_bill_withraw_history', [AccountController::class, 'withdrawHistory'])->name('withdrawHistory');
 
+    
     Route::name('cart.')->prefix('cart')->group(function () {
         Route::get('/checkout/{name}/{qty}', [HomeController::class, 'checkout'])->name('checkout'); 
         Route::post('checkoutProducts', [HomeController::class, 'checkoutProducts'])->name('checkoutProducts'); 

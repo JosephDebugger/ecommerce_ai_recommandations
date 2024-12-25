@@ -32,7 +32,7 @@ class HomeController extends Controller
             ->where('products.status', 'Active')
             ->select('products.id', 'products.price', 'products.name','products.stock', 'products.cloth_for', 'products.discount', 'products.status', DB::raw('MIN(images.name) as image'))
             ->groupBy('products.id', 'products.price', 'products.name','products.stock', 'products.cloth_for', 'products.discount', 'products.status')
-            ->orderBy('id', 'desc')->get();
+            ->orderBy('id', 'desc')->paginate(24);
             
         return view('frontend.home', $data);
     }
