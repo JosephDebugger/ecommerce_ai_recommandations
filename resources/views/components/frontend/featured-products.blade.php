@@ -29,7 +29,9 @@
                     class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
                     <form action="#" method="post">
                         <fieldset>
-                           
+                            @if($product->stock <1)
+                            <h4 style="color:red">Out of Stock</h4>
+                            @else
                             <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
                                 <input type="hidden" name="cmd" value="_cart" />
                                 <input type="hidden" name="add" value="1" />
@@ -44,6 +46,7 @@
                                 <input type="submit" name="submit" value="Add to cart"
                                     class="button" />
                                 </form>
+                                @endif
                         </fieldset>
                     </form>
                 </div>

@@ -47,6 +47,16 @@ Route::middleware('customer')->group(function () {
 });
 
 
+//payment getway
+
+Route::get('payment',[\App\Http\Controllers\paymentController::class,'payment'])->name('payment');
+
+//You need declear your success & fail route in "app\Middleware\VerifyCsrfToken.php"
+Route::post('success',[\App\Http\Controllers\paymentController::class,'success'])->name('success');
+Route::post('fail',[\App\Http\Controllers\paymentController::class,'fail'])->name('fail');
+Route::get('cancel',[\App\Http\Controllers\paymentController::class,'cancel'])->name('cancel');
+
+
 // Route::middleware('auth:web')->group(function () {
  
 // });

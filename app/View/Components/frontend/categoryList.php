@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 use App\Models\admin\settings\Category;
+use App\Models\admin\settings\SubCategory;
 
 class categoryList extends Component
 {
@@ -26,7 +27,9 @@ class categoryList extends Component
     public function render(): View|Closure|string
     {
         $categories = Category::where('type',$this->type)->get();
+        $subCategories = SubCategory::get();
+        // dd($subCategories);
 
-        return view('components.frontend.category-list', ['categories'=> $categories,'type'=> $this->type]);
+        return view('components.frontend.category-list', ['categories'=> $categories,'subCategories'=> $subCategories,'type'=> $this->type]);
     }
 }

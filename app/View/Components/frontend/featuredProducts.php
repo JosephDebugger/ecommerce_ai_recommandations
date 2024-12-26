@@ -23,9 +23,9 @@ class featuredProducts extends Component
      */
     public function render(): View|Closure|string
     {
-        $trandProducts = Product::select('products.id', 'products.price', 'products.name', 'products.discount', 'products.status', 'images.name as image')
+        $trandProducts = Product::select('products.id', 'products.price', 'products.name', 'products.stock', 'products.discount', 'products.status', 'images.name as image')
         ->leftJoin('images', 'products.id', 'images.product_id')->where('images.type', 'Default')->where('products.featured','Yes')
-        ->get();
+        ->paginate(8);
         return view('components.frontend.featured-products', compact('trandProducts'));
     }
 }

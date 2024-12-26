@@ -22,9 +22,9 @@ class trendyProducts extends Component
      */
     public function render(): View|Closure|string
     {
-        $trandProducts = Product::select('products.id', 'products.price', 'products.name', 'products.discount', 'products.status', 'images.name as image')
+        $trandProducts = Product::select('products.id', 'products.price','products.stock',  'products.name', 'products.discount', 'products.status', 'images.name as image')
         ->leftJoin('images', 'products.id', 'images.product_id')->where('images.type', 'Default')->where('products.Tranding','Yes')
-        ->get();
+        ->paginate(8);
    
         return view('components.frontend.trendy-products', compact('trandProducts'));
     }

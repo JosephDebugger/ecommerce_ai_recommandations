@@ -51,14 +51,14 @@ class HomeController extends Controller
             $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')->where('images.type', 'Default')
                 ->where('products.status', 'Active')
                 ->where('products.cloth_for', $gender)
-                ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image',)
+                ->select('products.id', 'products.price','products.stock',  'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image',)
                 ->orderBy('id', 'desc')->get();
         } else {
             $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')->where('images.type', 'Default')
                 ->where('products.status', 'Active')
                 ->where('products.cloth_for', $gender)
                 ->where('products.category_id', $category)
-                ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image',)
+                ->select('products.id', 'products.price', 'products.stock', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image',)
                 ->orderBy('id', 'desc')->get();
         }
 
@@ -70,13 +70,13 @@ class HomeController extends Controller
             $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')->where('images.type', 'Default')
                 ->where('products.status', 'Active')
                 ->where('products.band_id', '>', 0)
-                ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image')
+                ->select('products.id', 'products.price', 'products.name','products.stock',  'products.cloth_for', 'products.discount', 'products.status', 'images.name as image')
                 ->orderBy('id', 'desc')->get();
         } else {
             $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')->where('images.type', 'Default')
                 ->where('products.status', 'Active')
                 ->where('products.band_id', $id)
-                ->select('products.id', 'products.price', 'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image')
+                ->select('products.id', 'products.price', 'products.name','products.stock',  'products.cloth_for', 'products.discount', 'products.status', 'images.name as image')
                 ->orderBy('id', 'desc')->get();
         }
 
@@ -260,11 +260,11 @@ class HomeController extends Controller
 
         if (Auth::guard('customer')->check()) {
             $userId = Auth::guard('customer')->id();
-            $recommendedProducts = Product::leftjoin('images', 'products.id', 'images.product_id')->where('images.type', 'Default')->select('products.id', 'products.cloth_for', 'products.brand_id', 'products.category_id', 'products.sub_category_id', 'products.band_id', 'products.unit', 'products.name', 'products.price', 'images.name as image', 'products.discount')
+            $recommendedProducts = Product::leftjoin('images', 'products.id', 'images.product_id')->where('images.type', 'Default')->select('products.id', 'products.cloth_for', 'products.stock', 'products.brand_id', 'products.category_id', 'products.sub_category_id', 'products.band_id', 'products.unit', 'products.name', 'products.price', 'images.name as image', 'products.discount')
                 ->join('recommendations', 'recommendations.product_id', 'products.id')->distinct('products.id')
                 ->where('recommendations.user_id', $userId)->get();
         } else {
-            $recommendedProducts = Product::leftjoin('images', 'products.id', 'images.product_id')->where('images.type', 'Default')->select('products.id', 'products.cloth_for', 'products.brand_id', 'products.category_id', 'products.sub_category_id', 'products.band_id', 'products.unit', 'products.name', 'products.price', 'images.name as image', 'products.discount')
+            $recommendedProducts = Product::leftjoin('images', 'products.id', 'images.product_id')->where('images.type', 'Default')->select('products.id', 'products.cloth_for','products.stock',  'products.brand_id', 'products.category_id', 'products.sub_category_id', 'products.band_id', 'products.unit', 'products.name', 'products.price', 'images.name as image', 'products.discount')
                 ->join('recommendations', 'recommendations.product_id', 'products.id')
                 ->distinct()->get();
         }
@@ -324,7 +324,7 @@ class HomeController extends Controller
         if($name!=0){
             $product = trim($name);
             $searchedProducts = Product::leftjoin('images', 'products.id', 'images.product_id')->where('images.type', 'Default')
-            ->select('products.id', 'products.cloth_for', 'products.brand_id', 'products.category_id', 'products.sub_category_id', 'products.band_id', 'products.unit', 'products.name', 'products.price', 'images.name as image', 'products.discount')
+            ->select('products.id', 'products.cloth_for', 'products.brand_id', 'products.stock', 'products.category_id', 'products.sub_category_id', 'products.band_id', 'products.unit', 'products.name', 'products.price', 'images.name as image', 'products.discount')
                 ->where('products.name', 'LIKE', "%{$product}%")->get();
         }
        

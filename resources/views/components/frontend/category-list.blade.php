@@ -1,17 +1,38 @@
 <div class="css-treeview">
     <h4>Categories</h4>
     <ul class="tree-list-pad">
-        <li><input type="checkbox" checked="checked" id="item-0" /><label for="item-0"><i class="fa fa-long-arrow-right" aria-hidden="true"></i> @if($type == 'male'){{'Men'}}@else{{'Women'}}@endif's Wear</label>
+        <li><input type="checkbox" checked="checked" id="item-0" /><label for="item-0"><i class="fa fa-long-arrow-right"
+                    aria-hidden="true"></i>
+                @if ($type == 'male')
+                    {{ 'Men' }}@else{{ 'Women' }}
+                @endif's Wear
+            </label>
             <ul>
 
-                @foreach($categories as $categorie)
+                @foreach ($categories as $categorie)
+                    <li><input type="checkbox" id="item-0-0" /><label for="item-0-0"><i class="fa fa-long-arrow-right"
+                                aria-hidden="true"></i><a
+                                href="{{ url('category/' . $categorie->type . '/' . $categorie->id) }}">{{ $categorie->name }}</a></label>
+                    
+                                @if (count($subCategories) > 0)
+                                    <ul>
+                                        @foreach ($subCategories as $subCategorie)
+                                            @if ($subCategorie->category_id == $categorie->id)
+                                                <li><a
+                                                        href="{{ url('category/' . $categorie->type . '/' . $subCategorie->id) }}">{{ $subCategorie->sub_cetegory_name }}</a>
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                @endif
+                           
+                            </li>
+                @endforeach
 
-                <li><input type="checkbox" id="item-0-0" /><label for="item-0-0"><i class="fa fa-long-arrow-right" aria-hidden="true"></i><a href="{{url('category/'.$categorie->type.'/'.$categorie->id)}}">{{$categorie->name}}</a></label>
-                </li>
-                    @endforeach
-                   
-                   
-               
+                
+
+
+
                 {{-- <li><input type="checkbox"  id="item-0-1" /><label for="item-0-1"><i class="fa fa-long-arrow-right" aria-hidden="true"></i> Party Wear</label>
                     <ul>
                         <li><a href="mens.html">Shirts</a></li>

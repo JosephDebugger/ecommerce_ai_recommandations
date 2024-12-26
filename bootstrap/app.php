@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CustomerAuth;
@@ -18,6 +19,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'customer' => \App\Http\Middleware\CustomerAuth::class,
         ]);
+        $middleware->replace(VerifyCsrfToken::class, \App\Http\Middleware\VerifyCsrfToken::class);
+       
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->map(AuthenticationException::class, function (AuthenticationException $exception) {
