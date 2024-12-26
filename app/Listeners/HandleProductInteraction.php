@@ -28,7 +28,8 @@ class HandleProductInteraction
 
         Log::info("User $userId performed $action on product $productId");
         $scriptPath = base_path('PyScripts/recommendation_script_real_time.py');
-        $command = escapeshellcmd("C:/Users/Josep/AppData/Local/Programs/Python/Python312/python.exe $scriptPath $userId $productId $action");
+        //$command = escapeshellcmd("C:/Users/Josep/AppData/Local/Programs/Python/Python312/python.exe $scriptPath $userId $productId $action");
+        $command = escapeshellcmd("Python $scriptPath $userId $productId $action");
         $output = shell_exec($command . " 2>&1"); // Execute the script
         if ($output === null) {
             $errorMessage = "Python script failed to execute. No output received.";
