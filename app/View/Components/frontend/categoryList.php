@@ -32,4 +32,4 @@ class categoryList extends Component
 
         return view('components.frontend.category-list', ['categories'=> $categories,'subCategories'=> $subCategories,'type'=> $this->type]);
     }
-}
+} 

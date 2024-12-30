@@ -35,8 +35,8 @@ class paymentController extends Controller
         CURLOPT_POSTFIELDS =>'{
             "store_id": "'.$store_id.'",
             "tran_id": "'.$tran_id.'",
-            "success_url": "'.route('success').'",
-            "fail_url": "'.route('fail').'",
+            "success_url": "http://127.0.0.1:8000/success.php",
+            "fail_url": "http://127.0.0.1:8000/fail.php",
             "cancel_url": "'.route('cancel').'",
             "amount": "'.$amount.'",
             "currency": "'.$currency.'",
@@ -51,6 +51,7 @@ class paymentController extends Controller
             "cus_postcode": "1206",
             "cus_country": "Bangladesh",
             "cus_phone": "+8801704",
+             "opt_a": "1",
             "type": "json"
         }',
         CURLOPT_HTTPHEADER => array(

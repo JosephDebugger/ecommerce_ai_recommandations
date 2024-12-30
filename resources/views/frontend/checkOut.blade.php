@@ -181,7 +181,7 @@
             </div>
             <div class="col-75">
                 <div class="container main-box">
-                    <form id="checkOutInfoForm" action="#">
+                    <form id="checkOutInfoForm" method="post">
 
                         @csrf
                         <div class="row">
@@ -216,34 +216,23 @@
 
                             <div class="col-50">
                                 <h3>Payment</h3>
-                                <label for="fname">Accepted Cards</label>
+                                <label for="">Accepted Cards</label>
                                 <div class="icon-container">
                                     <i class="fa fa-cc-visa" style="color:navy;"></i>
                                     <i class="fa fa-cc-amex" style="color:blue;"></i>
                                     <i class="fa fa-cc-mastercard" style="color:red;"></i>
                                     <i class="fa fa-cc-discover" style="color:orange;"></i>
                                 </div>
-                                <label for="cname">Name on Card</label>
-                                <input type="text" id="cname" name="cardname" placeholder="John More Doe"
-                                    value="{{ $customerInfo ? $customerInfo->name_on_card : '' }}">
-                                <label for="ccnum">Credit card number</label>
-                                <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444"
-                                    value="{{ $customerInfo ? $customerInfo->cc_number : '' }}">
-                                <label for="expmonth">Exp Month</label>
-                                <input type="text" id="expmonth" name="expmonth" placeholder="September"
-                                    value="{{ $customerInfo ? $customerInfo->exp : '' }}">
-                                <div class="row">
-                                    <div class="col-50">
-                                        <label for="expyear">Exp Year</label>
-                                        <input type="text" id="expyear" name="expyear" placeholder="2018"
-                                            value="{{ $customerInfo ? $customerInfo->exp_year : '' }}">
-                                    </div>
-                                    <div class="col-50">
-                                        <label for="cvv">CVV</label>
-                                        <input type="text" id="cvv" name="cvv" placeholder="352"
-                                            value="{{ $customerInfo ? $customerInfo->cvv : '' }}">
-                                    </div>
-                                </div>
+                                <label for="phone">Phone Number</label>
+                                <input type="text" id="phone" name="phone" placeholder="0181********"
+                                    value="{{ $customerInfo ? $customerInfo->phone : '' }}" required>
+                                <label for="address2">Address 2</label>
+                                <input type="text" id="address2" name="address2" placeholder="Address line 2"
+                                    value="">
+                                <label for="additional_info">Additional note</label>
+                                <textarea rows="5" class="form-control" id="additional_info" name="additional_info" placeholder="additional_info"
+                                    value=""></textarea>
+                               
                             </div>
 
                         </div>
@@ -253,7 +242,8 @@
                             billing
                         </label>
                         <button type="submit" value="Continue to checkout"
-                            class="btn btn-lg btn-success ld-ext-right hovering mr-4 running" id='checkoutBtn'> <i id='checkoutBtnSpinner' class="fa"></i>
+                            class="btn btn-lg btn-success ld-ext-right hovering mr-4 running" id='checkoutBtn'> <i
+                                id='checkoutBtnSpinner' class="fa"></i>
                             Continue to checkout</button>
                     </form>
                     <br>
@@ -290,12 +280,10 @@
                 var address = $('#adr').val();
                 var state = $('#state').val();
                 var zip = $('#zip').val();
-                var cname = $('#cname').val();
-                var ccnum = $('#ccnum').val();
-                var expmonth = $('#expmonth').val();
-                var expyear = $('#expyear').val();
-                var cvv = $('#cvv').val();
-                var sameadr = $('#sameadr').val();
+                var phone = $('#phone').val();
+                var address2 = $('#address2').val();
+                var additional_info = $('#additional_info').val();
+               
 
 
                 var productIds = [];
@@ -318,49 +306,78 @@
                     address: address,
                     state: state,
                     zip: zip,
-                    cname: cname,
-                    expmonth: expmonth,
-                    expyear: expyear,
-                    cvv: cvv,
+                    phone: phone,
+                    address2: address2,
+                    additional_info: additional_info,
                     productIds: productIds,
                     quantity: quantity,
                     unitPrice: unitPrice,
                     _token: "{{ csrf_token() }}",
                 }
                 //console.log(data)
-                 
-                $('#checkoutBtnSpinner').addClass('fa-spinner fa-spin');
-              
-               
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('cart.checkoutProducts') }}",
-                    data: data,
-                    dataType: "json",
-                    success: function(response) {
-                        //alert(JSON.stringify(response));
-                        paypal.minicart.reset();
-                        $('#checkoutBtnSpinner').removeClass('fa-spinner fa-spin');
-                        Swal.fire({
-                            title: "Order Received",
-                            text: "Your Order Successfully placed",
-                            confirmButtonText: "Ok",
-                            icon: "success"
-                        }).then((result) => {
-                            /* Read more about isConfirmed, isDenied below */
-                            if (result.isConfirmed) {
-                                Swal.fire("Done!", "", "success");
-                                window.location.href = "{{ url('/') }}";
-                            } else if (result.isDenied) {
-                                window.location.href = "{{ url('/') }}";
-                            }
-                        });
 
-                    },
-                    error: function(error) {
-                        alert(JSON.stringify(error));
+                // $('#checkoutBtnSpinner').addClass('fa-spinner fa-spin');
+
+                // const form = document.createElement('form');
+                // form.method = 'POST';
+                // form.action = {{ route('cart.checkoutProducts') }};
+
+                // Add data as hidden input fields
+                // Append the data to the form dynamically
+                var form = $(this);
+                for (const [key, value] of Object.entries(data)) {
+                    if (Array.isArray(value)) {
+                        value.forEach((val, index) => {
+                            form.append($('<input>', {
+                                type: 'hidden',
+                                name: `${key}[${index}]`,
+                                value: val
+                            }));
+                        });
+                    } else {
+                        form.append($('<input>', {
+                            type: 'hidden',
+                            name: key,
+                            value: value
+                        }));
                     }
-                });
+                }
+                paypal.minicart.reset();
+                // Change the form's action URL to the target route
+                form.attr('action', "{{ route('cart.checkoutProducts') }}");
+               
+                // Submit the form
+                form.off('submit').submit();
+
+                // $.ajax({
+                //     type: "POST",
+                //     url: "{{ route('cart.checkoutProducts') }}",
+                //     data: data,
+                //     dataType: "json",
+                //     success: function(response) {
+                //         //alert(JSON.stringify(response));
+                //         paypal.minicart.reset();
+                //         $('#checkoutBtnSpinner').removeClass('fa-spinner fa-spin');
+                //         Swal.fire({
+                //             title: "Order Received",
+                //             text: "Your Order Successfully placed",
+                //             confirmButtonText: "Ok",
+                //             icon: "success"
+                //         }).then((result) => {
+                //             /* Read more about isConfirmed, isDenied below */
+                //             if (result.isConfirmed) {
+                //                 Swal.fire("Done!", "", "success");
+                //                 window.location.href = "{{ url('/') }}";
+                //             } else if (result.isDenied) {
+                //                 window.location.href = "{{ url('/') }}";
+                //             }
+                //         });
+
+                //     },
+                //     error: function(error) {
+                //         alert(JSON.stringify(error));
+                //     }
+                // });
 
 
             });
