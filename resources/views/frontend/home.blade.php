@@ -75,8 +75,8 @@
                                                     href="{{ route('product', ['id' => $product->id]) }}">{{ $product->name }}</a>
                                             </h4>
                                             <div class="info-product-price">
-                                                <span class="item_price">{{ $product->price }} Tk</span>
-                                                <del>{{ $product->discount }}</del>
+                                                <span class="item_price">{{ $product->price - $product->discount}} Tk</span>
+                                                <del>{{ $product->price }}</del>
                                             </div>
                                             <div
                                                 class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
@@ -115,10 +115,6 @@
                         @endforeach
 
 
-
-
-
-
                         <div class="clearfix"></div>
                         
                     </div>
@@ -150,8 +146,8 @@
                                                     href="{{ route('product', ['id' => $product->id]) }}">{{ $product->name }}</a>
                                             </h4>
                                             <div class="info-product-price">
-                                                <span class="item_price">{{ $product->price }} Tk</span>
-                                                <del>{{ $product->discount }}</del>
+                                                <span class="item_price">{{ $product->price - $product->discount }} Tk</span>
+                                                <del>{{ $product->price }}</del>
                                             </div>
                                             <div
                                                 class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
@@ -217,8 +213,8 @@
                                                 href="{{ route('product', ['id' => $product->id]) }}">{{ $product->name }}</a>
                                         </h4>
                                         <div class="info-product-price">
-                                            <span class="item_price">{{ $product->price }} Tk</span>
-                                            <del>{{ $product->discount }}</del>
+                                            <span class="item_price">{{ $product->price - $product->discount }} Tk</span>
+                                            <del>{{ $product->price }}</del>
                                         </div>
                                         <div
                                             class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">

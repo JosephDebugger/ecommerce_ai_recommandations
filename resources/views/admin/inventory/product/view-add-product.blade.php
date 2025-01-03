@@ -105,8 +105,10 @@
                                             value="{{ old('category') }}" onchange="getSubCategory()">
                                             <option value="">~~ Choose Category ~~</option>
                                             @foreach ($categories as $category)
+                                                @if ($category->type == 'male')
                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                            @endforeach
+                                                @endif
+                                                @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group col-md-4">
@@ -218,10 +220,11 @@
             if(gender ==''){
                 $('#sub_category').html($('<option>', {
                                 value: ''
-                            }).text('~~ Select Sub Catewgory ~~'));
+                            }).text('~~ Select Sub Category ~~'));
             }
             $.get("get_categories/" + gender, function(data) {
                 $("#category").html('');
+                $('#category').append('<option value="">~~ Choose Category ~~</option>');
                 data.forEach((value, key) => {
                     $('#category').append($('<option>', {
                                 value: value.id
@@ -239,6 +242,7 @@
             }
             $.get("get_sub_cat/" + category, function(data) {
                 $("#sub_category").html('');
+                $('#sub_category').append('<option value="">~~ Choose Sub Category ~~</option>');
                 data.forEach((value, key) => {
                     $('#sub_category').append($('<option>', {
                                 value: value.id

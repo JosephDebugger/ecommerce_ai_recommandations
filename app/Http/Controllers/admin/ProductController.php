@@ -48,7 +48,7 @@ class ProductController extends Controller
     {
         $bands = Band::select('name', 'id')->where('status', 'Active')->get();
         $brands = Brand::select('name', 'id')->where('status', 'Active')->get();
-        $categories = Category::select('name', 'id')->where('status', 'Active')->get();
+        $categories = Category::select('name', 'type','id')->where('status', 'Active')->get();
         return view('admin.inventory.product.view-add-product', ['bands' => $bands,'brands' => $brands, 'categories' => $categories]);
     }
 

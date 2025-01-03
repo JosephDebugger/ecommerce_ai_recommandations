@@ -27,7 +27,7 @@
             <div class="col-md-8 single-right-left simpleCart_shelfItem">
                 <h3>{{ $product->name }}</h3>
                 <input type="hidden" id="product_id" value="{{ $product->id }}">
-                <p><span class="item_price">$ {{ $product->price }}</span> </p>
+                <p><span class="item_price">Tk {{ $product->price - $product->discount }}</span> </p>
                 <div class="rating1">
                     <span class="starRating">
                         <input id="rating5" type="radio" name="rating" value="5" onclick="getRating(5)">
@@ -64,7 +64,7 @@
                                 <input type="hidden" name="add" value="1">
                                 <input type="hidden" name="business" value=" ">
                                 <input type="hidden" name="item_name" value="{{ $product->name }}">
-                                <input type="hidden" name="amount" value="650.00">
+                                <input type="hidden" name="amount" value="{{ $product->price - $product->discount }}">
                                 <input type="hidden" name="discount_amount" value="1.00">
                                 <input type="hidden" name="currency_code" value="USD">
                                 <input type="hidden" name="return" value=" ">
