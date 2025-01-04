@@ -5,15 +5,15 @@
         <!-- Indicators -->
         <ol class="carousel-indicators">
             @foreach ($banners as $key => $banner)
-            <li data-target="#myCarousel" data-slide-to="{{$key}}" class="{{ $key == 0 ? 'active' : '' }}"></li>
+                <li data-target="#myCarousel" data-slide-to="{{ $key }}" class="{{ $key == 0 ? 'active' : '' }}"></li>
             @endforeach
         </ol>
         <div class="carousel-inner" role="listbox">
             @foreach ($banners as $key => $banner)
                 <div class="item slides {{ $key == 0 ? 'active' : '' }}">
-                    <img src="{{ $banner->file_name }}" width="100%"  alt="Slide {{$key+1}}">
+                    <img src="{{ $banner->file_name }}" width="100%" alt="Slide {{ $key + 1 }}">
                     <div class="container">
-                        <div  class="carousel-caption">
+                        <div class="carousel-caption">
                             <h3>{{ $banner->title }}</h3>
                             <p>{{ $banner->description }}</p>
                             <a class="hvr-outline-out button2" href="{{ url('category/male/0') }}">Shop Now </a>
@@ -51,7 +51,7 @@
                 </ul>
                 <div class="resp-tabs-container">
                     <!--/tab_one-->
-                    <div class="tab1">
+                    <div class="tab1 row">
                         @foreach ($products as $product)
                             @if ($product->cloth_for == 'male')
                                 <div class="col-md-3 product-men">
@@ -71,40 +71,47 @@
 
                                         </div>
                                         <div class="item-info-product ">
-                                            <h4><a
-                                                    href="{{ route('product', ['id' => $product->id]) }}">{{ $product->name }}</a>
+                                            <h4><a href="{{ route('product', ['id' => $product->id]) }}">
+                                                    @if (str_word_count($product->name) > 5)
+                                                        {{ implode(' ', array_slice(explode(' ', $product->name), 0, 5)) }}...
+                                                    @else
+                                                        {{ $product->name }}
+                                                    @endif
+                                                </a>
                                             </h4>
                                             <div class="info-product-price">
-                                                <span class="item_price">{{ $product->price - $product->discount}} Tk</span>
+                                                <span class="item_price">{{ $product->price - $product->discount }}
+                                                    Tk</span>
                                                 <del>{{ $product->price }}</del>
                                             </div>
                                             <div
                                                 class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
-                                                @if($product->stock <1)
-                                            <h4 style="color:red">Out of Stock</h4>
-                                            @else
-                                                <form action="#" method="post">
-                                                    <fieldset>
-                                                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-                                                            <input type="hidden" name="cmd" value="_cart" />
-                                                            <input type="hidden" name="add" value="1" />
-                                                            <input type="hidden" name="business"
-                                                                value="example@minicartjs.com" />
-                                                            <input type="hidden" name="item_name"
-                                                                value="{{ $product->name }}" />
-                                                            <input type="hidden" name="quantity" value="1" />
-                                                            <input type="hidden" name="amount"
-                                                                value="{{ $product->price }}" />
-                                                            <input type="hidden" name="discount_amount"
-                                                                value="{{ $product->discount }}" />
-                                                            <input type="hidden" name="currency_code" value="USD" />
-                                                            <input type="hidden" name="return" value=" " />
-                                                            <input type="hidden" name="cancel_return" value=" " />
-                                                            <input type="submit" name="submit" value="Add to cart"
-                                                                class="button" />
-                                                        </form>
-                                                    </fieldset>
-                                                </form>
+                                                @if ($product->stock < 1)
+                                                    <h4 style="color:red">Out of Stock</h4>
+                                                @else
+                                                    <form action="#" method="post">
+                                                        <fieldset>
+                                                            <form action="https://www.paypal.com/cgi-bin/webscr"
+                                                                method="post">
+                                                                <input type="hidden" name="cmd" value="_cart" />
+                                                                <input type="hidden" name="add" value="1" />
+                                                                <input type="hidden" name="business"
+                                                                    value="example@minicartjs.com" />
+                                                                <input type="hidden" name="item_name"
+                                                                    value="{{ $product->name }}" />
+                                                                <input type="hidden" name="quantity" value="1" />
+                                                                <input type="hidden" name="amount"
+                                                                    value="{{ $product->price }}" />
+                                                                <input type="hidden" name="discount_amount"
+                                                                    value="{{ $product->discount }}" />
+                                                                <input type="hidden" name="currency_code" value="USD" />
+                                                                <input type="hidden" name="return" value=" " />
+                                                                <input type="hidden" name="cancel_return" value=" " />
+                                                                <input type="submit" name="submit" value="Add to cart"
+                                                                    class="button" />
+                                                            </form>
+                                                        </fieldset>
+                                                    </form>
                                                 @endif
                                             </div>
 
@@ -116,11 +123,11 @@
 
 
                         <div class="clearfix"></div>
-                        
+
                     </div>
                     <!--//tab_one-->
                     <!--/tab_two-->
-                    <div class="tab2">
+                    <div class="tab2 row">
 
 
                         @foreach ($products as $product)
@@ -142,11 +149,17 @@
 
                                         </div>
                                         <div class="item-info-product ">
-                                            <h4><a
-                                                    href="{{ route('product', ['id' => $product->id]) }}">{{ $product->name }}</a>
+                                            <h4><a href="{{ route('product', ['id' => $product->id]) }}">
+                                                    @if (str_word_count($product->name) > 5)
+                                                        {{ implode(' ', array_slice(explode(' ', $product->name), 0, 5)) }}...
+                                                    @else
+                                                        {{ $product->name }}
+                                                    @endif
+                                                </a>
                                             </h4>
                                             <div class="info-product-price">
-                                                <span class="item_price">{{ $product->price - $product->discount }} Tk</span>
+                                                <span class="item_price">{{ $product->price - $product->discount }}
+                                                    Tk</span>
                                                 <del>{{ $product->price }}</del>
                                             </div>
                                             <div
@@ -187,71 +200,78 @@
                         <div class="clearfix"></div>
                     </div>
                     <!--//tab_two-->
-                    <div class="tab3">
+                    <div class="tab3 row">
 
 
                         @foreach ($products as $product)
-                        @if ($product->band_id != '')
-                            <div class="col-md-3 product-men">
-                                <div class="men-pro-item simpleCart_shelfItem">
-                                    <div class="men-thumb-item">
-                                        <img src="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
-                                            alt="" class="pro-image-front">
-                                        <img src="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
-                                            alt="" class="pro-image-back">
-                                        <div class="men-cart-pro">
-                                            <div class="inner-men-cart-pro">
-                                                <a href="{{ route('product', ['id' => $product->id]) }}"
-                                                    class="link-product-add-cart">Quick View</a>
+                            @if ($product->band_id != '')
+                                <div class="col-md-3 product-men">
+                                    <div class="men-pro-item simpleCart_shelfItem">
+                                        <div class="men-thumb-item">
+                                            <img src="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
+                                                alt="" class="pro-image-front">
+                                            <img src="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
+                                                alt="" class="pro-image-back">
+                                            <div class="men-cart-pro">
+                                                <div class="inner-men-cart-pro">
+                                                    <a href="{{ route('product', ['id' => $product->id]) }}"
+                                                        class="link-product-add-cart">Quick View</a>
+                                                </div>
                                             </div>
+                                            <span class="product-new-top">New</span>
                                         </div>
-                                        <span class="product-new-top">New</span>
-
-                                    </div>
-                                    <div class="item-info-product ">
-                                        <h4><a
-                                                href="{{ route('product', ['id' => $product->id]) }}">{{ $product->name }}</a>
-                                        </h4>
-                                        <div class="info-product-price">
-                                            <span class="item_price">{{ $product->price - $product->discount }} Tk</span>
-                                            <del>{{ $product->price }}</del>
-                                        </div>
-                                        <div
-                                            class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
-                                            @if($product->stock <1)
-                                            <h4 style="color:red">Out of Stock</h4>
-                                            @else
-                                           
-                                            <form action="#" method="post">
-                                                <fieldset>
-                                                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-                                                        <input type="hidden" name="cmd" value="_cart" />
-                                                        <input type="hidden" name="add" value="1" />
-                                                        <input type="hidden" name="business"
-                                                            value="example@minicartjs.com" />
-                                                        <input type="hidden" name="item_name"
-                                                            value="{{ $product->name }}" />
-                                                        <input type="hidden" name="quantity" value="1" />
-                                                        <input type="hidden" name="amount"
-                                                            value="{{ $product->price }}" />
-                                                        <input type="hidden" name="discount_amount"
-                                                            value="{{ $product->discount }}" />
-                                                        <input type="hidden" name="currency_code" value="USD" />
-                                                        <input type="hidden" name="return" value=" " />
-                                                        <input type="hidden" name="cancel_return" value=" " />
-                                                        <input type="submit" name="submit" value="Add to cart"
-                                                            class="button" />
+                                        <div class="item-info-product ">
+                                            <h4><a href="{{ route('product', ['id' => $product->id]) }}">
+                                                    @if (str_word_count($product->name) > 5)
+                                                        {{ implode(' ', array_slice(explode(' ', $product->name), 0, 5)) }}...
+                                                    @else
+                                                        {{ $product->name }}
+                                                    @endif
+                                                </a>
+                                            </h4>
+                                            <div class="info-product-price">
+                                                <span class="item_price">{{ $product->price - $product->discount }}
+                                                    Tk</span>
+                                                <del>{{ $product->price }}</del>
+                                            </div>
+                                            <div
+                                                class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
+                                                @if ($product->stock < 1)
+                                                    <h4 style="color:red">Out of Stock</h4>
+                                                @else
+                                                    <form action="#" method="post">
+                                                        <fieldset>
+                                                            <form action="https://www.paypal.com/cgi-bin/webscr"
+                                                                method="post">
+                                                                <input type="hidden" name="cmd" value="_cart" />
+                                                                <input type="hidden" name="add" value="1" />
+                                                                <input type="hidden" name="business"
+                                                                    value="example@minicartjs.com" />
+                                                                <input type="hidden" name="item_name"
+                                                                    value="{{ $product->name }}" />
+                                                                <input type="hidden" name="quantity" value="1" />
+                                                                <input type="hidden" name="amount"
+                                                                    value="{{ $product->price }}" />
+                                                                <input type="hidden" name="discount_amount"
+                                                                    value="{{ $product->discount }}" />
+                                                                <input type="hidden" name="currency_code"
+                                                                    value="USD" />
+                                                                <input type="hidden" name="return" value=" " />
+                                                                <input type="hidden" name="cancel_return"
+                                                                    value=" " />
+                                                                <input type="submit" name="submit" value="Add to cart"
+                                                                    class="button" />
+                                                            </form>
+                                                        </fieldset>
                                                     </form>
-                                                </fieldset>
-                                            </form>
-                                            @endif
-                                        </div>
+                                                @endif
+                                            </div>
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endif
-                    @endforeach
+                            @endif
+                        @endforeach
 
 
                         <div class="clearfix"></div>
@@ -265,7 +285,7 @@
 
                         <div class="clearfix"></div>
                     </div>
-                    
+
                 </div>
                 {{ $products->links() }}
             </div>
@@ -339,7 +359,7 @@
                 success: function(data) {
                     console.log(data)
                     data.recommendedProducts.forEach(element => {
-                       
+
                         $('#recommendations').append(`
                           
                          <div class="col-md-3 product-men single">
@@ -388,7 +408,7 @@
                         </div>
                         `)
 
-                       
+
                     });
                     // Replace the section with new data
                     $('#recommendations').append(`<div class="clearfix"></div>`);

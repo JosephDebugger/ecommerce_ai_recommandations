@@ -96,7 +96,13 @@
 
                             </div>
                             <div class="item-info-product ">
-                                <h4><a href="{{ route('product', ['id' => $product->id]) }}">{{ $product->name }}</a>
+                                <h4><a href="{{ route('product', ['id' => $product->id]) }}">
+                                        @if (str_word_count($product->name) > 5)
+                                            {{ implode(' ', array_slice(explode(' ', $product->name), 0, 5)) }}...
+                                        @else
+                                            {{ $product->name }}
+                                        @endif
+                                    </a>
                                 </h4>
                                 <div class="info-product-price">
                                     <span class="item_price">{{ $product->price - $product->discount }} Tk</span>
