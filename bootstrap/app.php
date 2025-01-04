@@ -38,7 +38,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
             // Throw an HTTP exception instead of returning a response directly
             throw new \Symfony\Component\HttpKernel\Exception\HttpException(
-                401,
+                302,
                 'Unauthenticated.',
                 null,
                 ['Location' => $redirectUrl]
