@@ -52,14 +52,14 @@
                 <div class="resp-tabs-container">
                     <!--/tab_one-->
                     <div class="tab1 row">
-                        @foreach ($products as $product)
-                            @if ($product->cloth_for == 'male')
+                        @foreach ($maleProducts as $product)
+                         
                                 <div class="col-md-3 product-men">
                                     <div class="men-pro-item simpleCart_shelfItem">
                                         <div class="men-thumb-item">
-                                            <img src="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
+                                            <img src="@if ($product->image != '') {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
                                                 alt="" class="pro-image-front">
-                                            <img src="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
+                                            <img src="@if ($product->image != '') {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
                                                 alt="" class="pro-image-back">
                                             <div class="men-cart-pro">
                                                 <div class="inner-men-cart-pro">
@@ -72,8 +72,8 @@
                                         </div>
                                         <div class="item-info-product ">
                                             <h4><a href="{{ route('product', ['id' => $product->id]) }}">
-                                                    @if (str_word_count($product->name) > 5)
-                                                        {{ implode(' ', array_slice(explode(' ', $product->name), 0, 5)) }}...
+                                                    @if (str_word_count($product->name) > 4)
+                                                        {{ implode(' ', array_slice(explode(' ', $product->name), 0, 4)) }}...
                                                     @else
                                                         {{ $product->name }}
                                                     @endif
@@ -118,26 +118,26 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endif
+                          
                         @endforeach
 
 
                         <div class="clearfix"></div>
-
+                        {{ $maleProducts->links() }}
                     </div>
                     <!--//tab_one-->
                     <!--/tab_two-->
                     <div class="tab2 row">
 
 
-                        @foreach ($products as $product)
-                            @if ($product->cloth_for == 'female')
+                        @foreach ($femaleProducts as $product)
+                           
                                 <div class="col-md-3 product-men">
                                     <div class="men-pro-item simpleCart_shelfItem">
                                         <div class="men-thumb-item">
-                                            <img src="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
+                                            <img src="@if ($product->image  != '') {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
                                                 alt="" class="pro-image-front">
-                                            <img src="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
+                                            <img src="@if ($product->image  != '') {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
                                                 alt="" class="pro-image-back">
                                             <div class="men-cart-pro">
                                                 <div class="inner-men-cart-pro">
@@ -150,8 +150,8 @@
                                         </div>
                                         <div class="item-info-product ">
                                             <h4><a href="{{ route('product', ['id' => $product->id]) }}">
-                                                    @if (str_word_count($product->name) > 5)
-                                                        {{ implode(' ', array_slice(explode(' ', $product->name), 0, 5)) }}...
+                                                    @if (str_word_count($product->name) > 4)
+                                                        {{ implode(' ', array_slice(explode(' ', $product->name), 0, 4)) }}...
                                                     @else
                                                         {{ $product->name }}
                                                     @endif
@@ -192,25 +192,26 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endif
+                           
                         @endforeach
 
 
 
                         <div class="clearfix"></div>
+                        {{ $femaleProducts->links() }}
                     </div>
                     <!--//tab_two-->
                     <div class="tab3 row">
 
 
-                        @foreach ($products as $product)
-                            @if ($product->band_id != '')
+                        @foreach ($bandProducts as $product)
+                          
                                 <div class="col-md-3 product-men">
                                     <div class="men-pro-item simpleCart_shelfItem">
                                         <div class="men-thumb-item">
-                                            <img src="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
+                                            <img src="@if ($product->image  != '') {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
                                                 alt="" class="pro-image-front">
-                                            <img src="@if ($product->image) {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
+                                            <img src="@if ($product->image  != '') {{ asset($product->image) }}@else{{ asset('uploads/images.png') }} @endif"
                                                 alt="" class="pro-image-back">
                                             <div class="men-cart-pro">
                                                 <div class="inner-men-cart-pro">
@@ -222,8 +223,8 @@
                                         </div>
                                         <div class="item-info-product ">
                                             <h4><a href="{{ route('product', ['id' => $product->id]) }}">
-                                                    @if (str_word_count($product->name) > 5)
-                                                        {{ implode(' ', array_slice(explode(' ', $product->name), 0, 5)) }}...
+                                                    @if (str_word_count($product->name) > 4)
+                                                        {{ implode(' ', array_slice(explode(' ', $product->name), 0, 4)) }}...
                                                     @else
                                                         {{ $product->name }}
                                                     @endif
@@ -270,11 +271,12 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endif
+                          
                         @endforeach
 
 
                         <div class="clearfix"></div>
+                        {{ $bandProducts->links() }}
                     </div>
                     <div class="tab4">
 
@@ -287,7 +289,7 @@
                     </div>
 
                 </div>
-                {{ $products->links() }}
+               
             </div>
             <x-frontend.trendyProducts />
             <x-frontend.featuredProducts />

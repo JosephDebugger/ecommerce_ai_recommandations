@@ -27,13 +27,28 @@ class HomeController extends Controller
     {
 
         $data['banners'] = Banner::all();
-        $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')
+        $data['maleProducts'] = Product::leftjoin('images', 'products.id', 'images.product_id')
             ->where('images.type', 'Default')
+            ->where('products.cloth_for', 'male')
             ->where('products.status', 'Active')
-            ->select('products.id', 'products.price', 'products.name','products.stock', 'products.cloth_for', 'products.discount', 'products.status', DB::raw('MIN(images.name) as image'))
-            ->groupBy('products.id', 'products.price', 'products.name','products.stock', 'products.cloth_for', 'products.discount', 'products.status')
-            ->orderBy('id', 'desc')->paginate(24);
-            
+            ->select('products.id', 'products.price', 'products.name', 'products.stock', 'products.cloth_for', 'products.discount', 'products.status', DB::raw('MIN(images.name) as image'))
+            ->groupBy('products.id', 'products.price', 'products.name', 'products.stock', 'products.cloth_for', 'products.discount', 'products.status')
+            ->orderBy('id', 'desc')->paginate(12);
+        $data['femaleProducts'] = Product::leftjoin('images', 'products.id', 'images.product_id')
+            ->where('images.type', 'Default')
+            ->where('products.cloth_for', 'female')
+            ->where('products.status', 'Active')
+            ->select('products.id', 'products.price', 'products.name', 'products.stock', 'products.cloth_for', 'products.discount', 'products.status', DB::raw('MIN(images.name) as image'))
+            ->groupBy('products.id', 'products.price', 'products.name', 'products.stock', 'products.cloth_for', 'products.discount', 'products.status')
+            ->orderBy('id', 'desc')->paginate(12);
+            $data['bandProducts'] = Product::leftjoin('images', 'products.id', 'images.product_id')
+            ->where('images.type', 'Default')
+            ->where('products.band_id', '!=', '')
+            ->where('products.status', 'Active')
+            ->select('products.id', 'products.price', 'products.name', 'products.stock', 'products.cloth_for', 'products.discount', 'products.status', DB::raw('MIN(images.name) as image'))
+            ->groupBy('products.id', 'products.price', 'products.name', 'products.stock', 'products.cloth_for', 'products.discount', 'products.status')
+            ->orderBy('id', 'desc')->paginate(12);
+          
         return view('frontend.home', $data);
     }
     public function about()
@@ -51,7 +66,7 @@ class HomeController extends Controller
             $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')->where('images.type', 'Default')
                 ->where('products.status', 'Active')
                 ->where('products.cloth_for', $gender)
-                ->select('products.id', 'products.price','products.stock',  'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image')
+                ->select('products.id', 'products.price', 'products.stock',  'products.name', 'products.cloth_for', 'products.discount', 'products.status', 'images.name as image')
                 ->orderBy('products.id', 'desc')->paginate(8);
         } else {
             $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')->where('images.type', 'Default')
@@ -70,13 +85,13 @@ class HomeController extends Controller
             $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')->where('images.type', 'Default')
                 ->where('products.status', 'Active')
                 ->where('products.band_id', '>', 0)
-                ->select('products.id', 'products.price', 'products.name','products.stock',  'products.cloth_for', 'products.discount', 'products.status', 'images.name as image')
+                ->select('products.id', 'products.price', 'products.name', 'products.stock',  'products.cloth_for', 'products.discount', 'products.status', 'images.name as image')
                 ->orderBy('id', 'desc')->get();
         } else {
             $data['products'] = Product::leftjoin('images', 'products.id', 'images.product_id')->where('images.type', 'Default')
                 ->where('products.status', 'Active')
                 ->where('products.band_id', $id)
-                ->select('products.id', 'products.price', 'products.name','products.stock',  'products.cloth_for', 'products.discount', 'products.status', 'images.name as image')
+                ->select('products.id', 'products.price', 'products.name', 'products.stock',  'products.cloth_for', 'products.discount', 'products.status', 'images.name as image')
                 ->orderBy('id', 'desc')->get();
         }
 
@@ -87,7 +102,7 @@ class HomeController extends Controller
     {
         $product = Product::leftjoin('images', 'products.id', 'images.product_id')->where('images.type', 'Default')
             ->where('products.status', 'Active')
-            ->select('products.id', 'products.price','products.stock', 'products.name', 'products.cloth_for', 'products.description', 'products.discount', 'products.status', 'images.name as image')->find($id);
+            ->select('products.id', 'products.price', 'products.stock', 'products.name', 'products.cloth_for', 'products.description', 'products.discount', 'products.status', 'images.name as image')->find($id);
 
         if (Auth::guard('customer')->check()) {
             $userId = Auth::guard('customer')->id();
@@ -96,8 +111,8 @@ class HomeController extends Controller
         $reviews = Review::where('product_id', $id)->get();
 
         $images = Image::where('product_id', $id)->get();
-        
-        return view('frontend.product', ['product' => $product,'images' => $images, 'reviews' => $reviews]);
+
+        return view('frontend.product', ['product' => $product, 'images' => $images, 'reviews' => $reviews]);
     }
     public function checkout($products, $qty)
     {
@@ -226,77 +241,76 @@ class HomeController extends Controller
             DB::commit();
 
 
-            $tran_id = "test".rand(1111111,9999999);//unique transection id for every transection 
+            $tran_id = "test" . rand(1111111, 9999999); //unique transection id for every transection 
 
-            $currency= "BDT"; //aamarPay support Two type of currency USD & BDT  
-    
+            $currency = "BDT"; //aamarPay support Two type of currency USD & BDT  
+
             $amount = $totalPrice;   //10 taka is the minimum amount for show card option in aamarPay payment gateway
-            
+
             //For live Store Id & Signature Key please mail to support@aamarpay.com
-            $store_id = "aamarpaytest"; 
-    
-            $signature_key = "dbb74894e82415a2f7ff0ec3a97e4183"; 
-    
+            $store_id = "aamarpaytest";
+
+            $signature_key = "dbb74894e82415a2f7ff0ec3a97e4183";
+
             $url = "https://​sandbox​.aamarpay.com/jsonpost.php"; // for Live Transection use "https://secure.aamarpay.com/jsonpost.php"
-    
+
             $curl = curl_init();
-    
+
             curl_setopt_array($curl, array(
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS =>'{
-                "store_id": "'.$store_id.'",
-                "tran_id": "'.$tran_id.'",
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => '{
+                "store_id": "' . $store_id . '",
+                "tran_id": "' . $tran_id . '",
                 "success_url": "http://127.0.0.1:8000/success.php",
                 "fail_url": "http://127.0.0.1:8000/fail.php",
-                "cancel_url": "'.route('cancel').'",
-                "amount": "'.$amount.'",
-                "currency": "'.$currency.'",
-                "signature_key": "'.$signature_key.'",
+                "cancel_url": "' . route('cancel') . '",
+                "amount": "' . $amount . '",
+                "currency": "' . $currency . '",
+                "signature_key": "' . $signature_key . '",
                 "desc": "Merchant Registration Payment",
-                "cus_name": "'.$request->fname.'",
-                "cus_email": "'.$request->email.'",
-                "cus_add1": "'.$request->address.'",
+                "cus_name": "' . $request->fname . '",
+                "cus_email": "' . $request->email . '",
+                "cus_add1": "' . $request->address . '",
                 "cus_add2": "",
-                "ship_add1" : "'.$request->address.'",
-                "ship_add2" : "'.$request->address2.'",
-                "cus_city": "'.$request->city.'",
-                "cus_state": "'.$request->state.'",
-                "cus_postcode": "'.$request->zip.'",
+                "ship_add1" : "' . $request->address . '",
+                "ship_add2" : "' . $request->address2 . '",
+                "cus_city": "' . $request->city . '",
+                "cus_state": "' . $request->state . '",
+                "cus_postcode": "' . $request->zip . '",
                 "cus_country": "Bangladesh",
-                "cus_phone": "'.$request->phone.'",
-                "opt_a": "'.$sale->id.'",
+                "cus_phone": "' . $request->phone . '",
+                "opt_a": "' . $sale->id . '",
                 "type": "json"
             }',
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json'
-            ),
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json'
+                ),
             ));
-    
+
             $response = curl_exec($curl);
-    
+
             curl_close($curl);
             // dd($response);
-            
+
             $responseObj = json_decode($response);
-    
-            if(isset($responseObj->payment_url) && !empty($responseObj->payment_url)) {
-    
+
+            if (isset($responseObj->payment_url) && !empty($responseObj->payment_url)) {
+
                 $paymentUrl = $responseObj->payment_url;
                 // dd($paymentUrl);
                 return redirect()->away($paymentUrl);
-    
-            }else{
+            } else {
                 echo $response;
             }
-    
-           // return response()->json(['message' => 'success'], 200);
+
+            // return response()->json(['message' => 'success'], 200);
         } catch (Exception $e) {
             DB::rollback();
             return response()->json(['message' => 'error', 'error' => $e->getMessage()], 500);
@@ -329,7 +343,7 @@ class HomeController extends Controller
                 ->join('recommendations', 'recommendations.product_id', 'products.id')->distinct('products.id')
                 ->where('recommendations.user_id', $userId)->get();
         } else {
-            $recommendedProducts = Product::leftjoin('images', 'products.id', 'images.product_id')->where('images.type', 'Default')->select('products.id', 'products.cloth_for','products.stock',  'products.brand_id', 'products.category_id', 'products.sub_category_id', 'products.band_id', 'products.unit', 'products.name', 'products.price', 'images.name as image', 'products.discount')
+            $recommendedProducts = Product::leftjoin('images', 'products.id', 'images.product_id')->where('images.type', 'Default')->select('products.id', 'products.cloth_for', 'products.stock',  'products.brand_id', 'products.category_id', 'products.sub_category_id', 'products.band_id', 'products.unit', 'products.name', 'products.price', 'images.name as image', 'products.discount')
                 ->join('recommendations', 'recommendations.product_id', 'products.id')
                 ->distinct()->get();
         }
@@ -384,15 +398,15 @@ class HomeController extends Controller
         $messages->save();
         return redirect()->route('contact');
     }
-    public function searchProducts($name =0)
+    public function searchProducts($name = 0)
     {
-        if($name!=0){
+        if ($name != 0) {
             $product = trim($name);
             $searchedProducts = Product::leftjoin('images', 'products.id', 'images.product_id')->where('images.type', 'Default')
-            ->select('products.id', 'products.cloth_for', 'products.brand_id', 'products.stock', 'products.category_id', 'products.sub_category_id', 'products.band_id', 'products.unit', 'products.name', 'products.price', 'images.name as image', 'products.discount')
+                ->select('products.id', 'products.cloth_for', 'products.brand_id', 'products.stock', 'products.category_id', 'products.sub_category_id', 'products.band_id', 'products.unit', 'products.name', 'products.price', 'images.name as image', 'products.discount')
                 ->where('products.name', 'LIKE', "%{$product}%")->get();
         }
-       
+
         return response()->json(compact('searchedProducts'));
     }
 }
